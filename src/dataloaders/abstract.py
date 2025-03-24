@@ -3,8 +3,8 @@ import json
 from glob import glob 
 import os 
 import pandas as pd 
-
-from config import DATA_DIR
+import numpy as np
+from .config import DATA_DIR
 
 # final dataset 
 # columns: 
@@ -40,6 +40,9 @@ class DataLoader(ABC):
         self.data_path = data_path
         self.data = self._load_data()
         self.config = self._load_config()
+
+        self.config['agent_name_short'] = self.config['agent_name'].split(' (')[-2]
+        self.config['model_name_short'] = self.config['agent_name'].split(' (')[-1].split(')')[0]
     
     def _load_data(self):
         with open(self.data_path, 'r') as f:
@@ -67,15 +70,21 @@ class DataLoader(ABC):
         """
         # calculate c here # 
 
-        #                  #
-        if n - c < k: return 1.0
-        return 1.0 - np.prod(1.0 - k / np.arange(n - c + 1, n + 1))
+        #                  
+        pass 
+        # if n - c < k: return 1.0
+        # return 1.0 - np.prod(1.0 - k / np.arange(n - c + 1, n + 1))
+
+    def return_
 
     def pass_to_the_k():
         pass 
 
     def win_rate(self):
         pass
+
+    def __repr__(self):
+        return f"DataLoader(agent_name={self.config['agent_name']}, benchmark_name={self.config['benchmark_name']})"
 
 if __name__ == "__main__": 
     data_path = '/scratch/gpfs/vv7118/models/hub/datasets--agent-evals--agent_traces/snapshots/8831400af880b37c06a15026f661f726160a44c2/taubench_retail_1740413575.json'
