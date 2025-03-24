@@ -133,10 +133,9 @@ def create_tables(grouped_df):
             formatted_table = tabulate(group, headers='keys', tablefmt='pretty', showindex=False)
             file.write(formatted_table + "\n\n") 
 
-    
-# model_win_rate_bar(model_win_rates)
+model_win_rate_bar(model_win_rates)
 benchmark_win_rate_bar_full(grouped_df)
-# benchmark_win_rate_bar(benchmark_win_rates, grouped_df, dfs_dict)
-# create_tables(benchmark_win_rates, grouped_df)
+benchmark_win_rate_bar(dfs_dict)
+create_tables(grouped_df)
 
 
