@@ -1,0 +1,42 @@
+model_name_short,benchmark_name,total_cost
+Meta-Llama-3.1-405B-Instruct-Turbo,inspect_evals/agentharm,1.5912190000000002
+Meta-Llama-3.1-405B-Instruct-Turbo,inspect_evals/agentharm_benign,2.456902
+Meta-Llama-3.1-405B-Instruct-Turbo,inspect_evals/cybench,2.9317785
+Meta-Llama-3.1-405B-Instruct-Turbo,inspect_evals/gaia,128.779308
+claude-3-5-sonnet-20241022,inspect_evals/agentharm,1.9093710000000002
+claude-3-5-sonnet-20241022,inspect_evals/agentharm_benign,2.797824
+claude-3-5-sonnet-20241022,inspect_evals/cybench,2.728731
+claude-3-5-sonnet-20241022,inspect_evals/gaia,260.19
+claude-3-5-sonnet-20241022,taubench_airline,15.287252
+claude-3-5-sonnet-20241022,taubench_retail,41.317761000000004
+claude-3-7-sonnet-20250219,inspect_evals/cybench,16.9525215
+claude-3-7-sonnet-20250219,inspect_evals/gaia,409.011015
+claude-3-7-sonnet-20250219,taubench_airline,18.652516000000002
+claude-3-7-sonnet-20250219,taubench_retail,45.886702
+gpt-4o-2024-11-20,inspect_evals/agentharm,1.9779375000000003
+gpt-4o-2024-11-20,inspect_evals/agentharm_benign,2.26588
+gpt-4o-2024-11-20,inspect_evals/cybench,7.9720225000000005
+gpt-4o-2024-11-20,inspect_evals/gaia,209.123
+gpt-4o-2024-11-20,taubench_airline,17.296010000000003
+gpt-4o-2024-11-20,taubench_retail,42.951325000000004
+gpt-4o-mini-2024-07-18,inspect_evals/agentharm,0.6324627
+gpt-4o-mini-2024-07-18,inspect_evals/agentharm_benign,
+gpt-4o-mini-2024-07-18,inspect_evals/cybench,0.481181925
+gpt-4o-mini-2024-07-18,inspect_evals/gaia,18.455478024999998
+gpt-4o-mini-2024-07-18,taubench_airline,2.7147019
+gpt-4o-mini-2024-07-18,taubench_retail,6.7987329
+o1-2024-12-17,inspect_evals/agentharm,17.41749
+o1-2024-12-17,inspect_evals/agentharm_benign,70.096365
+o1-2024-12-17 med.,taubench_airline,109.30709999999999
+o1-2024-12-17 med.,taubench_retail,270.0346
+o1-mini-2024-09-12,inspect_evals/agentharm,6.261591
+o1-mini-2024-09-12,inspect_evals/agentharm_benign,21.339516000000003
+o1-mini-2024-09-12,inspect_evals/cybench,28.467963
+o1-mini-2024-09-12,inspect_evals/gaia,161.582346
+o1-preview-2024-09-12,inspect_evals/agentharm,
+o1-preview-2024-09-12,inspect_evals/cybench,117.8931
+o1-preview-2024-09-12,inspect_evals/gaia,641.5188
+o3-mini-2025-01-14,inspect_evals/cybench,80.20608
+o3-mini-2025-01-31 med.,inspect_evals/gaia,47.7155459
+o3-mini-2025-01-31 med.,taubench_airline,11.939319600000001
+o3-mini-2025-01-31 med.,taubench_retail,28.6558148
