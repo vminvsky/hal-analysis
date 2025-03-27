@@ -187,15 +187,29 @@ def grid_scatter_by_benchmark(tasks, merged_df, x_axis, y_axis, x_label, y_label
         axes[idx].set_visible(False)
     
     plt.tight_layout()  # Adjust layout to make room for annotations
-    plt.savefig('visualizations/tokens_win_rate.png', dpi=300)
+    plt.savefig(f'visualizations/{filename}', dpi=300)
 
+def cost_win_rate():
+    model_costs = pd.read_csv('model_total_usage.csv')
+    model_winrates = pd.read_csv('benchmark_win_rates.csv')
+    df_m = model_winrates.merge(model_costs, on=['model_name_short', 'benchmark_name'], how='left')
+    tasks = df_m['benchmark_name'].unique()
+    grid_scatter_by_benchmark(tasks, df_m, 'total_cost', 'win_rate_mean', 'Total Cost', 'Mean Win Rate', 4, 'cost_win_rate.png')
 
+def accuracy_win_rate():
+    model_accuracy = pd.read_csv('model_accuracy.csv')
+    model_winrates = pd.read_csv('benchmark_win_rates.csv')
+    # Merge with win rates to compare model win rates with model accuracy
+    cost_accuracy = model_winrates.merge(model_accuracy, on=['model_name_short', 'benchmark_name'], how='left')
+    tasks = cost_accuracy['benchmark_name'].unique()
+    grid_scatter_by_benchmark(tasks, cost_accuracy, 'accuracy', 'overall_win_rate', 'Accuracy', 'Overall Win Rate', 4, 'accuracy_win_rate.png')
 
 
 # model_win_rate_bar(model_win_rates)
 # benchmark_win_rate_bar_full(grouped_df)
 # benchmark_win_rate_bar(dfs_dict)
 # create_tables(grouped_df)
-tokens_win_rate()
+cost_win_rate()
+accuracy_win_rate()
 
 

@@ -28,13 +28,5 @@ def main():
     model_accuracy.to_csv('model_accuracy.csv')
     benchmark_accuracy.to_csv('benchmark_accuracy.csv')
 
-    # Merge with win rates to compare model win rates with model accuracy
-    model_winrates = pd.read_csv('benchmark_win_rates.csv')
-    cost_accuracy = model_winrates.merge(model_accuracy, on=['model_name_short', 'benchmark_name'], how='left')
-    print(cost_accuracy.keys())
-    tasks = cost_accuracy['benchmark_name'].unique()
-
-
-
 if __name__ == "__main__":
     main()
