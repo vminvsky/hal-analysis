@@ -22,11 +22,11 @@ def main():
             print(f"Error loading task {task}: {e}")
 
     df = all_data
-    print(df.head())
-    df2 = df.groupby(['model_name_short', 'benchmark_name'])[['total_cost']].mean()
-    df3 = df.groupby(['agent_name', 'benchmark_name'])[['total_cost']].mean()
-    df2.to_csv('model_total_usage.csv')
-    df3.to_csv('benchmark_total_usage.csv')
+    print(df.keys())
+    model_total_usage = df.groupby(['model_name_short', 'benchmark_name'])[['total_cost']].mean()
+    benchmark_total_usage = df.groupby(['agent_name', 'benchmark_name'])[['total_cost']].mean()
+    model_total_usage.to_csv('model_total_usage.csv')
+    benchmark_total_usage.to_csv('benchmark_total_usage.csv')
 
 if __name__ == "__main__":
     main()

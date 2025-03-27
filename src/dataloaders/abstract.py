@@ -57,10 +57,27 @@ class DataLoader(ABC):
 
     def return_metrics(self):
         # return all the metrics we care about.
-        return {'accuracy': self.return_accuracy()}
+        return {'accuracy': self.return_accuracy(), 'total_tokens': self.return_total_tokens(), 'total_cost': self.return_total_cost()}
 
     def return_accuracy(self):
         return self.data['results']['accuracy']
+
+    def return_total_tokens(self):
+        try:
+            return next(iter(self.return_token_usages().values()))['total_tokens']
+        except:
+            try: 
+                vals  = next(iter(self.return_token_usages.values()))
+                total_tokens = sum(vals.values())
+            except:
+                pass
+            return None
+    
+    def return_token_usages(self):
+        return self.data['total_usage']
+    
+    def return_total_cost(self):
+        return self.data['results']['total_cost']
 
     def pass_at_k(self, n, k):
         """
@@ -74,8 +91,6 @@ class DataLoader(ABC):
         pass 
         # if n - c < k: return 1.0
         # return 1.0 - np.prod(1.0 - k / np.arange(n - c + 1, n + 1))
-
-    def return_
 
     def pass_to_the_k():
         pass 

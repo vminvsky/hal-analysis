@@ -1,0 +1,119 @@
+agent_name,benchmark_name,accuracy
+Agentless (gpt-4o-mini-2024-07-18),swebench_verified_mini,0.26
+Agentless (o1-mini-2024-09-12),swebench_verified,0.272
+Agentless (o1-mini-2024-09-12),swebench_verified_mini,0.34
+Agentless Lite (o3-mini-2025-01-31),swebench_verified_mini,0.48
+Amazon Bedrock Zero shot (Meta-Llama-3.3-70B-Instruct-Turbo),usaco,0.07166123778501629
+Amazon Bedrock Zero shot (claude-3-5-haiku-20241022),usaco,0.09446254071661238
+Amazon Bedrock Zero shot (claude-3-5-sonnet-20241022),usaco,0.15309446254071662
+AutoGPT (gpt-4o-2024-05-13),corebench_easy,0.3333
+AutoGPT (gpt-4o-2024-05-13),corebench_hard,0.0444
+AutoGPT (gpt-4o-2024-05-13),corebench_medium,0.3556
+AutoGPT (gpt-4o-mini-2024-07-18),corebench_easy,0.0667
+AutoGPT (gpt-4o-mini-2024-07-18),corebench_hard,0.0
+AutoGPT (gpt-4o-mini-2024-07-18),corebench_medium,0.0
+CORE-Agent (claude-3.5-sonnet-2024-10-22),corebench_hard,0.3778
+CORE-Agent (gpt-4o-2024-05-13),corebench_easy,0.5851999999999999
+CORE-Agent (gpt-4o-2024-05-13),corebench_hard,0.19445
+CORE-Agent (gpt-4o-2024-05-13),corebench_medium,0.5555666666666667
+CORE-Agent (gpt-4o-mini-2024-07-18),corebench_easy,0.4222333333333334
+CORE-Agent (gpt-4o-mini-2024-07-18),corebench_hard,0.14445
+CORE-Agent (gpt-4o-mini-2024-07-18),corebench_medium,0.3037
+CORE-Agent (o1-2024-12-17),corebench_hard,0.3333
+CORE-Agent (o1-mini-2024-09-12),corebench_hard,0.25555
+CyBench Agent (claude-3-7-sonnet-20250219),inspect_evals/cybench,0.175
+Episodic Retrial (2x) (gpt-4o-2024-05-13),usaco,0.15309446254071662
+Episodic Retrial (2x) (gpt-4o-mini-2024-07-18),usaco,0.14332247557003258
+Episodic Retrial (5x) (gpt-4o-mini-2024-07-18),usaco,0.1541802388707926
+Episodic Warming (3 Steps) (gpt-4o-mini-2024-07-18),usaco,0.13355048859934854
+FullCodeRefl (deepseek-ai/deepseek-coder-33b-instruct),appworld_test_challenge,0.058
+FullCodeRefl (deepseek-ai/deepseek-coder-33b-instruct),appworld_test_normal,0.131
+FullCodeRefl (gpt-4-turbo-2024-04-09),appworld_test_challenge,0.125
+FullCodeRefl (gpt-4-turbo-2024-04-09),appworld_test_normal,0.256
+FullCodeRefl (gpt-4o-2024-05-13),appworld_test_challenge,0.192
+FullCodeRefl (gpt-4o-2024-05-13),appworld_test_normal,0.339
+FullCodeRefl (meta-llama/Llama-3-70b-chat-hf),appworld_test_challenge,0.07
+FullCodeRefl (meta-llama/Llama-3-70b-chat-hf),appworld_test_normal,0.244
+IPFunCall (gpt-4-turbo-2024-04-09),appworld_test_challenge,0.146
+IPFunCall (gpt-4-turbo-2024-04-09),appworld_test_normal,0.304
+IPFunCall (gpt-4o-2024-05-13),appworld_test_challenge,0.18
+IPFunCall (gpt-4o-2024-05-13),appworld_test_normal,0.321
+Inspect ReAct Agent (Meta-Llama-3.1-405B-Instruct-Turbo),inspect_evals/cybench,0.0
+Inspect ReAct Agent (Meta-Llama-3.1-405B-Instruct-Turbo),inspect_evals/gaia,0.12121212121212122
+Inspect ReAct Agent (claude-3-5-sonnet-20241022),inspect_evals/cybench,0.2
+Inspect ReAct Agent (claude-3-5-sonnet-20241022),inspect_evals/gaia,0.5757575757575758
+Inspect ReAct Agent (claude-3-7-sonnet-20250219),inspect_evals/gaia,0.5636363636363636
+Inspect ReAct Agent (gpt-4o-2024-11-20),inspect_evals/cybench,0.125
+Inspect ReAct Agent (gpt-4o-2024-11-20),inspect_evals/gaia,0.34545454545454546
+Inspect ReAct Agent (gpt-4o-mini-2024-07-18),inspect_evals/cybench,0.075
+Inspect ReAct Agent (gpt-4o-mini-2024-07-18),inspect_evals/gaia,0.1393939393939394
+Inspect ReAct Agent (o1-mini-2024-09-12),inspect_evals/cybench,0.125
+Inspect ReAct Agent (o1-mini-2024-09-12),inspect_evals/gaia,0.3696969696969697
+Inspect ReAct Agent (o1-preview-2024-09-12),inspect_evals/cybench,0.2
+Inspect ReAct Agent (o1-preview-2024-09-12),inspect_evals/gaia,0.5636363636363636
+Inspect ReAct Agent (o3-mini-2025-01-14),inspect_evals/cybench,0.25
+Inspect ReAct Agent (o3-mini-2025-01-31 med.),inspect_evals/gaia,0.49696969696969695
+Inspect Tool-Use Agent (Meta-Llama-3.1-405B-Instruct-Turbo),inspect_evals/agentharm,0.07484073691460057
+Inspect Tool-Use Agent (Meta-Llama-3.1-405B-Instruct-Turbo),inspect_evals/agentharm_benign,0.2702399399842582
+Inspect Tool-Use Agent (claude-3-5-sonnet-20241022),inspect_evals/agentharm,0.11642316017316015
+Inspect Tool-Use Agent (claude-3-5-sonnet-20241022),inspect_evals/agentharm_benign,0.7538881099960647
+Inspect Tool-Use Agent (gpt-4o-2024-11-20),inspect_evals/agentharm,0.46617473435655243
+Inspect Tool-Use Agent (gpt-4o-2024-11-20),inspect_evals/agentharm_benign,0.8270907123179853
+Inspect Tool-Use Agent (gpt-4o-mini-2024-07-18),inspect_evals/agentharm,0.6100870720188898
+Inspect Tool-Use Agent (gpt-4o-mini-2024-07-18),inspect_evals/agentharm_benign,0.7408260773317591
+Inspect Tool-Use Agent (o1-2024-12-17),inspect_evals/agentharm,0.13911907221566314
+Inspect Tool-Use Agent (o1-2024-12-17),inspect_evals/agentharm_benign,0.7797354634002359
+Inspect Tool-Use Agent (o1-mini-2024-09-12),inspect_evals/agentharm,0.14962490161353798
+Inspect Tool-Use Agent (o1-mini-2024-09-12),inspect_evals/agentharm_benign,0.5956660763478944
+Inspect Tool-Use Agent (o1-preview-2024-09-12),inspect_evals/agentharm,0.021392906336088154
+Moatless (claude-3-5-sonnet-20241022),swebench_verified,0.38
+Moatless (claude-3-5-sonnet-20241022),swebench_verified_mini,0.48
+Moatless (gpt-4o-2024-08-06),swebench_verified,0.298
+Moatless (gpt-4o-2024-08-06),swebench_verified_mini,0.34
+Moatless (gpt-4o-mini-2024-07-18),swebench_verified_mini,0.2
+PlanExec (deepseek-ai/deepseek-coder-33b-instruct),appworld_test_challenge,0.007
+PlanExec (deepseek-ai/deepseek-coder-33b-instruct),appworld_test_normal,0.018
+PlanExec (gpt-4-turbo-2024-04-09),appworld_test_challenge,0.11
+PlanExec (gpt-4-turbo-2024-04-09),appworld_test_normal,0.327
+PlanExec (gpt-4o-2024-05-13),appworld_test_challenge,0.197
+PlanExec (gpt-4o-2024-05-13),appworld_test_normal,0.446
+PlanExec (meta-llama/Llama-3-70b-chat-hf),appworld_test_challenge,0.024
+PlanExec (meta-llama/Llama-3-70b-chat-hf),appworld_test_normal,0.089
+ReAct (deepseek-ai/deepseek-coder-33b-instruct),appworld_test_challenge,0.029
+ReAct (deepseek-ai/deepseek-coder-33b-instruct),appworld_test_normal,0.071
+ReAct (gpt-4-turbo-2024-04-09),appworld_test_challenge,0.175
+ReAct (gpt-4-turbo-2024-04-09),appworld_test_normal,0.268
+ReAct (gpt-4o-2024-05-13),appworld_test_challenge,0.302
+ReAct (gpt-4o-2024-05-13),appworld_test_normal,0.488
+ReAct (meta-llama/Llama-3-70b-chat-hf),appworld_test_challenge,0.034
+ReAct (meta-llama/Llama-3-70b-chat-hf),appworld_test_normal,0.208
+SWE-agent (Cost Limit: $1) (gpt-4o-mini-2024-07-18),swebench_verified_mini,0.08
+TAU-bench ToolCalling (claude-3-5-sonnet-20241022),taubench_airline,0.44
+TAU-bench ToolCalling (claude-3-5-sonnet-20241022),taubench_retail,0.6869565217391305
+TAU-bench ToolCalling (claude-3-7-sonnet-20250219),taubench_airline,0.46
+TAU-bench ToolCalling (claude-3-7-sonnet-20250219),taubench_retail,0.7217391304347827
+TAU-bench ToolCalling (gpt-4o-2024-11-20),taubench_airline,0.44
+TAU-bench ToolCalling (gpt-4o-2024-11-20),taubench_retail,0.6260869565217392
+TAU-bench ToolCalling (gpt-4o-mini-2024-07-18),taubench_airline,0.2
+TAU-bench ToolCalling (gpt-4o-mini-2024-07-18),taubench_retail,0.43478260869565216
+TAU-bench ToolCalling (o1-2024-12-17 med.),taubench_airline,0.54
+TAU-bench ToolCalling (o1-2024-12-17 med.),taubench_retail,0.7130434782608696
+TAU-bench ToolCalling (o3-mini-2025-01-31 med.),taubench_airline,0.38
+TAU-bench ToolCalling (o3-mini-2025-01-31 med.),taubench_retail,0.5130434782608696
+USACO Episodic (gpt-4o-2024-05-13),usaco,0.13355048859934854
+USACO Episodic (gpt-4o-mini-2024-07-18),usaco,0.0988056460369164
+USACO Episodic + Semantic (claude-3-7-sonnet-20250219),usaco,0.2899022801302932
+USACO Episodic + Semantic (o1-mini-2024-09-12),usaco,0.23778501628664495
+USACO Episodic + Semantic (o3-mini-2025-01-31 med.),usaco,0.38762214983713356
+USACO Reflexion (gpt-4o-mini-2024-07-18),usaco,0.10749185667752444
+USACO Reflexion + Episodic (gpt-4o-2024-05-13),usaco,0.16286644951140067
+USACO Reflexion + Episodic (gpt-4o-mini-2024-07-18),usaco,0.13029315960912052
+USACO Reflexion + Episodic + Semantic (gpt-4o-2024-05-13),usaco,0.16938110749185667
+USACO Reflexion + Semantic (gpt-4o-mini-2024-07-18),usaco,0.08469055374592833
+USACO Semantic (gpt-4o-2024-05-13),usaco,0.08469055374592833
+USACO Semantic (gpt-4o-mini-2024-07-18),usaco,0.06514657980456026
+USACO Zero-Shot (claude-3-7-sonnet-20250219),usaco,0.19543973941368079
+USACO Zero-Shot (o3-mini-2025-01-31),usaco,0.36156351791530944
+USACO Zero-shot (gpt-4o-2024-05-13),usaco,0.08794788273615635
+USACO Zero-shot (gpt-4o-mini-2024-07-18),usaco,0.08469055374592833
+Zero-shot Retrial (5x) (gpt-4o-mini-2024-07-18),usaco,0.12052117263843648

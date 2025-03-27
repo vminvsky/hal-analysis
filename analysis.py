@@ -135,7 +135,7 @@ def main():
         print("Overall model win rates:")
         print(model_win_rates.sort_values('overall_win_rate', ascending=False))
         
-        # Plot results
+        Plot results
         plt = plot_win_rates(model_win_rates)
         plt.savefig('model_win_rates.png')
         
