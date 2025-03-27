@@ -131,11 +131,62 @@ def create_tables(grouped_df):
             file.write(f"\n{category} win rate:\n")
             # Format the table and write it to the file
             formatted_table = tabulate(group, headers='keys', tablefmt='pretty', showindex=False)
-            file.write(formatted_table + "\n\n") 
+            file.write(formatted_table + "\n\n")
 
-model_win_rate_bar(model_win_rates)
-benchmark_win_rate_bar_full(grouped_df)
-benchmark_win_rate_bar(dfs_dict)
-create_tables(grouped_df)
+def tokens_win_rate():
+    model_costs = pd.read_csv('model_total_usage.csv')
+    model_winrates = pd.read_csv('benchmark_win_rates.csv')
+    df_m = model_winrates.merge(model_costs, on=['model_name_short', 'benchmark_name'], how='left')
+    tasks = df_m['benchmark_name'].unique()
+    
+    # Calculate the grid dimensions based on the number of tasks
+    n_tasks = len(tasks)
+    n_cols = min(3, n_tasks)  # Maximum 3 columns
+    n_rows = (n_tasks + n_cols - 1) // n_cols  
+    
+    # Create a single figure with subplots
+    fig, axes = plt.subplots(n_rows, n_cols, figsize=(15, 5 * n_rows))
+    
+    if n_tasks == 1:
+        axes = np.array([axes])
+    
+    # Flatten the axes array for easy iteration
+    axes = axes.flatten()
+
+    for idx, task in enumerate(tasks):
+        ax = axes[idx]
+        df_t = df_m[df_m['benchmark_name'] == task]
+        benchmark_name = task 
+    
+        # Create scatter plot
+        scatter = ax.scatter(df_t['total_cost'], df_t['win_rate_mean'], alpha=0.5)
+    
+        # Annotate each point with the model name
+        for i, row in df_t.iterrows():
+            ax.annotate(row['model_name_short'], 
+                        (row['total_cost'], row['win_rate_mean']),
+                        xytext=(5, 5),
+                        textcoords='offset points',
+                        fontsize=8)
+    
+        ax.set_title(benchmark_name)
+        ax.set_xlabel('Total Tokens')
+        ax.set_ylabel('Win Rate')
+    
+    # Hide any unused subplots
+    for idx in range(n_tasks, len(axes)):
+        axes[idx].set_visible(False)
+    
+    plt.tight_layout()  # Adjust layout to make room for annotations
+    plt.savefig('visualizations/tokens_win_rate.png', dpi=300)
+
+
+
+
+# model_win_rate_bar(model_win_rates)
+# benchmark_win_rate_bar_full(grouped_df)
+# benchmark_win_rate_bar(dfs_dict)
+# create_tables(grouped_df)
+tokens_win_rate()
 
 
