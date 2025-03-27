@@ -133,19 +133,28 @@ def create_tables(grouped_df):
             formatted_table = tabulate(group, headers='keys', tablefmt='pretty', showindex=False)
             file.write(formatted_table + "\n\n")
 
-def tokens_win_rate():
-    model_costs = pd.read_csv('model_total_usage.csv')
-    model_winrates = pd.read_csv('benchmark_win_rates.csv')
-    df_m = model_winrates.merge(model_costs, on=['model_name_short', 'benchmark_name'], how='left')
-    tasks = df_m['benchmark_name'].unique()
+def grid_scatter_by_benchmark(tasks, merged_df, x_axis, y_axis, x_label, y_label, num_cols, filename):
+    """
+    Create scatter plots in a grid comparing metrics for each benchmark
     
+    Args:
+        tasks: names of benchmarks to group by
+        merged_df: dataframe with data to plot
+        x_axis: metric 1 being compared
+        y_axis: metric 2 being compared
+        x_label: x-axis label
+        y_label: y-axis label
+        num_cols: number of columns in grid
+        filename: final plot name
+    """
+
     # Calculate the grid dimensions based on the number of tasks
     n_tasks = len(tasks)
-    n_cols = min(3, n_tasks)  # Maximum 3 columns
+    n_cols = min(num_cols, n_tasks)  # Maximum 3 columns
     n_rows = (n_tasks + n_cols - 1) // n_cols  
     
     # Create a single figure with subplots
-    fig, axes = plt.subplots(n_rows, n_cols, figsize=(15, 5 * n_rows))
+    fig, axes = plt.subplots(n_rows, n_cols, figsize=(35, 5 * n_rows))
     
     if n_tasks == 1:
         axes = np.array([axes])
@@ -155,38 +164,51 @@ def tokens_win_rate():
 
     for idx, task in enumerate(tasks):
         ax = axes[idx]
-        df_t = df_m[df_m['benchmark_name'] == task]
+        df_t = merged_df[merged_df['benchmark_name'] == task]
         benchmark_name = task 
     
         # Create scatter plot
-        scatter = ax.scatter(df_t['total_cost'], df_t['win_rate_mean'], alpha=0.5)
+        scatter = ax.scatter(df_t[x_axis], df_t[y_axis], alpha=0.5)
     
         # Annotate each point with the model name
         for i, row in df_t.iterrows():
             ax.annotate(row['model_name_short'], 
-                        (row['total_cost'], row['win_rate_mean']),
+                        (row[x_axis], row[y_axis]),
                         xytext=(5, 5),
                         textcoords='offset points',
                         fontsize=8)
     
         ax.set_title(benchmark_name)
-        ax.set_xlabel('Total Tokens')
-        ax.set_ylabel('Win Rate')
+        ax.set_xlabel(x_label)
+        ax.set_ylabel(y_label)
     
     # Hide any unused subplots
     for idx in range(n_tasks, len(axes)):
         axes[idx].set_visible(False)
     
     plt.tight_layout()  # Adjust layout to make room for annotations
-    plt.savefig('visualizations/tokens_win_rate.png', dpi=300)
+    plt.savefig(f'visualizations/{filename}', dpi=300)
+
+def cost_win_rate():
+    model_costs = pd.read_csv('model_total_usage.csv')
+    model_winrates = pd.read_csv('benchmark_win_rates.csv')
+    df_m = model_winrates.merge(model_costs, on=['model_name_short', 'benchmark_name'], how='left')
+    tasks = df_m['benchmark_name'].unique()
+    grid_scatter_by_benchmark(tasks, df_m, 'total_cost', 'win_rate_mean', 'Total Cost', 'Mean Win Rate', 4, 'cost_win_rate.png')
+
+def accuracy_win_rate():
+    model_accuracy = pd.read_csv('model_accuracy.csv')
+    model_winrates = pd.read_csv('benchmark_win_rates.csv')
+    # Merge with win rates to compare model win rates with model accuracy
+    cost_accuracy = model_winrates.merge(model_accuracy, on=['model_name_short', 'benchmark_name'], how='left')
+    tasks = cost_accuracy['benchmark_name'].unique()
+    grid_scatter_by_benchmark(tasks, cost_accuracy, 'accuracy', 'overall_win_rate', 'Accuracy', 'Overall Win Rate', 4, 'accuracy_win_rate.png')
 
 
-
-
-# model_win_rate_bar(model_win_rates)
-# benchmark_win_rate_bar_full(grouped_df)
-# benchmark_win_rate_bar(dfs_dict)
-# create_tables(grouped_df)
+model_win_rate_bar(model_win_rates)
+benchmark_win_rate_bar_full(grouped_df)
+benchmark_win_rate_bar(dfs_dict)
+create_tables(grouped_df)
 tokens_win_rate()
 
 
