@@ -4,7 +4,7 @@ from glob import glob
 import os 
 import pandas as pd 
 import numpy as np
-from .config import DATA_DIR
+from .config import DATA_DIR, MODEL_NAME_MAP
 
 # final dataset 
 # columns: 
@@ -42,7 +42,8 @@ class DataLoader(ABC):
         self.config = self._load_config()
 
         self.config['agent_name_short'] = self.config['agent_name'].split(' (')[-2]
-        self.config['model_name_short'] = self.config['agent_name'].split(' (')[-1].split(')')[0]
+        model_name_short = (self.config['agent_name'].split(' (')[-1].split(')')[0])
+        self.config['model_name_short'] = MODEL_NAME_MAP.get(model_name_short, model_name_short)
     
     def _load_data(self):
         with open(self.data_path, 'r') as f:

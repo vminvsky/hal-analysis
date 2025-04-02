@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
+from tqdm import tqdm
 from src.dataloaders.abstract import DataCombiner
 
 def calculate_win_rates(df, group_by_cols=['benchmark_name', 'agent_name_short']):
@@ -113,7 +114,7 @@ def main():
     tasks = ['taubench_retail', 'usaco', 'test','taubench', 'swebench', 'react', 'planexec', 'ipfuncall', 'inspect', 'gaia', 'fullcode', 'cybench', 'agentharm_', 'agentharm_benign']  # Add your task names here
     
     all_data = []
-    for task in tasks:
+    for task in tqdm(tasks):
         try:
             combiner = DataCombiner(task)
             df = combiner.load()
@@ -135,7 +136,7 @@ def main():
         print("Overall model win rates:")
         print(model_win_rates.sort_values('overall_win_rate', ascending=False))
         
-        Plot results
+        # Plot results
         plt = plot_win_rates(model_win_rates)
         plt.savefig('model_win_rates.png')
         

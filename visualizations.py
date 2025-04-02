@@ -204,9 +204,9 @@ def accuracy_win_rate():
     tasks = cost_accuracy['benchmark_name'].unique()
     grid_scatter_by_benchmark(tasks, cost_accuracy, 'accuracy', 'overall_win_rate', 'Accuracy', 'Overall Win Rate', 4, 'accuracy_win_rate.png')
 
-# model_win_rate_bar(model_win_rates)
-# benchmark_win_rate_bar_full(grouped_df)
-# benchmark_win_rate_bar(dfs_dict)
+model_win_rate_bar(model_win_rates)
+benchmark_win_rate_bar_full(grouped_df)
+benchmark_win_rate_bar(dfs_dict)
 # create_tables(grouped_df)
 # cost_win_rate()
 # accuracy_win_rate()
