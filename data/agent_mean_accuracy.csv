@@ -1,0 +1,76 @@
+,agent_name,mean_accuracy
+0,Agentless (gpt-4o-mini-2024-07-18),0.26
+1,Agentless (o1-mini-2024-09-12),0.30600000000000005
+2,Agentless Lite (o3-mini-2025-01-31),0.48
+3,Amazon Bedrock Zero shot (Meta-Llama-3.3-70B-Instruct-Turbo),0.07166123778501629
+4,Amazon Bedrock Zero shot (claude-3-5-haiku-20241022),0.09446254071661238
+5,Amazon Bedrock Zero shot (claude-3-5-sonnet-20241022),0.15309446254071662
+6,AutoGPT (gpt-4o-2024-05-13),0.24443333333333336
+7,AutoGPT (gpt-4o-mini-2024-07-18),0.02223333333333333
+8,CORE-Agent (claude-3.5-sonnet-2024-10-22),0.3778
+9,CORE-Agent (gpt-4o-2024-05-13),0.44507222222222226
+10,CORE-Agent (gpt-4o-mini-2024-07-18),0.2901277777777778
+11,CORE-Agent (o1-2024-12-17),0.3333
+12,CORE-Agent (o1-mini-2024-09-12),0.25555
+13,CyBench Agent (claude-3-7-sonnet-20250219),0.175
+14,Episodic Retrial (2x) (gpt-4o-2024-05-13),0.15309446254071662
+15,Episodic Retrial (2x) (gpt-4o-mini-2024-07-18),0.14332247557003258
+16,Episodic Retrial (5x) (gpt-4o-mini-2024-07-18),0.1541802388707926
+17,Episodic Warming (3 Steps) (gpt-4o-mini-2024-07-18),0.13355048859934854
+18,FullCodeRefl (deepseek-ai/deepseek-coder-33b-instruct),0.0945
+19,FullCodeRefl (gpt-4-turbo-2024-04-09),0.1905
+20,FullCodeRefl (gpt-4o-2024-05-13),0.2655
+21,FullCodeRefl (meta-llama/Llama-3-70b-chat-hf),0.157
+22,IPFunCall (gpt-4-turbo-2024-04-09),0.22499999999999998
+23,IPFunCall (gpt-4o-2024-05-13),0.2505
+24,Inspect ReAct Agent (Meta-Llama-3.1-405B-Instruct-Turbo),0.06060606060606061
+25,Inspect ReAct Agent (claude-3-5-sonnet-20241022),0.38787878787878793
+26,Inspect ReAct Agent (claude-3-7-sonnet-20250219),0.5636363636363636
+27,Inspect ReAct Agent (gpt-4o-2024-11-20),0.23522727272727273
+28,Inspect ReAct Agent (gpt-4o-mini-2024-07-18),0.10719696969696971
+29,Inspect ReAct Agent (o1-mini-2024-09-12),0.24734848484848485
+30,Inspect ReAct Agent (o1-preview-2024-09-12),0.38181818181818183
+31,Inspect ReAct Agent (o3-mini-2025-01-14),0.25
+32,Inspect ReAct Agent (o3-mini-2025-01-31 med.),0.49696969696969695
+33,Inspect Tool-Use Agent (Meta-Llama-3.1-405B-Instruct-Turbo),0.1725403384494294
+34,Inspect Tool-Use Agent (claude-3-5-sonnet-20241022),0.4351556350846124
+35,Inspect Tool-Use Agent (gpt-4o-2024-11-20),0.6466327233372688
+36,Inspect Tool-Use Agent (gpt-4o-mini-2024-07-18),0.6754565746753245
+37,Inspect Tool-Use Agent (o1-2024-12-17),0.4594272678079495
+38,Inspect Tool-Use Agent (o1-mini-2024-09-12),0.37264548898071614
+39,Inspect Tool-Use Agent (o1-preview-2024-09-12),0.021392906336088154
+40,Moatless (claude-3-5-sonnet-20241022),0.43
+41,Moatless (gpt-4o-2024-08-06),0.319
+42,Moatless (gpt-4o-mini-2024-07-18),0.2
+43,PlanExec (deepseek-ai/deepseek-coder-33b-instruct),0.012499999999999999
+44,PlanExec (gpt-4-turbo-2024-04-09),0.2185
+45,PlanExec (gpt-4o-2024-05-13),0.3215
+46,PlanExec (meta-llama/Llama-3-70b-chat-hf),0.056499999999999995
+47,ReAct (deepseek-ai/deepseek-coder-33b-instruct),0.049999999999999996
+48,ReAct (gpt-4-turbo-2024-04-09),0.2215
+49,ReAct (gpt-4o-2024-05-13),0.395
+50,ReAct (meta-llama/Llama-3-70b-chat-hf),0.121
+51,SWE-agent (Cost Limit: $1) (gpt-4o-mini-2024-07-18),0.08
+52,TAU-bench ToolCalling (claude-3-5-sonnet-20241022),0.5634782608695652
+53,TAU-bench ToolCalling (claude-3-7-sonnet-20250219),0.5908695652173913
+54,TAU-bench ToolCalling (gpt-4o-2024-11-20),0.5330434782608696
+55,TAU-bench ToolCalling (gpt-4o-mini-2024-07-18),0.3173913043478261
+56,TAU-bench ToolCalling (o1-2024-12-17 med.),0.6265217391304347
+57,TAU-bench ToolCalling (o3-mini-2025-01-31 med.),0.4465217391304348
+58,USACO Episodic (gpt-4o-2024-05-13),0.13355048859934854
+59,USACO Episodic (gpt-4o-mini-2024-07-18),0.0988056460369164
+60,USACO Episodic + Semantic (claude-3-7-sonnet-20250219),0.2899022801302932
+61,USACO Episodic + Semantic (o1-mini-2024-09-12),0.23778501628664495
+62,USACO Episodic + Semantic (o3-mini-2025-01-31 med.),0.38762214983713356
+63,USACO Reflexion (gpt-4o-mini-2024-07-18),0.10749185667752444
+64,USACO Reflexion + Episodic (gpt-4o-2024-05-13),0.16286644951140067
+65,USACO Reflexion + Episodic (gpt-4o-mini-2024-07-18),0.13029315960912052
+66,USACO Reflexion + Episodic + Semantic (gpt-4o-2024-05-13),0.16938110749185667
+67,USACO Reflexion + Semantic (gpt-4o-mini-2024-07-18),0.08469055374592833
+68,USACO Semantic (gpt-4o-2024-05-13),0.08469055374592833
+69,USACO Semantic (gpt-4o-mini-2024-07-18),0.06514657980456026
+70,USACO Zero-Shot (claude-3-7-sonnet-20250219),0.19543973941368079
+71,USACO Zero-Shot (o3-mini-2025-01-31),0.36156351791530944
+72,USACO Zero-shot (gpt-4o-2024-05-13),0.08794788273615635
+73,USACO Zero-shot (gpt-4o-mini-2024-07-18),0.08469055374592833
+74,Zero-shot Retrial (5x) (gpt-4o-mini-2024-07-18),0.12052117263843648

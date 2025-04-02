@@ -1,0 +1,24 @@
+,agent_name,total_cost
+0,CyBench Agent (claude-3-7-sonnet-20250219),16.9525215
+1,Inspect ReAct Agent (Meta-Llama-3.1-405B-Instruct-Turbo),65.85554325
+2,Inspect ReAct Agent (claude-3-5-sonnet-20241022),131.4593655
+3,Inspect ReAct Agent (claude-3-7-sonnet-20250219),409.011015
+4,Inspect ReAct Agent (gpt-4o-2024-11-20),108.54751125
+5,Inspect ReAct Agent (gpt-4o-mini-2024-07-18),9.468329975
+6,Inspect ReAct Agent (o1-mini-2024-09-12),95.0251545
+7,Inspect ReAct Agent (o1-preview-2024-09-12),379.70595000000003
+8,Inspect ReAct Agent (o3-mini-2025-01-14),80.20608
+9,Inspect ReAct Agent (o3-mini-2025-01-31 med.),47.7155459
+10,Inspect Tool-Use Agent (Meta-Llama-3.1-405B-Instruct-Turbo),2.0240605
+11,Inspect Tool-Use Agent (claude-3-5-sonnet-20241022),2.3535975000000002
+12,Inspect Tool-Use Agent (gpt-4o-2024-11-20),2.1219087500000002
+13,Inspect Tool-Use Agent (gpt-4o-mini-2024-07-18),0.6324627
+14,Inspect Tool-Use Agent (o1-2024-12-17),43.7569275
+15,Inspect Tool-Use Agent (o1-mini-2024-09-12),13.800553500000001
+16,Inspect Tool-Use Agent (o1-preview-2024-09-12),
+17,TAU-bench ToolCalling (claude-3-5-sonnet-20241022),28.302506500000003
+18,TAU-bench ToolCalling (claude-3-7-sonnet-20250219),32.269609
+19,TAU-bench ToolCalling (gpt-4o-2024-11-20),30.123667500000003
+20,TAU-bench ToolCalling (gpt-4o-mini-2024-07-18),4.7567174
+21,TAU-bench ToolCalling (o1-2024-12-17 med.),189.67085
+22,TAU-bench ToolCalling (o3-mini-2025-01-31 med.),20.297567200000003
