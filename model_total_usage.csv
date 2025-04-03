@@ -27,8 +27,8 @@ gpt-4o-mini-2024-07-18,taubench_airline,2.7147019
 gpt-4o-mini-2024-07-18,taubench_retail,6.7987329
 o1-2024-12-17,inspect_evals/agentharm,17.41749
 o1-2024-12-17,inspect_evals/agentharm_benign,70.096365
-o1-2024-12-17 med.,taubench_airline,109.30709999999999
-o1-2024-12-17 med.,taubench_retail,270.0346
+o1-2024-12-17,taubench_airline,109.30709999999999
+o1-2024-12-17,taubench_retail,270.0346
 o1-mini-2024-09-12,inspect_evals/agentharm,6.261591
 o1-mini-2024-09-12,inspect_evals/agentharm_benign,21.339516000000003
 o1-mini-2024-09-12,inspect_evals/cybench,28.467963
@@ -37,6 +37,6 @@ o1-preview-2024-09-12,inspect_evals/agentharm,
 o1-preview-2024-09-12,inspect_evals/cybench,117.8931
 o1-preview-2024-09-12,inspect_evals/gaia,641.5188
 o3-mini-2025-01-14,inspect_evals/cybench,80.20608
-o3-mini-2025-01-31 med.,inspect_evals/gaia,47.7155459
-o3-mini-2025-01-31 med.,taubench_airline,11.939319600000001
-o3-mini-2025-01-31 med.,taubench_retail,28.6558148
+o3-mini-2025-01-31,inspect_evals/gaia,47.7155459
+o3-mini-2025-01-31,taubench_airline,11.939319600000001
+o3-mini-2025-01-31,taubench_retail,28.6558148

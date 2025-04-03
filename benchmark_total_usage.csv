@@ -1,42 +1,8 @@
-agent_name,benchmark_name,total_cost
-CyBench Agent (claude-3-7-sonnet-20250219),inspect_evals/cybench,16.9525215
-Inspect ReAct Agent (Meta-Llama-3.1-405B-Instruct-Turbo),inspect_evals/cybench,2.9317785
-Inspect ReAct Agent (Meta-Llama-3.1-405B-Instruct-Turbo),inspect_evals/gaia,128.779308
-Inspect ReAct Agent (claude-3-5-sonnet-20241022),inspect_evals/cybench,2.728731
-Inspect ReAct Agent (claude-3-5-sonnet-20241022),inspect_evals/gaia,260.19
-Inspect ReAct Agent (claude-3-7-sonnet-20250219),inspect_evals/gaia,409.011015
-Inspect ReAct Agent (gpt-4o-2024-11-20),inspect_evals/cybench,7.9720225000000005
-Inspect ReAct Agent (gpt-4o-2024-11-20),inspect_evals/gaia,209.123
-Inspect ReAct Agent (gpt-4o-mini-2024-07-18),inspect_evals/cybench,0.481181925
-Inspect ReAct Agent (gpt-4o-mini-2024-07-18),inspect_evals/gaia,18.455478024999998
-Inspect ReAct Agent (o1-mini-2024-09-12),inspect_evals/cybench,28.467963
-Inspect ReAct Agent (o1-mini-2024-09-12),inspect_evals/gaia,161.582346
-Inspect ReAct Agent (o1-preview-2024-09-12),inspect_evals/cybench,117.8931
-Inspect ReAct Agent (o1-preview-2024-09-12),inspect_evals/gaia,641.5188
-Inspect ReAct Agent (o3-mini-2025-01-14),inspect_evals/cybench,80.20608
-Inspect ReAct Agent (o3-mini-2025-01-31 med.),inspect_evals/gaia,47.7155459
-Inspect Tool-Use Agent (Meta-Llama-3.1-405B-Instruct-Turbo),inspect_evals/agentharm,1.5912190000000002
-Inspect Tool-Use Agent (Meta-Llama-3.1-405B-Instruct-Turbo),inspect_evals/agentharm_benign,2.456902
-Inspect Tool-Use Agent (claude-3-5-sonnet-20241022),inspect_evals/agentharm,1.9093710000000002
-Inspect Tool-Use Agent (claude-3-5-sonnet-20241022),inspect_evals/agentharm_benign,2.797824
-Inspect Tool-Use Agent (gpt-4o-2024-11-20),inspect_evals/agentharm,1.9779375000000003
-Inspect Tool-Use Agent (gpt-4o-2024-11-20),inspect_evals/agentharm_benign,2.26588
-Inspect Tool-Use Agent (gpt-4o-mini-2024-07-18),inspect_evals/agentharm,0.6324627
-Inspect Tool-Use Agent (gpt-4o-mini-2024-07-18),inspect_evals/agentharm_benign,
-Inspect Tool-Use Agent (o1-2024-12-17),inspect_evals/agentharm,17.41749
-Inspect Tool-Use Agent (o1-2024-12-17),inspect_evals/agentharm_benign,70.096365
-Inspect Tool-Use Agent (o1-mini-2024-09-12),inspect_evals/agentharm,6.261591
-Inspect Tool-Use Agent (o1-mini-2024-09-12),inspect_evals/agentharm_benign,21.339516000000003
-Inspect Tool-Use Agent (o1-preview-2024-09-12),inspect_evals/agentharm,
-TAU-bench ToolCalling (claude-3-5-sonnet-20241022),taubench_airline,15.287252
-TAU-bench ToolCalling (claude-3-5-sonnet-20241022),taubench_retail,41.317761000000004
-TAU-bench ToolCalling (claude-3-7-sonnet-20250219),taubench_airline,18.652516000000002
-TAU-bench ToolCalling (claude-3-7-sonnet-20250219),taubench_retail,45.886702
-TAU-bench ToolCalling (gpt-4o-2024-11-20),taubench_airline,17.296010000000003
-TAU-bench ToolCalling (gpt-4o-2024-11-20),taubench_retail,42.951325000000004
-TAU-bench ToolCalling (gpt-4o-mini-2024-07-18),taubench_airline,2.7147019
-TAU-bench ToolCalling (gpt-4o-mini-2024-07-18),taubench_retail,6.7987329
-TAU-bench ToolCalling (o1-2024-12-17 med.),taubench_airline,109.30709999999999
-TAU-bench ToolCalling (o1-2024-12-17 med.),taubench_retail,270.0346
-TAU-bench ToolCalling (o3-mini-2025-01-31 med.),taubench_airline,11.939319600000001
-TAU-bench ToolCalling (o3-mini-2025-01-31 med.),taubench_retail,28.6558148
+agent_name_short,benchmark_name,total_cost
+CyBench Agent,inspect_evals/cybench,16.9525215
+Inspect ReAct Agent,inspect_evals/cybench,30.145254856250002
+Inspect ReAct Agent,inspect_evals/gaia,210.53677455
+Inspect Tool-Use Agent,inspect_evals/agentharm,4.965011866666667
+Inspect Tool-Use Agent,inspect_evals/agentharm_benign,19.791297399999998
+TAU-bench ToolCalling,taubench_airline,29.19948325
+TAU-bench ToolCalling,taubench_retail,72.60748928333334
