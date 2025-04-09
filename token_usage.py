@@ -25,18 +25,18 @@ def main():
     df = all_data
     print(df.keys())
     model_total_usage = df.groupby(['model_name_short', 'benchmark_name'])[['total_cost']].mean()
-    benchmark_total_usage = df.groupby(['agent_name', 'benchmark_name'])[['total_cost']].mean()
-    # model_total_usage.to_csv('model_total_usage.csv')
-    # benchmark_total_usage.to_csv('benchmark_total_usage.csv')
+    benchmark_total_usage = df.groupby(['agent_name_short', 'benchmark_name'])[['total_cost']].mean()
+    model_total_usage.to_csv('model_total_usage.csv')
+    benchmark_total_usage.to_csv('benchmark_total_usage.csv')
 
     # mean cost of models across benchmarks
     model_mean_cost = model_total_usage.groupby('model_name_short')['total_cost'].mean().reset_index()
-    model_mean_cost = model_mean_cost.rename(columns={'cost':'mean_cost'})
+    model_mean_cost = model_mean_cost.rename(columns={'total_cost':'mean_cost'})
     model_mean_cost.to_csv('data/model_mean_cost.csv')
 
-    # todo: mean cost of agents across benchmarks
-    agent_mean_cost =  benchmark_total_usage.groupby('agent_name')['total_cost'].mean().reset_index()
-    agent_mean_cost = agent_mean_cost.rename(columns={'cost':'mean_cost'})
+    # mean cost of agents across benchmarks
+    agent_mean_cost =  benchmark_total_usage.groupby('agent_name_short')['total_cost'].mean().reset_index()
+    agent_mean_cost = agent_mean_cost.rename(columns={'total_cost':'mean_cost'})
     agent_mean_cost.to_csv('data/agent_mean_cost.csv')
 
 if __name__ == "__main__":

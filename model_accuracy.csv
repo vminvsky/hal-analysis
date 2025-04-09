@@ -54,8 +54,8 @@ meta-llama/Llama-3-70b-chat-hf,appworld_test_normal,0.18033333333333332
 o1-2024-12-17,corebench_hard,0.3333
 o1-2024-12-17,inspect_evals/agentharm,0.13911907221566314
 o1-2024-12-17,inspect_evals/agentharm_benign,0.7797354634002359
-o1-2024-12-17 med.,taubench_airline,0.54
-o1-2024-12-17 med.,taubench_retail,0.7130434782608696
+o1-2024-12-17,taubench_airline,0.54
+o1-2024-12-17,taubench_retail,0.7130434782608696
 o1-mini-2024-09-12,corebench_hard,0.25555
 o1-mini-2024-09-12,inspect_evals/agentharm,0.14962490161353798
 o1-mini-2024-09-12,inspect_evals/agentharm_benign,0.5956660763478944
@@ -68,9 +68,8 @@ o1-preview-2024-09-12,inspect_evals/agentharm,0.021392906336088154
 o1-preview-2024-09-12,inspect_evals/cybench,0.2
 o1-preview-2024-09-12,inspect_evals/gaia,0.5636363636363636
 o3-mini-2025-01-14,inspect_evals/cybench,0.25
+o3-mini-2025-01-31,inspect_evals/gaia,0.49696969696969695
 o3-mini-2025-01-31,swebench_verified_mini,0.48
-o3-mini-2025-01-31,usaco,0.36156351791530944
-o3-mini-2025-01-31 med.,inspect_evals/gaia,0.49696969696969695
-o3-mini-2025-01-31 med.,taubench_airline,0.38
-o3-mini-2025-01-31 med.,taubench_retail,0.5130434782608696
-o3-mini-2025-01-31 med.,usaco,0.38762214983713356
+o3-mini-2025-01-31,taubench_airline,0.38
+o3-mini-2025-01-31,taubench_retail,0.5130434782608696
+o3-mini-2025-01-31,usaco,0.3745928338762215

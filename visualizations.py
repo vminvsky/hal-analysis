@@ -81,6 +81,31 @@ def benchmark_win_rate_bar_full(grouped_df):
 
     plt.savefig('visualizations/grouped_bar_plots.png', dpi=300)
 
+def model_accuracy_full():
+    model_accuracy = pd.read_csv('model_accuracy.csv')
+    grouped_df = model_accuracy.groupby('benchmark_name')
+    dfs_dict = {category: group for category, group in grouped_df}
+    sorted_groups = [group.sort_values(by='accuracy', ascending=False) for _, group in grouped_df]
+    num_groups = len(sorted_groups)
+    cols = 5  
+    rows = (num_groups // cols) + (num_groups % cols > 0)
+    fig, axes = plt.subplots(rows, cols, figsize=(20, 10))
+    axes = axes.flatten()
+    for i, (group) in enumerate(sorted_groups):
+        category = group['benchmark_name'].iloc[0]
+        ax = axes[i]
+        ax = sns.barplot(x='model_name_short', y='accuracy', data=group, hue='model_name_short', palette='magma', ax=ax)
+        ax.set_title(f'{category}', fontsize=14)
+        ax.set_xlabel('Model')
+        ax.set_ylabel('Accuracy')
+        ax.tick_params(axis='x', rotation=90, labelsize=7)
+        for p in ax.patches:
+            ax.annotate(f'{p.get_height():.2f}', (p.get_x() + p.get_width() / 2., p.get_height()),
+                    ha='center', va='center', fontsize=5, color='black', xytext=(0, 5), textcoords='offset points')
+    for j in range(i + 1, len(axes)):
+        axes[j].axis('off')
+    plt.tight_layout()
+    plt.savefig('visualizations/model_accuracy.png', dpi=300)
 
 def model_win_rate_bar(model_win_rates):
     """
@@ -89,7 +114,6 @@ def model_win_rate_bar(model_win_rates):
     Args:
         model_win_rates: DataFrame with win rates for each model
     """
-
     plt.figure(figsize=(12, 6))
     # Sort by win rate
     sorted_df = model_win_rates.sort_values('overall_win_rate', ascending=False)
@@ -111,27 +135,6 @@ def model_win_rate_bar(model_win_rates):
     plt.grid(True, axis='y', linestyle='--', alpha=0.7)
 
     plt.savefig(f'visualizations/model_win_rates.png')
-    
-
-def create_tables(grouped_df):
-    """
-    Create a table with win rates for each model by benchmark
-    
-    Args:
-    
-        grouped_df: DataFrame grouped by benchmark
-    """
-    grouped_output_file = 'visualizations/tables_by_benchmark.md'
-
-    # Open the file 
-    with open(grouped_output_file, 'w') as file:
-        # For each group and save the table to the file
-        for category, group in grouped_df:
-            group = group.drop(columns=['benchmark_name', 'win_rate_mean', 'win_rate_std', 'win_rate_count', 'wins_sum', 'comparisons_sum'])
-            file.write(f"\n{category} win rate:\n")
-            # Format the table and write it to the file
-            formatted_table = tabulate(group, headers='keys', tablefmt='pretty', showindex=False)
-            file.write(formatted_table + "\n\n")
 
 def grid_scatter_by_benchmark(tasks, merged_df, x_axis, y_axis, x_label, y_label, num_cols, filename):
     """
@@ -189,26 +192,40 @@ def grid_scatter_by_benchmark(tasks, merged_df, x_axis, y_axis, x_label, y_label
     plt.tight_layout()  # Adjust layout to make room for annotations
     plt.savefig(f'visualizations/{filename}', dpi=300)
 
-def cost_win_rate():
+def model_cost_win_rate():
     model_costs = pd.read_csv('model_total_usage.csv')
     model_winrates = pd.read_csv('benchmark_win_rates.csv')
     df_m = model_winrates.merge(model_costs, on=['model_name_short', 'benchmark_name'], how='left')
     tasks = df_m['benchmark_name'].unique()
     grid_scatter_by_benchmark(tasks, df_m, 'total_cost', 'win_rate_mean', 'Total Cost', 'Mean Win Rate', 4, 'cost_win_rate.png')
 
-def accuracy_win_rate():
+def cost_accuracy():
+    model_costs = pd.read_csv('model_total_usage.csv')
     model_accuracy = pd.read_csv('model_accuracy.csv')
-    model_winrates = pd.read_csv('benchmark_win_rates.csv')
-    # Merge with win rates to compare model win rates with model accuracy
-    cost_accuracy = model_winrates.merge(model_accuracy, on=['model_name_short', 'benchmark_name'], how='left')
-    tasks = cost_accuracy['benchmark_name'].unique()
-    grid_scatter_by_benchmark(tasks, cost_accuracy, 'accuracy', 'overall_win_rate', 'Accuracy', 'Overall Win Rate', 4, 'accuracy_win_rate.png')
+    df_m = model_accuracy.merge(model_costs, on=['model_name_short', 'benchmark_name'], how='left')
+    tasks = df_m['benchmark_name'].unique()
+    grid_scatter_by_benchmark(tasks, df_m, 'total_cost', 'accuracy', 'Total Cost', 'Accuracy', 4, 'model_cost_accuracy.png')
 
-model_win_rate_bar(model_win_rates)
-benchmark_win_rate_bar_full(grouped_df)
-benchmark_win_rate_bar(dfs_dict)
-# create_tables(grouped_df)
-# cost_win_rate()
-# accuracy_win_rate()
+def mean_cost_accuracy():
+    mean_model_costs = pd.read_csv('data/model_mean_cost.csv')
+    mean_model_accuracy = pd.read_csv('data/model_mean_accuracy.csv')
+    df_m = mean_model_accuracy.merge(mean_model_costs, on=['model_name_short'], how='left')
+    df_m = df_m.dropna()
+    plt.figure (figsize=(8,6))
+    plt.scatter(df_m['mean_cost'], df_m['mean_accuracy'])
+    for i in range(len(df_m)):
+        plt.text(df_m.iloc[i]['mean_cost'] + 2, df_m.iloc[i]['mean_accuracy'], df_m.iloc[i]['model_name_short'], fontsize=7)
+    plt.xlabel('Mean Cost')
+    plt.ylabel('Mean Accuracy')
+    plt.savefig(f'visualizations/model_mean_cost_accuracy.png')
+
+# model_win_rate_bar(model_win_rates)
+# benchmark_win_rate_bar_full(grouped_df)
+# benchmark_win_rate_bar(dfs_dict)
+# model_cost_win_rate()
+# cost_accuracy()
+# mean_cost_accuracy()
+# model_accuracy_full()
+# model_accuracy_mean()
 
 
