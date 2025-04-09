@@ -1,4 +1,4 @@
-DATA_DIR = "/scratch/gpfs/vv7118/models/hub/datasets--agent-evals--agent_traces/snapshots/8831400af880b37c06a15026f661f726160a44c2"
+DATA_DIR = "/scratch/gpfs/vv7118/models/hub/datasets--agent-evals--hal_traces/snapshots/89d0e46bc364f31aaa5e5a3308adb00210e1e849"
 
 
 MODEL_NAME_MAP = {

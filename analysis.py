@@ -5,7 +5,7 @@ import seaborn as sns
 from tqdm import tqdm
 from src.dataloaders.abstract import DataCombiner
 
-def calculate_win_rates(df, group_by_cols=['benchmark_name', 'agent_name_short']):
+def calculate_win_rates(df, group_by_cols=['benchmark_name', 'agent_name_short'], group_by_cols_2='model_name_short'):
     """
     Calculate win rates for each model across different benchmarks and agent scaffolds.
     
@@ -22,7 +22,7 @@ def calculate_win_rates(df, group_by_cols=['benchmark_name', 'agent_name_short']
     # Group by the control variables
     for name, group in df.groupby(group_by_cols):
         # For each group (benchmark+agent combination), find all pairwise comparisons
-        models = group['model_name_short'].unique()
+        models = group[group_by_cols_2].unique()
         
         for model_a in models:
             wins = 0
@@ -32,8 +32,8 @@ def calculate_win_rates(df, group_by_cols=['benchmark_name', 'agent_name_short']
                 if model_a == model_b:
                     continue
                     
-                acc_a = group[group['model_name_short'] == model_a]['accuracy'].values[0]
-                acc_b = group[group['model_name_short'] == model_b]['accuracy'].values[0]
+                acc_a = group[group[group_by_cols_2] == model_a]['accuracy'].values[0]
+                acc_b = group[group[group_by_cols_2] == model_b]['accuracy'].values[0]
                 
                 if acc_a > acc_b:
                     wins += 1
@@ -45,7 +45,7 @@ def calculate_win_rates(df, group_by_cols=['benchmark_name', 'agent_name_short']
             
             # Store the result
             result = {
-                'model_name_short': model_a,
+                group_by_cols_2: model_a,
                 'win_rate': win_rate,
                 'wins': wins,
                 'comparisons': comparisons
@@ -111,8 +111,8 @@ def plot_win_rates(agg_df, title="Model Win Rates"):
 
 def main():
     # Load data for all tasks you want to analyze
-    tasks = ['taubench_retail', 'usaco', 'test','taubench', 'swebench', 'react', 'planexec', 'ipfuncall', 'inspect', 'gaia', 'fullcode', 'cybench', 'agentharm_', 'agentharm_benign']  # Add your task names here
-    
+    # tasks = ['taubench_retail', 'usaco', 'test','taubench', 'swebench', 'react', 'planexec', 'ipfuncall', 'inspect', 'gaia', 'fullcode', 'cybench', 'agentharm_', 'agentharm_benign']  # Add your task names here
+    tasks = ['taubench_airline']
     all_data = []
     for task in tqdm(tasks):
         try:
