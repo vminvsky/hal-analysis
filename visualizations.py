@@ -206,9 +206,6 @@ def cost_accuracy():
     tasks = df_m['benchmark_name'].unique()
     grid_scatter_by_benchmark(tasks, df_m, 'total_cost', 'accuracy', 'Total Cost', 'Accuracy', 4, 'model_cost_accuracy.png')
 
-    # Todo: Agent cost accuracy pareto
-    # agent_costs = pd.read_csv('benchmark_total_usage.csv')
-
 def mean_cost_accuracy():
     mean_model_costs = pd.read_csv('data/model_mean_cost.csv')
     mean_model_accuracy = pd.read_csv('data/model_mean_accuracy.csv')
