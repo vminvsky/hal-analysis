@@ -5,6 +5,78 @@ import seaborn as sns
 from tqdm import tqdm
 from src.dataloaders.abstract import DataCombiner
 
+def calculate_max_win_rates(df, group_by_cols=['benchmark_name'], group_by_cols_2='model_name_short'):
+    """
+    Calculate win rates for each model across different benchmarks using the maximum accuracy
+    each model achieves across all agent scaffolds.
+    
+    Args:
+        df: DataFrame containing the results
+        group_by_cols: Columns to group by (control variables)
+        group_by_cols_2: Column representing the models to compare
+        
+    Returns:
+        DataFrame with win rates for each model
+    """
+    
+    # Create a results container
+    all_results = []
+    
+    # First, find the maximum accuracy for each model across all agents for each benchmark
+    max_accuracies = {}
+    
+    for benchmark, benchmark_group in df.groupby('benchmark_name'):
+        max_accuracies[benchmark] = {}
+        
+        for model in benchmark_group[group_by_cols_2].unique():
+            # Get all accuracies for this model across different agents in this benchmark
+            model_accuracies = benchmark_group[benchmark_group[group_by_cols_2] == model]['accuracy']
+
+            # Store the maximum accuracy
+            max_accuracies[benchmark][model] = model_accuracies.max()
+    
+    # Group by the control variables (benchmarks)
+    for name, group in df.groupby(group_by_cols):
+        benchmark = name if not isinstance(name, tuple) else name[0]
+        
+        # Get unique models for this benchmark
+        models = df[df['benchmark_name'] == benchmark][group_by_cols_2].unique()
+        
+        for model_a in models:
+            wins = 0
+            comparisons = 0
+            
+            for model_b in models:
+                if model_a == model_b:
+                    continue
+                    
+                acc_a = max_accuracies[benchmark][model_a]
+                acc_b = max_accuracies[benchmark][model_b]
+                
+                if acc_a > acc_b:
+                    wins += 1
+                
+                comparisons += 1
+            
+            # Calculate win rate
+            win_rate = wins / comparisons if comparisons > 0 else np.nan
+            
+            # Store the result
+            result = {
+                group_by_cols_2: model_a,
+                'win_rate': win_rate,
+                'wins': wins,
+                'comparisons': comparisons
+            }
+            
+            # Add the group information
+            for i, col in enumerate(group_by_cols):
+                result[col] = name[i] if isinstance(name, tuple) else name
+                
+            all_results.append(result)
+    
+    return pd.DataFrame(all_results)
+
 def calculate_win_rates(df, group_by_cols=['benchmark_name', 'agent_name_short'], group_by_cols_2='model_name_short'):
     """
     Calculate win rates for each model across different benchmarks and agent scaffolds.
@@ -16,6 +88,8 @@ def calculate_win_rates(df, group_by_cols=['benchmark_name', 'agent_name_short']
     Returns:
         DataFrame with win rates for each model
     """
+
+
     # Create a results container
     all_results = []
     
@@ -127,7 +201,7 @@ def main():
         combined_df = pd.concat(all_data, ignore_index=True)
         
         # Calculate win rates
-        win_rates = calculate_win_rates(combined_df)
+        win_rates = calculate_max_win_rates(combined_df)
         
         # Aggregate by model
         model_win_rates = aggregate_win_rates(win_rates)

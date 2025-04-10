@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 from src.dataloaders.abstract import DataCombiner
-from analysis import calculate_win_rates, aggregate_win_rates
+from analysis import calculate_win_rates, calculate_max_win_rates, aggregate_win_rates
 
 
 def calculate_pareto_frontier(df, group_by_cols=['benchmark_name', 'agent_name_short']):
@@ -364,7 +364,7 @@ def main():
         plt.savefig('model_pareto_frontier.png')
         
         # Calculate win rates for models
-        model_win_rates = calculate_win_rates(combined_df)
+        model_win_rates = calculate_max_win_rates(combined_df)
         model_win_rates_agg = aggregate_win_rates(model_win_rates)
         
         # Merge win rates with cost data
