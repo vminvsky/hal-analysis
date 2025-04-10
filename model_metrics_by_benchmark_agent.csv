@@ -1,0 +1,11 @@
+model_name_short,accuracy,total_cost,benchmark_name,agent_name_short
+claude-3-7-sonnet-20250219,0.32,43.743053,taubench_airline,HAL Generalist Agent
+o3-mini-2025-01-31,0.0,4.1211798,taubench_airline,HAL Generalist Agent
+gpt-4o-2024-11-20,0.2,34.044535,taubench_airline,HAL Generalist Agent
+gemini-2.0-flash,0.0,0.7087882000000001,taubench_airline,HAL Generalist Agent
+gemini-2.0-flash,0.36,3.7019267000000005,taubench_airline,TAU-bench FewShot
+deepseek-ai/DeepSeek-V3,0.4,11.672885,taubench_airline,TAU-bench FewShot
+deepseek-ai/DeepSeek-R1,0.38,32.325201,taubench_airline,TAU-bench FewShot
+o3-mini-2025-01-31,0.4,20.054093199999997,taubench_airline,TAU-bench FewShot
+claude-3-7-sonnet-20250219,0.6,37.233971000000004,taubench_airline,TAU-bench FewShot
+gpt-4o-2024-11-20,0.4,46.468065,taubench_airline,TAU-bench FewShot

@@ -1,0 +1,3 @@
+agent_name_short,accuracy_mean,accuracy_std,accuracy_count,total_cost_mean,total_cost_std,total_cost_min,total_cost_max,pareto_optimal
+HAL Generalist Agent,0.13,0.15790292376436016,4,20.654389000000002,21.475229241540415,0.7087882000000001,43.743053,True
+TAU-bench FewShot,0.42333333333333334,0.08801515021101006,6,25.242690316666668,16.245214396949823,3.7019267000000005,46.468065,True
