@@ -58,7 +58,8 @@ class DataLoader(ABC):
 
     def return_metrics(self):
         # return all the metrics we care about.
-        return {'accuracy': self.return_accuracy(), 'total_tokens': self.return_total_tokens(), 'total_cost': self.return_total_cost()}
+        print("getting metrics")
+        return {'accuracy': self.return_accuracy(), 'total_tokens': self.return_total_tokens(), 'total_cost': self.return_total_cost(), 'latencies_per_task': self.return_latency()}
 
     def return_accuracy(self):
         return self.data['results']['accuracy']
@@ -97,8 +98,13 @@ class DataLoader(ABC):
     def pass_to_the_k():
         pass 
 
-    def win_rate(self):
-        pass
+    def return_latency(self):
+        latencies = []
+        for i in range(len(self.data['results']['latencies'].keys())):
+            latencies.append(self.data['results']['latencies'][i]['total_time'])
+            print("i")
+        return latencies
+
 
     def __repr__(self):
         return f"DataLoader(agent_name={self.config['agent_name']}, benchmark_name={self.config['benchmark_name']})"
