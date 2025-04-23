@@ -1,0 +1,7 @@
+,model_name_short,mean_latency
+0,claude-3-7-sonnet-20250219,91.13434358666666
+1,deepseek-ai/DeepSeek-R1,73.86424566
+2,deepseek-ai/DeepSeek-V3,120.56258068000001
+3,gemini-2.0-flash,17.2951607
+4,gpt-4o-2024-11-20,56.89002466000001
+5,o3-mini-2025-01-31,65.574166735

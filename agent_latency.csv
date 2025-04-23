@@ -1,0 +1,3 @@
+agent_name_short,benchmark_name,latency
+HAL Generalist Agent,taubench_airline,60.635302464000006
+TAU-bench FewShot,taubench_airline,74.03682543

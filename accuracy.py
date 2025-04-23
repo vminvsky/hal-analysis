@@ -15,7 +15,6 @@ def main():
             combiner = DataCombiner(task)
             df = combiner.load()
             df = df[cols]
-            # print(df.head())
             all_data = pd.concat([all_data, df])
         except Exception as e:
             print(f"Error loading task {task}: {e}")

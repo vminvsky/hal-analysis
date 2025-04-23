@@ -58,8 +58,8 @@ class DataLoader(ABC):
 
     def return_metrics(self):
         # return all the metrics we care about.
-        print("getting metrics")
         return {'accuracy': self.return_accuracy(), 'total_tokens': self.return_total_tokens(), 'total_cost': self.return_total_cost(), 'latencies_per_task': self.return_latency()}
+        # return {'accuracy': self.return_accuracy(), 'total_tokens': self.return_total_tokens(), 'total_cost': self.return_total_cost()}
 
     def return_accuracy(self):
         return self.data['results']['accuracy']
@@ -100,9 +100,9 @@ class DataLoader(ABC):
 
     def return_latency(self):
         latencies = []
-        for i in range(len(self.data['results']['latencies'].keys())):
-            latencies.append(self.data['results']['latencies'][i]['total_time'])
-            print("i")
+        if 'latencies' in self.data['results']:
+            for i in range(len(self.data['results']['latencies'].keys())):
+                latencies.append(self.data['results']['latencies'][f'{i}']['total_time'])         
         return latencies
 
 
