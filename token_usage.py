@@ -9,7 +9,7 @@ def main():
     # tasks = ['taubench_retail', 'usaco', 'test','taubench', 'swebench', 'react', 'planexec', 'ipfuncall', 'inspect', 'gaia', 'fullcode', 'cybench', 'agentharm_', 'agentharm_benign']  # Add your task names here
     # tasks = ['gaia', 'cybench', 'taubench', 'taubench_retail' , 'agentharm_']
     tasks = ['taubench_airline']
-    cols = ['model_name_short', 'total_cost', 'benchmark_name', 'agent_name']
+    cols = ['model_name_short', 'total_cost', 'benchmark_name', 'agent_name_short']
     all_data = []
     all_data = pd.DataFrame()
     for task in tasks:

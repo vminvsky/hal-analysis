@@ -1,4 +1,4 @@
-,model_name_short,total_cost
+,model_name_short,mean_cost
 0,claude-3-7-sonnet-20250219,39.14347
 1,deepseek-ai/DeepSeek-R1,29.577509
 2,deepseek-ai/DeepSeek-V3,11.672885

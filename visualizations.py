@@ -2,6 +2,9 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 from tabulate import tabulate
+import numpy as np
+from matplotlib.colors import LinearSegmentedColormap
+import matplotlib as mpl
 
 benchmark_win_rates = pd.read_csv('benchmark_win_rates.csv')
 model_win_rates = pd.read_csv('model_win_rates.csv')
@@ -136,6 +139,369 @@ def model_win_rate_bar(model_win_rates):
 
     plt.savefig(f'visualizations/model_win_rates.png')
 
+def identify_pareto_optimal(df, x_col, y_col, minimize_x=True, maximize_y=True):
+    """
+    Identify Pareto optimal points (best y for a given x).
+    
+    Args:
+        df: DataFrame with metrics
+        x_col: Column name for x metric (e.g., latency, cost)
+        y_col: Column name for y metric (e.g., win_rate, accuracy)
+        minimize_x: Whether to minimize the x metric (True for cost/latency)
+        maximize_y: Whether to maximize the y metric (True for win_rate/accuracy)
+        
+    Returns:
+        DataFrame with Pareto optimal flag
+    """
+    df = df.copy()
+    
+    # Sort by x (ascending if minimize_x, descending otherwise) 
+    # and y (descending if maximize_y, ascending otherwise)
+    x_ascending = minimize_x
+    y_ascending = not maximize_y
+    
+    df = df.sort_values([x_col, y_col], ascending=[x_ascending, y_ascending])
+    
+    # Initialize Pareto frontier with the first point
+    pareto_frontier = [df.iloc[0]]
+    
+    # Iterate through remaining points
+    for i in range(1, len(df)):
+        current_point = df.iloc[i]
+        last_pareto = pareto_frontier[-1]
+        
+        # If current point has better y than the last Pareto optimal point,
+        # add it to the Pareto frontier
+        if (maximize_y and current_point[y_col] > last_pareto[y_col]) or \
+           (not maximize_y and current_point[y_col] < last_pareto[y_col]):
+            pareto_frontier.append(current_point)
+    
+    # Create a DataFrame from the Pareto frontier
+    pareto_df = pd.DataFrame(pareto_frontier)
+    
+    # Add a flag to the original DataFrame indicating Pareto optimal points
+    df['pareto_optimal'] = df.index.isin(pareto_df.index)
+    
+    return df
+
+def plot_pareto_frontier(df, x_col, y_col, title, x_label, y_label, filename, 
+                         minimize_x=True, maximize_y=True, model_col='model_name_short'):
+    """
+    Plot the Pareto frontier.
+    
+    Args:
+        df: DataFrame with metrics
+        x_col: Column name for x metric (e.g., latency, cost)
+        y_col: Column name for y metric (e.g., win_rate, accuracy)
+        title: Plot title
+        x_label: x-axis label
+        y_label: y-axis label
+        filename: Output file name
+        minimize_x: Whether to minimize the x metric (True for cost/latency)
+        maximize_y: Whether to maximize the y metric (True for win_rate/accuracy)
+        model_col: Column name for model/agent names
+    """
+
+    # Set a more attractive style
+    plt.style.use('seaborn-v0_8-whitegrid')
+    mpl.rcParams['font.family'] = 'sans-serif'
+    mpl.rcParams['font.sans-serif'] = ['Arial', 'Helvetica', 'DejaVu Sans']
+    mpl.rcParams['axes.labelsize'] = 12
+    mpl.rcParams['axes.titlesize'] = 14
+    mpl.rcParams['xtick.labelsize'] = 10
+    mpl.rcParams['ytick.labelsize'] = 10
+
+    # Identify Pareto optimal points
+    pareto_df = identify_pareto_optimal(df, x_col, y_col, minimize_x, maximize_y)
+    
+    # Create a custom colormap for the points
+    colors = ["#3498db", "#e74c3c"]  # Blue for non-optimal, Red for optimal
+    cmap = LinearSegmentedColormap.from_list("pareto_cmap", colors, N=2)
+    
+    fig, ax = plt.subplots(figsize=(12, 8), facecolor='white')
+    
+    # Add a subtle background gradient
+    ax.set_facecolor('#f8f9fa')
+    
+    # Plot non-optimal points first
+    non_optimal = pareto_df[~pareto_df['pareto_optimal']]
+    optimal = pareto_df[pareto_df['pareto_optimal']]
+    
+    # Plot non-optimal points
+    ax.scatter(
+        non_optimal[x_col], 
+        non_optimal[y_col], 
+        s=120,
+        color='#3498db',
+        alpha=0.7,
+        edgecolor='white',
+        linewidth=1,
+        label='Non-Optimal'
+    )
+    
+    # Plot optimal points
+    ax.scatter(
+        optimal[x_col], 
+        optimal[y_col], 
+        s=150,
+        color='#e74c3c',
+        alpha=0.9,
+        edgecolor='white',
+        linewidth=1.5,
+        marker='D',
+        label='Pareto Optimal'
+    )
+    
+    # Connect Pareto optimal points with a line
+    optimal_points = optimal.sort_values(x_col)
+    ax.plot(
+        optimal_points[x_col], 
+        optimal_points[y_col], 
+        color='#e74c3c', 
+        linestyle='--',
+        linewidth=2.5,
+        alpha=0.8
+    )
+    
+    # Add model/agent names as labels with better styling
+    for _, row in pareto_df.iterrows():
+        color = '#e74c3c' if row['pareto_optimal'] else '#3498db'
+        weight = 'bold' if row['pareto_optimal'] else 'normal'
+        ax.annotate(
+            row[model_col],
+            (row[x_col], row[y_col]),
+            xytext=(7, 7),
+            textcoords='offset points',
+            fontsize=10,
+            color=color,
+            weight=weight,
+            bbox=dict(
+                boxstyle="round,pad=0.3",
+                fc='white',
+                ec=color,
+                alpha=0.7
+            )
+        )
+    
+    # Add title and labels with better styling
+    ax.set_title(title, fontsize=16, pad=20, weight='bold')
+    ax.set_xlabel(x_label, fontsize=14, labelpad=10)
+    ax.set_ylabel(y_label, fontsize=14, labelpad=10)
+    
+    # Improve grid appearance
+    ax.grid(True, linestyle='--', alpha=0.3, color='gray')
+    
+    # Add a legend with better styling
+    legend = ax.legend(
+        loc='best',
+        frameon=True,
+        framealpha=0.95,
+        facecolor='white',
+        edgecolor='lightgray',
+        fontsize=12
+    )
+    
+    # Add a subtle border around the plot
+    for spine in ax.spines.values():
+        spine.set_visible(True)
+        spine.set_color('lightgray')
+        spine.set_linewidth(0.5)
+    
+    plt.tight_layout()
+    
+    # Save with higher quality
+    plt.savefig(f'visualizations/{filename}', dpi=300, bbox_inches='tight')
+    print(f"Saved file: visualizations/{filename}")
+    
+    return pareto_df
+
+def grid_pareto_frontier_by_benchmark(tasks, merged_df, x_col, y_col, x_label, y_label, 
+                                     num_cols, filename, minimize_x=True, maximize_y=True, 
+                                     model_col='model_name_short'):
+    """
+    Create Pareto frontier plots in a grid for each benchmark
+    
+    Args:
+        tasks: names of benchmarks to group by
+        merged_df: dataframe with data to plot
+        x_col: Column name for x metric (e.g., latency, cost)
+        y_col: Column name for y metric (e.g., win_rate, accuracy)
+        x_label: x-axis label
+        y_label: y-axis label
+        num_cols: number of columns in grid
+        filename: final plot name
+        minimize_x: Whether to minimize the x metric (True for cost/latency)
+        maximize_y: Whether to maximize the y metric (True for win_rate/accuracy)
+        model_col: Column name for model/agent names
+    """
+    # Calculate the number of tasks
+    n_tasks = len(tasks)
+    
+    # If only one task or no tasks, create a single plot
+    if n_tasks <= 1:
+        if n_tasks == 1:
+            task = tasks[0]
+            df_t = merged_df[merged_df['benchmark_name'] == task]
+            title = f"Pareto Frontier: {task} - {y_label} vs. {x_label}"
+        else:
+            # If no tasks, use all data
+            df_t = merged_df
+            title = f"Pareto Frontier: All Benchmarks - {y_label} vs. {x_label}"
+        
+        # Use the existing plot_pareto_frontier function for a single plot
+        pareto_df = plot_pareto_frontier(
+            df_t, x_col, y_col, title, x_label, y_label, 
+            filename, minimize_x, maximize_y, model_col
+        )
+        
+        return pareto_df
+    
+    # Multiple tasks - create a grid of subplots
+    n_cols = min(num_cols, n_tasks)  # Maximum number of columns
+    n_rows = (n_tasks + n_cols - 1) // n_cols  
+    
+    # Create a single figure with subplots
+    fig, axes = plt.subplots(n_rows, n_cols, figsize=(7 * n_cols, 6 * n_rows), facecolor='white')
+    
+    # Add a title to the entire figure
+    fig.suptitle(f"Pareto Frontiers: {y_label} vs. {x_label} by Benchmark", 
+                 fontsize=18, weight='bold', y=0.98)
+    
+    # Flatten the axes array for easy iteration
+    axes = axes.flatten()
+    
+    all_pareto_dfs = []
+    
+    for idx, task in enumerate(tasks):
+        ax = axes[idx]
+        df_t = merged_df[merged_df['benchmark_name'] == task]
+        benchmark_name = task
+        
+        # Skip if no data for this benchmark
+        if len(df_t) == 0:
+            ax.set_visible(False)
+            continue
+        
+        # Set background color
+        ax.set_facecolor('#f8f9fa')
+        
+        # Identify Pareto optimal points for this benchmark
+        pareto_df = identify_pareto_optimal(df_t, x_col, y_col, minimize_x, maximize_y)
+        all_pareto_dfs.append(pareto_df)
+        
+        # Plot non-optimal points first
+        non_optimal = pareto_df[~pareto_df['pareto_optimal']]
+        optimal = pareto_df[pareto_df['pareto_optimal']]
+        
+        # Plot non-optimal points
+        ax.scatter(
+            non_optimal[x_col], 
+            non_optimal[y_col], 
+            s=100,
+            color='#3498db',
+            alpha=0.7,
+            edgecolor='white',
+            linewidth=1,
+            label='Non-Optimal'
+        )
+        
+        # Plot optimal points
+        ax.scatter(
+            optimal[x_col], 
+            optimal[y_col], 
+            s=120,
+            color='#e74c3c',
+            alpha=0.9,
+            edgecolor='white',
+            linewidth=1.5,
+            marker='D',
+            label='Pareto Optimal'
+        )
+        
+        # Connect Pareto optimal points with a line
+        optimal_points = optimal.sort_values(x_col)
+        ax.plot(
+            optimal_points[x_col], 
+            optimal_points[y_col], 
+            color='#e74c3c', 
+            linestyle='--',
+            linewidth=2,
+            alpha=0.8
+        )
+        
+        # Add model/agent names as labels with better styling
+        for _, row in pareto_df.iterrows():
+            color = '#e74c3c' if row['pareto_optimal'] else '#3498db'
+            weight = 'bold' if row['pareto_optimal'] else 'normal'
+            fontsize = 9 if row['pareto_optimal'] else 8
+            
+            # Only add box around Pareto optimal points to reduce clutter
+            if row['pareto_optimal']:
+                bbox_props = dict(
+                    boxstyle="round,pad=0.3",
+                    fc='white',
+                    ec=color,
+                    alpha=0.7
+                )
+            else:
+                bbox_props = None
+                
+            ax.annotate(
+                row[model_col],
+                (row[x_col], row[y_col]),
+                xytext=(7, 7),
+                textcoords='offset points',
+                fontsize=fontsize,
+                color=color,
+                weight=weight,
+                bbox=bbox_props
+            )
+        
+        # Add title and labels with better styling
+        ax.set_title(benchmark_name, fontsize=14, pad=10, weight='bold')
+        ax.set_xlabel(x_label, fontsize=12, labelpad=8)
+        ax.set_ylabel(y_label, fontsize=12, labelpad=8)
+        
+        # Improve grid appearance
+        ax.grid(True, linestyle='--', alpha=0.3, color='gray')
+        
+        # Add a subtle border around the plot
+        for spine in ax.spines.values():
+            spine.set_visible(True)
+            spine.set_color('lightgray')
+            spine.set_linewidth(0.5)
+    
+    # Add a single legend for the entire figure
+    handles, labels = axes[0].get_legend_handles_labels()
+    if handles:
+        legend = fig.legend(
+            handles, 
+            labels,
+            loc='lower center',
+            bbox_to_anchor=(0.5, 0.01),
+            ncol=2,
+            frameon=True,
+            framealpha=0.95,
+            facecolor='white',
+            edgecolor='lightgray',
+            fontsize=12
+        )
+    
+    # Hide any unused subplots
+    for idx in range(n_tasks, len(axes)):
+        axes[idx].set_visible(False)
+    
+    plt.tight_layout(rect=[0, 0.03, 1, 0.95])  # Adjust layout to make room for annotations and title
+    plt.savefig(f'visualizations/{filename}', dpi=300, bbox_inches='tight')
+    print(f"Saved file: visualizations/{filename}")
+    
+    # Combine all pareto dataframes
+    if all_pareto_dfs:
+        combined_pareto_df = pd.concat(all_pareto_dfs, ignore_index=True)
+        return combined_pareto_df
+    else:
+        return None
+
 def grid_scatter_by_benchmark(tasks, merged_df, x_axis, y_axis, x_label, y_label, num_cols, filename):
     """
     Create scatter plots in a grid comparing metrics for each benchmark
@@ -153,58 +519,96 @@ def grid_scatter_by_benchmark(tasks, merged_df, x_axis, y_axis, x_label, y_label
 
     # Calculate the grid dimensions based on the number of tasks
     n_tasks = len(tasks)
-    n_cols = min(num_cols, n_tasks)  # Maximum 3 columns
-    n_rows = (n_tasks + n_cols - 1) // n_cols  
     
-    # Create a single figure with subplots
-    fig, axes = plt.subplots(n_rows, n_cols, figsize=(35, 5 * n_rows))
-    
-    if n_tasks == 1:
-        axes = np.array([axes])
-    
-    # Flatten the axes array for easy iteration
-    axes = axes.flatten()
-
-    for idx, task in enumerate(tasks):
-        ax = axes[idx]
-        df_t = merged_df[merged_df['benchmark_name'] == task]
-        benchmark_name = task 
-    
-        # Create scatter plot
-        scatter = ax.scatter(df_t[x_axis], df_t[y_axis], alpha=0.5)
-    
-        # Annotate each point with the model name
-        for i, row in df_t.iterrows():
-            ax.annotate(row['model_name_short'], 
-                        (row[x_axis], row[y_axis]),
-                        xytext=(5, 5),
-                        textcoords='offset points',
-                        fontsize=8)
-    
-        ax.set_title(benchmark_name)
+    # If only one task, create a single plot
+    if n_tasks <= 1:
+        fig, ax = plt.subplots(figsize=(12, 8))
+        
+        if n_tasks == 1:
+            task = tasks[0]
+            df_t = merged_df[merged_df['benchmark_name'] == task]
+            benchmark_name = task
+            
+            # Create scatter plot
+            scatter = ax.scatter(df_t[x_axis], df_t[y_axis], alpha=0.5)
+            
+            # Annotate each point with the model name
+            for i, row in df_t.iterrows():
+                ax.annotate(row['model_name_short'], 
+                            (row[x_axis], row[y_axis]),
+                            xytext=(5, 5),
+                            textcoords='offset points',
+                            fontsize=10)
+            
+            ax.set_title(benchmark_name)
+        else:
+            # If no tasks, use all data
+            scatter = ax.scatter(merged_df[x_axis], merged_df[y_axis], alpha=0.5)
+            
+            # Annotate each point with the model name
+            for i, row in merged_df.iterrows():
+                ax.annotate(row['model_name_short'], 
+                            (row[x_axis], row[y_axis]),
+                            xytext=(5, 5),
+                            textcoords='offset points',
+                            fontsize=10)
+            
+            ax.set_title("All Benchmarks")
+        
         ax.set_xlabel(x_label)
         ax.set_ylabel(y_label)
-    
-    # Hide any unused subplots
-    for idx in range(n_tasks, len(axes)):
-        axes[idx].set_visible(False)
-    
+        
+    else:
+        # Multiple tasks - create a grid of subplots
+        n_cols = min(num_cols, n_tasks)  # Maximum number of columns
+        n_rows = (n_tasks + n_cols - 1) // n_cols  
+        
+        # Create a single figure with subplots
+        fig, axes = plt.subplots(n_rows, n_cols, figsize=(35, 5 * n_rows))
+        
+        # Flatten the axes array for easy iteration
+        axes = axes.flatten()
+
+        for idx, task in enumerate(tasks):
+            ax = axes[idx]
+            df_t = merged_df[merged_df['benchmark_name'] == task]
+            benchmark_name = task 
+        
+            # Create scatter plot
+            scatter = ax.scatter(df_t[x_axis], df_t[y_axis], alpha=0.5)
+        
+            # Annotate each point with the model name
+            for i, row in df_t.iterrows():
+                ax.annotate(row['model_name_short'], 
+                            (row[x_axis], row[y_axis]),
+                            xytext=(5, 5),
+                            textcoords='offset points',
+                            fontsize=8)
+        
+            ax.set_title(benchmark_name)
+            ax.set_xlabel(x_label)
+            ax.set_ylabel(y_label)
+        
+        # Hide any unused subplots
+        for idx in range(n_tasks, len(axes)):
+            axes[idx].set_visible(False)
     plt.tight_layout()  # Adjust layout to make room for annotations
     plt.savefig(f'visualizations/{filename}', dpi=300)
+    print(f"Saved file: visualizations/{filename}")
 
 def model_cost_win_rate():
     model_costs = pd.read_csv('model_total_usage.csv')
     model_winrates = pd.read_csv('benchmark_win_rates.csv')
     df_m = model_winrates.merge(model_costs, on=['model_name_short', 'benchmark_name'], how='left')
     tasks = df_m['benchmark_name'].unique()
-    grid_scatter_by_benchmark(tasks, df_m, 'total_cost', 'win_rate_mean', 'Total Cost', 'Mean Win Rate', 4, 'cost_win_rate.png')
+    grid_pareto_frontier_by_benchmark(tasks, df_m, 'total_cost', 'win_rate_mean', 'Total Cost', 'Mean Win Rate', 4, 'cost_win_rate.png')
 
 def cost_accuracy():
     model_costs = pd.read_csv('model_total_usage.csv')
     model_accuracy = pd.read_csv('model_accuracy.csv')
     df_m = model_accuracy.merge(model_costs, on=['model_name_short', 'benchmark_name'], how='left')
     tasks = df_m['benchmark_name'].unique()
-    grid_scatter_by_benchmark(tasks, df_m, 'total_cost', 'accuracy', 'Total Cost', 'Accuracy', 4, 'model_cost_accuracy.png')
+    grid_pareto_frontier_by_benchmark(tasks, df_m, 'total_cost', 'accuracy', 'Total Cost', 'Accuracy', 4, 'model_cost_accuracy.png')
 
 def mean_cost_accuracy():
     mean_model_costs = pd.read_csv('data/model_mean_cost.csv')
@@ -219,13 +623,21 @@ def mean_cost_accuracy():
     plt.ylabel('Mean Accuracy')
     plt.savefig(f'visualizations/model_mean_cost_accuracy.png')
 
+def cost_latency():
+    model_costs = pd.read_csv('model_total_usage.csv')
+    model_accuracy = pd.read_csv('model_latency.csv')
+    df_m = model_accuracy.merge(model_costs, on=['model_name_short', 'benchmark_name'], how='left')
+    tasks = df_m['benchmark_name'].unique()
+    grid_pareto_frontier_by_benchmark(tasks, df_m, 'total_cost', 'latency', 'Total Cost', 'Latency', 4, 'model_cost_latency.png')
+
 # model_win_rate_bar(model_win_rates)
 # benchmark_win_rate_bar_full(grouped_df)
 # benchmark_win_rate_bar(dfs_dict)
-# model_cost_win_rate()
-# cost_accuracy()
+model_cost_win_rate()
+cost_accuracy()
 # mean_cost_accuracy()
 # model_accuracy_full()
 # model_accuracy_mean()
+# cost_latency()
 
 
