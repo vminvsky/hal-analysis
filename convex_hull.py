@@ -1,97 +1,31 @@
 import pandas as pd
-import seaborn as sns
-import matplotlib.pyplot as plt
-from tabulate import tabulate
-import numpy as np
-from matplotlib.colors import LinearSegmentedColormap
 import matplotlib as mpl
+import matplotlib.pyplot as plt
+from matplotlib.colors import LinearSegmentedColormap
+import numpy as np
+from scipy.spatial import ConvexHull
+import os
+import csv
 
-benchmark_win_rates = pd.read_csv('benchmark_win_rates.csv')
-model_win_rates = pd.read_csv('model_win_rates.csv')
-grouped_df = benchmark_win_rates.groupby('benchmark_name')
-dfs_dict = {category: group for category, group in grouped_df}
-sns.set_theme(style="whitegrid", palette="muted") 
-
-def model_accuracy_full():
-    model_accuracy = pd.read_csv('model_accuracy.csv')
-    grouped_df = model_accuracy.groupby('benchmark_name')
-    dfs_dict = {category: group for category, group in grouped_df}
-    sorted_groups = [group.sort_values(by='accuracy', ascending=False) for _, group in grouped_df]
-    num_groups = len(sorted_groups)
-    cols = 5  
-    rows = (num_groups // cols) + (num_groups % cols > 0)
-    fig, axes = plt.subplots(rows, cols, figsize=(20, 10))
-    axes = axes.flatten()
-    for i, (group) in enumerate(sorted_groups):
-        category = group['benchmark_name'].iloc[0]
-        ax = axes[i]
-        ax = sns.barplot(x='model_name_short', y='accuracy', data=group, hue='model_name_short', palette='magma', ax=ax)
-        ax.set_title(f'{category}', fontsize=14)
-        ax.set_xlabel('Model')
-        ax.set_ylabel('Accuracy')
-        ax.tick_params(axis='x', rotation=90, labelsize=7)
-        for p in ax.patches:
-            ax.annotate(f'{p.get_height():.2f}', (p.get_x() + p.get_width() / 2., p.get_height()),
-                    ha='center', va='center', fontsize=5, color='black', xytext=(0, 5), textcoords='offset points')
-    for j in range(i + 1, len(axes)):
-        axes[j].axis('off')
-    plt.tight_layout()
-    plt.savefig('visualizations/new_plots/model_accuracy.png', dpi=300)
-
-def scaffold_accuracy():
-    scaffold_accuracy = pd.read_csv('benchmark_accuracy.csv')
-    grouped_df = scaffold_accuracy.groupby('benchmark_name')
-    dfs_dict = {category: group for category, group in grouped_df}
-    sorted_groups = [group.sort_values(by='accuracy', ascending=False) for _, group in grouped_df]
-    num_groups = len(sorted_groups)
-    cols = 5  
-    rows = (num_groups // cols) + (num_groups % cols > 0)
-    fig, axes = plt.subplots(rows, cols, figsize=(20, 10))
-    axes = axes.flatten()
-    for i, (group) in enumerate(sorted_groups):
-        category = group['benchmark_name'].iloc[0]
-        ax = axes[i]
-        ax = sns.barplot(x='agent_name_short', y='accuracy', data=group, hue='agent_name_short', palette='magma', ax=ax)
-        ax.set_title(f'{category}', fontsize=14)
-        ax.set_xlabel('Agent Scaffold')
-        ax.set_ylabel('Accuracy')
-        ax.tick_params(axis='x', rotation=90, labelsize=7)
-        for p in ax.patches:
-            ax.annotate(f'{p.get_height():.2f}', (p.get_x() + p.get_width() / 2., p.get_height()),
-                    ha='center', va='center', fontsize=5, color='black', xytext=(0, 5), textcoords='offset points')
-    for j in range(i + 1, len(axes)):
-        axes[j].axis('off')
-    plt.tight_layout()
-    plt.savefig('visualizations/new_plots/scaffold_accuracy.png', dpi=300)
-
-def model_win_rate_bar(model_win_rates):
+def calculate_auc(x, y):
     """
-    Plot the win rates for each model.
+    Calculate the area under the curve (AUC) using the trapezoidal rule.
     
     Args:
-        model_win_rates: DataFrame with win rates for each model
+        x: x-coordinates
+        y: y-coordinates
+        
+    Returns:
+        Area under the curve
     """
-    plt.figure(figsize=(12, 6))
-    # Sort by win rate
-    sorted_df = model_win_rates.sort_values('overall_win_rate', ascending=False)
-    # Create bar plot
-    ax = sns.barplot(x='model_name_short', y='overall_win_rate', data=sorted_df, hue='model_name_short', palette='magma')
+    # Sort points by x
+    indices = np.argsort(x)
+    x_sorted = np.array(x)[indices]
+    y_sorted = np.array(y)[indices]
     
-    plt.title('Model Win Rates')
-    plt.xlabel('Model')
-    plt.ylabel('Win Rate')
-    plt.xticks(rotation=45, ha='right')
-    plt.tight_layout()
-
-    # Add win rate values to bar
-    for p in ax.patches:
-            ax.annotate(f'{p.get_height():.2f}', (p.get_x() + p.get_width() / 2., p.get_height()),
-                    ha='center', va='center', fontsize=12, color='black', xytext=(0, 5), textcoords='offset points')
-
-    # Add horizontal gridlines
-    plt.grid(True, axis='y', linestyle='--', alpha=0.7)
-
-    plt.savefig(f'visualizations/new_plots/model_win_rates.png')
+    # Calculate AUC using trapezoidal rule
+    auc = np.trapezoid(y_sorted, x_sorted)
+    return auc
 
 def identify_pareto_optimal(df, x_col, y_col, minimize_x=True, maximize_y=True):
     """
@@ -155,6 +89,9 @@ def plot_pareto_frontier(df, x_col, y_col, title, x_label, y_label, filename,
         maximize_y: Whether to maximize the y metric (True for win_rate/accuracy)
         model_col: Column name for model/agent names
     """
+    # Ensure visualizations directory exists
+    os.makedirs('visualizations', exist_ok=True)
+    os.makedirs('visualizations/auc_data', exist_ok=True)
 
     # Set a more attractive style
     plt.style.use('seaborn-v0_8-whitegrid')
@@ -217,6 +154,33 @@ def plot_pareto_frontier(df, x_col, y_col, title, x_label, y_label, filename,
         alpha=0.8
     )
     
+    # Plot convex hull if there are enough points
+    if len(optimal_points) >= 3:
+        # Get coordinates for convex hull
+        points = np.column_stack([optimal_points[x_col].values, optimal_points[y_col].values])
+        hull = ConvexHull(points)
+        
+        # Get hull vertices in order
+        hull_vertices = []
+        for vertex in hull.vertices:
+            hull_vertices.append(points[vertex])
+        hull_vertices.append(hull_vertices[0])  # Close the loop
+        hull_vertices = np.array(hull_vertices)
+        
+        # Plot the convex hull
+        ax.plot(
+            hull_vertices[:, 0],
+            hull_vertices[:, 1],
+            color='#2ecc71',  # Green color for convex hull
+            linestyle='-',
+            linewidth=2,
+            alpha=0.7,
+            label='Convex Hull'
+        )
+    
+    # Calculate AUC
+    auc = calculate_auc(optimal_points[x_col].values, optimal_points[y_col].values)
+    
     # Add model/agent names as labels with better styling
     for _, row in pareto_df.iterrows():
         color = '#e74c3c' if row['pareto_optimal'] else '#3498db'
@@ -261,12 +225,38 @@ def plot_pareto_frontier(df, x_col, y_col, title, x_label, y_label, filename,
         spine.set_color('lightgray')
         spine.set_linewidth(0.5)
     
+    # Add AUC to the plot
+    ax.text(
+        0.05, 0.05, 
+        f'AUC: {auc:.4f}', 
+        transform=ax.transAxes,
+        fontsize=12,
+        bbox=dict(
+            boxstyle="round,pad=0.3",
+            fc='white',
+            ec='gray',
+            alpha=0.8
+        )
+    )
+    
     plt.tight_layout()
     
     # Save with higher quality
     plt.savefig(f'visualizations/{filename}', dpi=300, bbox_inches='tight')
     print(f"Saved file: visualizations/{filename}")
     
+    # Save AUC to CSV
+    csv_filename = f'visualizations/auc_data/{filename.replace(".png", "")}_auc.csv'
+    
+    with open(csv_filename, 'w', newline='') as csvfile:
+        writer = csv.writer(csvfile)
+        writer.writerow(['Benchmark', 'AUC'])
+        writer.writerow([title, auc])
+    
+    print(f"Saved AUC data: {csv_filename}")
+    
+    # Return the Pareto dataframe with AUC
+    pareto_df['auc'] = auc
     return pareto_df
 
 def grid_pareto_frontier_by_benchmark(tasks, merged_df, x_col, y_col, x_label, y_label, 
@@ -288,6 +278,10 @@ def grid_pareto_frontier_by_benchmark(tasks, merged_df, x_col, y_col, x_label, y
         maximize_y: Whether to maximize the y metric (True for win_rate/accuracy)
         model_col: Column name for model/agent names
     """
+    # Ensure directories exist
+    os.makedirs('visualizations/new_plots', exist_ok=True)
+    os.makedirs('visualizations/auc_data', exist_ok=True)
+    
     # Calculate the number of tasks
     n_tasks = len(tasks)
     
@@ -325,6 +319,7 @@ def grid_pareto_frontier_by_benchmark(tasks, merged_df, x_col, y_col, x_label, y
     axes = axes.flatten()
     
     all_pareto_dfs = []
+    auc_data = []  # Store benchmark names and AUC values
     
     for idx, task in enumerate(tasks):
         ax = axes[idx]
@@ -341,7 +336,6 @@ def grid_pareto_frontier_by_benchmark(tasks, merged_df, x_col, y_col, x_label, y
         
         # Identify Pareto optimal points for this benchmark
         pareto_df = identify_pareto_optimal(df_t, x_col, y_col, minimize_x, maximize_y)
-        all_pareto_dfs.append(pareto_df)
         
         # Plot non-optimal points first
         non_optimal = pareto_df[~pareto_df['pareto_optimal']]
@@ -381,6 +375,48 @@ def grid_pareto_frontier_by_benchmark(tasks, merged_df, x_col, y_col, x_label, y
             linestyle='--',
             linewidth=2,
             alpha=0.8
+        )
+        
+        # Plot convex hull if there are enough points
+        if len(optimal_points) >= 3:
+            # Get coordinates for convex hull
+            points = np.column_stack([optimal_points[x_col].values, optimal_points[y_col].values])
+            hull = ConvexHull(points)
+            
+            # Get hull vertices in order
+            hull_vertices = []
+            for vertex in hull.vertices:
+                hull_vertices.append(points[vertex])
+            hull_vertices.append(hull_vertices[0])  # Close the loop
+            hull_vertices = np.array(hull_vertices)
+            
+            # Plot the convex hull
+            ax.plot(
+                hull_vertices[:, 0],
+                hull_vertices[:, 1],
+                color='#2ecc71',  # Green color for convex hull
+                linestyle='-',
+                linewidth=1.5,
+                alpha=0.7,
+                label='Convex Hull'
+            )
+        
+        # Calculate AUC
+        auc = calculate_auc(optimal_points[x_col].values, optimal_points[y_col].values)
+        auc_data.append((benchmark_name, auc))
+        
+        # Add AUC to the plot
+        ax.text(
+            0.05, 0.05, 
+            f'AUC: {auc:.4f}', 
+            transform=ax.transAxes,
+            fontsize=10,
+            bbox=dict(
+                boxstyle="round,pad=0.3",
+                fc='white',
+                ec='gray',
+                alpha=0.8
+            )
         )
         
         # Add model/agent names as labels with better styling
@@ -424,6 +460,10 @@ def grid_pareto_frontier_by_benchmark(tasks, merged_df, x_col, y_col, x_label, y
             spine.set_visible(True)
             spine.set_color('lightgray')
             spine.set_linewidth(0.5)
+        
+        # Store the pareto dataframe with AUC
+        pareto_df['auc'] = auc
+        all_pareto_dfs.append(pareto_df)
     
     # Add a single legend for the entire figure
     handles, labels = axes[0].get_legend_handles_labels()
@@ -433,7 +473,7 @@ def grid_pareto_frontier_by_benchmark(tasks, merged_df, x_col, y_col, x_label, y
             labels,
             loc='lower center',
             bbox_to_anchor=(0.5, 0.01),
-            ncol=2,
+            ncol=3,  # Include Convex Hull in legend
             frameon=True,
             framealpha=0.95,
             facecolor='white',
@@ -446,8 +486,23 @@ def grid_pareto_frontier_by_benchmark(tasks, merged_df, x_col, y_col, x_label, y
         axes[idx].set_visible(False)
     
     plt.tight_layout(rect=[0, 0.03, 1, 0.95])  # Adjust layout to make room for annotations and title
-    plt.savefig(f'visualizations/new_plots/{filename}', dpi=300, bbox_inches='tight')
-    print(f"Saved file: visualizations/new_plots/{filename}")
+    plt.savefig(f'visualizations/new_plots/convex_{filename}', dpi=300, bbox_inches='tight')
+    print(f"Saved file: visualizations/new_plots/convex_{filename}")
+    
+    # Save AUCs to CSV
+    if auc_data:
+        csv_filename = f'visualizations/auc_data/{filename.replace(".png", "")}_auc.csv'
+        
+        with open(csv_filename, 'w', newline='') as csvfile:
+            writer = csv.writer(csvfile)
+            writer.writerow(['Benchmark', 'AUC'])
+            for benchmark, auc in auc_data:
+                writer.writerow([benchmark, auc])
+        
+        print(f"Saved AUC data: {csv_filename}")
+        
+        # Create AUC visualization
+        create_auc_visualization(auc_data, filename.replace(".png", ""))
     
     # Combine all pareto dataframes
     if all_pareto_dfs:
@@ -456,106 +511,62 @@ def grid_pareto_frontier_by_benchmark(tasks, merged_df, x_col, y_col, x_label, y
     else:
         return None
 
-def grid_scatter_by_benchmark(tasks, merged_df, x_axis, y_axis, x_label, y_label, num_cols, filename):
+def create_auc_visualization(auc_data, base_filename):
     """
-    Create scatter plots in a grid comparing metrics for each benchmark
+    Create a bar chart visualization of AUCs across benchmarks.
     
     Args:
-        tasks: names of benchmarks to group by
-        merged_df: dataframe with data to plot
-        x_axis: metric 1 being compared
-        y_axis: metric 2 being compared
-        x_label: x-axis label
-        y_label: y-axis label
-        num_cols: number of columns in grid
-        filename: final plot name
+        auc_data: List of tuples (benchmark_name, auc_value)
+        base_filename: Base filename for saving the visualization
     """
-
-    # Calculate the grid dimensions based on the number of tasks
-    n_tasks = len(tasks)
+    # Extract benchmark names and AUC values
+    benchmarks = [item[0] for item in auc_data]
+    auc_values = [item[1] for item in auc_data]
     
-    # If only one task, create a single plot
-    if n_tasks <= 1:
-        fig, ax = plt.subplots(figsize=(12, 8))
-        
-        if n_tasks == 1:
-            task = tasks[0]
-            df_t = merged_df[merged_df['benchmark_name'] == task]
-            benchmark_name = task
-            
-            # Create scatter plot
-            scatter = ax.scatter(df_t[x_axis], df_t[y_axis], alpha=0.5)
-            
-            # Annotate each point with the model name
-            for i, row in df_t.iterrows():
-                ax.annotate(row['model_name_short'], 
-                            (row[x_axis], row[y_axis]),
-                            xytext=(5, 5),
-                            textcoords='offset points',
-                            fontsize=10)
-            
-            ax.set_title(benchmark_name)
-        else:
-            # If no tasks, use all data
-            scatter = ax.scatter(merged_df[x_axis], merged_df[y_axis], alpha=0.5)
-            
-            # Annotate each point with the model name
-            for i, row in merged_df.iterrows():
-                ax.annotate(row['model_name_short'], 
-                            (row[x_axis], row[y_axis]),
-                            xytext=(5, 5),
-                            textcoords='offset points',
-                            fontsize=10)
-            
-            ax.set_title("All Benchmarks")
-        
-        ax.set_xlabel(x_label)
-        ax.set_ylabel(y_label)
-        
-    else:
-        # Multiple tasks - create a grid of subplots
-        n_cols = min(num_cols, n_tasks)  # Maximum number of columns
-        n_rows = (n_tasks + n_cols - 1) // n_cols  
-        
-        # Create a single figure with subplots
-        fig, axes = plt.subplots(n_rows, n_cols, figsize=(35, 5 * n_rows))
-        
-        # Flatten the axes array for easy iteration
-        axes = axes.flatten()
-
-        for idx, task in enumerate(tasks):
-            ax = axes[idx]
-            df_t = merged_df[merged_df['benchmark_name'] == task]
-            benchmark_name = task 
-        
-            # Create scatter plot
-            scatter = ax.scatter(df_t[x_axis], df_t[y_axis], alpha=0.5)
-        
-            # Annotate each point with the model name
-            for i, row in df_t.iterrows():
-                ax.annotate(row['model_name_short'], 
-                            (row[x_axis], row[y_axis]),
-                            xytext=(5, 5),
-                            textcoords='offset points',
-                            fontsize=8)
-        
-            ax.set_title(benchmark_name)
-            ax.set_xlabel(x_label)
-            ax.set_ylabel(y_label)
-        
-        # Hide any unused subplots
-        for idx in range(n_tasks, len(axes)):
-            axes[idx].set_visible(False)
-    plt.tight_layout()  # Adjust layout to make room for annotations
-    plt.savefig(f'visualizations/{filename}', dpi=300)
-    print(f"Saved file: visualizations/{filename}")
-
-def model_cost_win_rate():
-    model_costs = pd.read_csv('model_total_usage.csv')
-    model_winrates = pd.read_csv('benchmark_win_rates.csv')
-    df_m = model_winrates.merge(model_costs, on=['model_name_short', 'benchmark_name'], how='left')
-    tasks = df_m['benchmark_name'].unique()
-    grid_pareto_frontier_by_benchmark(tasks, df_m, 'total_cost', 'win_rate_mean', 'Total Cost', 'Mean Win Rate', 4, 'cost_win_rate.png')
+    if not benchmarks:
+        print("No AUC data available for visualization")
+        return
+    
+    # Create bar chart
+    plt.figure(figsize=(12, 8), facecolor='white')
+    
+    # Set a more attractive style
+    plt.style.use('seaborn-v0_8-whitegrid')
+    
+    # Create bars with gradient color
+    bars = plt.bar(benchmarks, auc_values, color='#3498db', alpha=0.8, edgecolor='white', linewidth=1.5)
+    
+    # Add value labels on top of bars
+    for bar in bars:
+        height = bar.get_height()
+        plt.text(
+            bar.get_x() + bar.get_width()/2.,
+            height + 0.01 * max(auc_values),
+            f'{height:.4f}',
+            ha='center', 
+            va='bottom',
+            fontsize=10,
+            fontweight='bold'
+        )
+    
+    # Add title and labels
+    plt.title('Area Under Curve (AUC) by Benchmark', fontsize=16, pad=20, weight='bold')
+    plt.xlabel('Benchmark', fontsize=14, labelpad=10)
+    plt.ylabel('AUC', fontsize=14, labelpad=10)
+    
+    # Improve grid appearance
+    plt.grid(True, linestyle='--', alpha=0.3, color='gray', axis='y')
+    
+    # Rotate x-axis labels if there are many benchmarks
+    if len(benchmarks) > 5:
+        plt.xticks(rotation=45, ha='right')
+    
+    plt.tight_layout()
+    
+    # Save visualization
+    os.makedirs('visualizations/auc_visualizations', exist_ok=True)
+    plt.savefig(f'visualizations/auc_visualizations/{base_filename}_auc_viz.png', dpi=300, bbox_inches='tight')
+    print(f"Saved AUC visualization: visualizations/auc_visualizations/{base_filename}_auc_viz.png")
 
 def cost_accuracy():
     model_costs = pd.read_csv('model_total_usage.csv')
@@ -564,22 +575,4 @@ def cost_accuracy():
     tasks = df_m['benchmark_name'].unique()
     grid_pareto_frontier_by_benchmark(tasks, df_m, 'total_cost', 'accuracy', 'Total Cost', 'Accuracy', 4, 'model_cost_accuracy.png')
 
-def latency_accuracy():
-    model_latency = pd.read_csv('model_latency.csv')
-    model_accuracy = pd.read_csv('model_accuracy.csv')
-    df_m = model_accuracy.merge(model_latency, on=['model_name_short', 'benchmark_name'], how='left')
-    tasks = df_m['benchmark_name'].unique()
-    grid_pareto_frontier_by_benchmark(tasks, df_m, 'latency', 'accuracy', 'Average Latency', 'Accuracy', 4, 'model_latency_accuracy.png')
-
-# model_win_rate_bar(model_win_rates)
-# benchmark_win_rate_bar_full(grouped_df)
-# benchmark_win_rate_bar(dfs_dict)
-# model_cost_win_rate()
 cost_accuracy()
-# mean_cost_accuracy()
-# model_accuracy_full()
-# model_accuracy_mean()
-# scaffold_accuracy()
-# latency_accuracy()
-
-

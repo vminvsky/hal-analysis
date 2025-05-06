@@ -4,9 +4,9 @@ from src.dataloaders.abstract import DataCombiner
 
 def main():
     # Load data for all tasks you want to analyze
-    tasks = ['usaco']
+    # tasks = ['usaco']
              # , 'usaco', 'test','taubench', 'swebench', 'react', 'planexec', 'ipfuncall', 'inspect', 'gaia', 'fullcode', 'cybench', 'agentharm_', 'agentharm_benign']  # Add your task names here
-    # tasks = ['taubench_airline', 'colbench_backend_programming', 'colbench_frontend_design', 'gaia', 'scicode', 'scienceagentbench', 'swebench_verified_mini', 'usaco']
+    tasks = ['taubench_airline', 'colbench_backend_programming', 'colbench_frontend_design', 'gaia', 'scicode', 'scienceagentbench', 'swebench_verified_mini', 'usaco']
     # tasks = ['colbench_backend_programming']
     cols = ['model_name_short', 'accuracy', 'benchmark_name', 'agent_name', 'agent_name_short']
     all_data = []
@@ -15,7 +15,6 @@ def main():
         try:
             combiner = DataCombiner(task)
             df = combiner.load()
-            print("load combined")
             df = df[cols]
             all_data = pd.concat([all_data, df])
         except Exception as e:
@@ -32,15 +31,15 @@ def main():
     model_accuracy.to_csv('model_accuracy.csv')
     benchmark_accuracy.to_csv('benchmark_accuracy.csv')
 
-    # mean accuracy of models across benchmarks
-    model_mean_accuracy = model_accuracy.groupby('model_name_short')['accuracy'].mean().reset_index()
-    model_mean_accuracy = model_mean_accuracy.rename(columns={'accuracy':'mean_accuracy'})
-    model_mean_accuracy.to_csv('data/model_mean_accuracy.csv')
+    # # mean accuracy of models across benchmarks
+    # model_mean_accuracy = model_accuracy.groupby('model_name_short')['accuracy'].mean().reset_index()
+    # model_mean_accuracy = model_mean_accuracy.rename(columns={'accuracy':'mean_accuracy'})
+    # model_mean_accuracy.to_csv('data/model_mean_accuracy.csv')
 
-    # mean accuracy of agents across benchmarks
-    agent_mean_accuracy = benchmark_accuracy.groupby('agent_name_short')['accuracy'].mean().reset_index()
-    agent_mean_accuracy = agent_mean_accuracy.rename(columns={'accuracy':'mean_accuracy'})
-    agent_mean_accuracy.to_csv('data/agent_mean_accuracy.csv')
+    # # mean accuracy of agents across benchmarks
+    # agent_mean_accuracy = benchmark_accuracy.groupby('agent_name_short')['accuracy'].mean().reset_index()
+    # agent_mean_accuracy = agent_mean_accuracy.rename(columns={'accuracy':'mean_accuracy'})
+    # agent_mean_accuracy.to_csv('data/agent_mean_accuracy.csv')
 
 if __name__ == "__main__":
     main()

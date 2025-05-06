@@ -18,9 +18,7 @@ def z_score(lst):
 
 def main():
     # Load data for all tasks you want to analyze
-    # tasks = ['taubench_retail', 'usaco', 'test','taubench', 'swebench', 'react', 'planexec', 'ipfuncall', 'inspect', 'gaia', 'fullcode', 'cybench', 'agentharm_', 'agentharm_benign']  # Add your task names here
-    # tasks = ['gaia', 'cybench', 'taubench', 'taubench_retail' , 'agentharm_']
-    tasks = ['taubench_airline']
+    tasks = ['taubench_airline', 'colbench_backend_programming', 'colbench_frontend_design', 'gaia', 'scicode', 'scienceagentbench', 'swebench_verified_mini', 'usaco']
     cols = ['model_name_short', 'latencies_per_task', 'benchmark_name', 'agent_name', 'agent_name_short']
     all_data = []
     all_data = pd.DataFrame()
@@ -28,7 +26,7 @@ def main():
         try:
             combiner = DataCombiner(task)
             df = combiner.load()
-            df = df[cols]
+            df = df[cols].copy()
             # mean of latencies for all tasks
             df.loc[:, 'latency'] = df['latencies_per_task'].apply(list_mean)
             # df['latency'] = df['latencies_per_task'].apply(list_mean)
@@ -46,12 +44,12 @@ def main():
     model_latency.to_csv('model_latency.csv')
     benchmark_latency.to_csv('agent_latency.csv')
 
-    # mean cost of models across benchmarks
+    # mean latency of models across benchmarks
     model_mean_latency = model_latency.groupby('model_name_short')['latency'].mean().reset_index()
     model_mean_latency = model_mean_latency.rename(columns={'latency':'mean_latency'})
     model_mean_latency.to_csv('data/model_mean_latency.csv')
 
-    # mean cost of agents across benchmarks
+    # mean latency of agents across benchmarks
     agent_mean_latency =  benchmark_latency.groupby('agent_name_short')['latency'].mean().reset_index()
     agent_mean_latency = agent_mean_latency.rename(columns={'latency':'mean_latency'})
     agent_mean_latency.to_csv('data/agent_mean_latency.csv')

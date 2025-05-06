@@ -7,8 +7,7 @@ from src.dataloaders.abstract import DataCombiner
 def main():
     # Load data for all tasks you want to analyze
     # tasks = ['taubench_retail', 'usaco', 'test','taubench', 'swebench', 'react', 'planexec', 'ipfuncall', 'inspect', 'gaia', 'fullcode', 'cybench', 'agentharm_', 'agentharm_benign']  # Add your task names here
-    # tasks = ['gaia', 'cybench', 'taubench', 'taubench_retail' , 'agentharm_']
-    tasks = ['taubench_airline']
+    tasks = ['taubench_airline', 'colbench_backend_programming', 'colbench_frontend_design', 'gaia', 'scicode', 'scienceagentbench', 'swebench_verified_mini', 'usaco']
     cols = ['model_name_short', 'total_cost', 'benchmark_name', 'agent_name_short']
     all_data = []
     all_data = pd.DataFrame()

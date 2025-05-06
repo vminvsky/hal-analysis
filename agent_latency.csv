@@ -1,3 +1,14 @@
 agent_name_short,benchmark_name,latency
-HAL Generalist Agent,taubench_airline,60.635302464000006
-TAU-bench FewShot,taubench_airline,74.03682543
+Col-bench Text,colbench_backend_programming,7.860143272075113
+Col-bench Text,colbench_frontend_design,103.61223687783286
+HAL Generalist Agent,gaia,92.14297797922076
+HAL Generalist Agent,scicode,590.9359795504206
+HAL Generalist Agent,swebench_verified_mini,175.18773066386075
+HAL Generalist Agent,taubench_airline,141.04973761142858
+HF Open Deep Research,gaia,278.7342948410734
+SAB Example Agent,scienceagentbench,173.06713529322639
+SWE-Agent,swebench_verified_mini,411.10310534095237
+Scicode Tool Calling Agent,scicode,475.3638924365385
+Scicode Zero Shot Agent,scicode,51.91219268302284
+TAU-bench FewShot,taubench_airline,98.67243615818182
+USACO Episodic + Semantic,usaco,78.55906002238882

@@ -1,4 +1,14 @@
 agent_name_short,benchmark_name,accuracy
-Hal Generalist Agent,taubench_airline,0.23142857142857146
-Tau-Bench Fewshot,taubench_airline,0.45599999999999996
-Taubench Fewshot,taubench_airline,0.42000000000000004
+Col-bench Text,colbench_backend_programming,0.41805000000000003
+Col-bench Text,colbench_frontend_design,0.8036755101673014
+HAL Generalist Agent,gaia,0.40606060606060607
+HAL Generalist Agent,scicode,0.025
+HAL Generalist Agent,swebench_verified_mini,0.060000000000000005
+HAL Generalist Agent,taubench_airline,0.23142857142857146
+HF Open Deep Research,gaia,0.3528619528619529
+SAB Example Agent,scienceagentbench,0.23796791443850268
+SWE-Agent,swebench_verified_mini,0.38533333333333336
+Scicode Tool Calling Agent,scicode,0.03461538461538462
+Scicode Zero Shot Agent,scicode,0.046153846153846156
+TAU-bench FewShot,taubench_airline,0.45
+USACO Episodic + Semantic,usaco,0.38680781758957655

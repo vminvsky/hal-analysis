@@ -66,5 +66,9 @@ AGENT_NAME_MAP = {
     "SAB Self-Debug o4-mini high": "SAB Example Agent (o4-mini)",
     "sab_selfdebug_dsr1": "SAB Example Agent (deepseek-ai/DeepSeek-R1)",
     "SAB Self-Debug gemini-2-5-pro": "SAB Example Agent (gemini-2.5-pro-preview)",
-    "Hal Generalist Agent (o3-2025-04-16)": "HAL Generalist Agent (o3-2025-04-16)"
+    "Hal Generalist Agent (o3-2025-04-16)": "HAL Generalist Agent (o3-2025-04-16)",
+    "Hal Generalist Agent (gpt-4.1-2025-04-14)": "HAL Generalist Agent (gpt-4.1)",
+    "Hal Generalist Agent (o4-mini-2025-04-16 low)": "HAL Generalist Agent (o4-mini)",
+    "Hal Generalist Agent (o4-mini-2025-04-16)": "HAL Generalist Agent (o4-mini)",
+    "Hal Generalist Agent (o4-mini-2025-04-16 high)": "HAL Generalist Agent (o4-mini)"
 }

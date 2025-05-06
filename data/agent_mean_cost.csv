@@ -1,3 +1,11 @@
 ,agent_name_short,mean_cost
-0,HAL Generalist Agent,18.009163960000002
-1,TAU-bench FewShot,26.14443156666667
+0,Col-bench Text,13.450540638095237
+1,HAL Generalist Agent,71.25753218571428
+2,HF Open Deep Research,133.34609574444443
+3,Hal Generalist Agent,104.88885345
+4,SAB Example Agent,12.557998431818184
+5,SWE-Agent,252.19614076000002
+6,Scicode Tool Calling Agent,130.2596194875
+7,Scicode Zero Shot Agent,6.104658381250001
+8,TAU-bench FewShot,47.799990799999996
+9,USACO Episodic + Semantic,73.27579212500001
