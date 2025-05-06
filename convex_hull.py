@@ -511,6 +511,144 @@ def grid_pareto_frontier_by_benchmark(tasks, merged_df, x_col, y_col, x_label, y
     else:
         return None
 
+def calculate_pareto_distance(df, x_col, y_col, minimize_x=True, maximize_y=True):
+    """
+    Calculate the distance of each point to the Pareto frontier.
+    
+    Args:
+        df: DataFrame with Pareto optimal flags
+        x_col: Column name for x metric (e.g., latency, cost)
+        y_col: Column name for y metric (e.g., win_rate, accuracy)
+        minimize_x: Whether to minimize the x metric (True for cost/latency)
+        maximize_y: Whether to maximize the y metric (True for win_rate/accuracy)
+        
+    Returns:
+        DataFrame with distance to Pareto frontier
+    """
+    df = df.copy()
+    
+    # For points already on the Pareto frontier, distance is 0
+    df['pareto_distance'] = 0.0
+    
+    # Get Pareto optimal points
+    pareto_points = df[df['pareto_optimal']].copy()
+    non_pareto_points = df[~df['pareto_optimal']].copy()
+    
+    if len(pareto_points) < 2 or len(non_pareto_points) == 0:
+        return df
+    
+    # Sort Pareto points by x
+    pareto_points = pareto_points.sort_values(by=x_col)
+    
+    # Get coordinates of Pareto points
+    pareto_x = pareto_points[x_col].values
+    pareto_y = pareto_points[y_col].values
+    
+    # For each non-Pareto point, calculate distance to Pareto frontier
+    for idx, row in non_pareto_points.iterrows():
+        point_x = row[x_col]
+        point_y = row[y_col]
+        
+        # Initialize with a large value
+        min_distance = float('inf')
+        
+        # Check if point is outside the x-range of Pareto frontier
+        if point_x < pareto_x[0]:
+            # Point is to the left of Pareto frontier
+            # Calculate distance to the leftmost Pareto point
+            dist = np.sqrt((point_x - pareto_x[0])**2 + (point_y - pareto_y[0])**2)
+            min_distance = min(min_distance, dist)
+        elif point_x > pareto_x[-1]:
+            # Point is to the right of Pareto frontier
+            # Calculate distance to the rightmost Pareto point
+            dist = np.sqrt((point_x - pareto_x[-1])**2 + (point_y - pareto_y[-1])**2)
+            min_distance = min(min_distance, dist)
+        else:
+            # Point is within the x-range of Pareto frontier
+            # Calculate distance to each line segment of the Pareto frontier
+            for i in range(len(pareto_x) - 1):
+                x1, y1 = pareto_x[i], pareto_y[i]
+                x2, y2 = pareto_x[i+1], pareto_y[i+1]
+                
+                # Calculate distance to line segment
+                # First, check if the projection of the point onto the line segment falls within the segment
+                segment_length_squared = (x2 - x1)**2 + (y2 - y1)**2
+                if segment_length_squared == 0:
+                    # Degenerate case: segment is a point
+                    dist = np.sqrt((point_x - x1)**2 + (point_y - y1)**2)
+                else:
+                    # Calculate projection
+                    t = max(0, min(1, ((point_x - x1) * (x2 - x1) + (point_y - y1) * (y2 - y1)) / segment_length_squared))
+                    proj_x = x1 + t * (x2 - x1)
+                    proj_y = y1 + t * (y2 - y1)
+                    dist = np.sqrt((point_x - proj_x)**2 + (point_y - proj_y)**2)
+                
+                min_distance = min(min_distance, dist)
+        
+        # Update distance in the DataFrame
+        df.loc[idx, 'pareto_distance'] = min_distance
+    
+    return df
+
+def save_pareto_distances(merged_df, tasks, x_col, y_col, model_col='model_name_short', 
+                          minimize_x=True, maximize_y=True, filename='pareto_distances.csv'):
+    """
+    Calculate and save the distance of each model from the Pareto frontier for each task.
+    
+    Args:
+        merged_df: DataFrame with data for all tasks
+        tasks: List of task/benchmark names
+        x_col: Column name for x metric (e.g., latency, cost)
+        y_col: Column name for y metric (e.g., win_rate, accuracy)
+        model_col: Column name for model/agent names
+        minimize_x: Whether to minimize the x metric (True for cost/latency)
+        maximize_y: Whether to maximize the y metric (True for win_rate/accuracy)
+        filename: Output CSV filename
+        
+    Returns:
+        DataFrame with distances for all tasks
+    """
+    # Ensure directory exists
+    os.makedirs('visualizations/pareto_distances', exist_ok=True)
+    
+    all_distances = []
+    
+    # Process each task
+    for task in tasks:
+        # Filter data for this task
+        df_task = merged_df[merged_df['benchmark_name'] == task].copy()
+        
+        if len(df_task) < 2:
+            continue
+        
+        # Identify Pareto optimal points
+        pareto_df = identify_pareto_optimal(df_task, x_col, y_col, minimize_x, maximize_y)
+        
+        # Calculate distances
+        distance_df = calculate_pareto_distance(pareto_df, x_col, y_col, minimize_x, maximize_y)
+        
+        # Add task name
+        distance_df['benchmark_name'] = task
+        
+        # Select relevant columns
+        result_df = distance_df[[model_col, 'benchmark_name', x_col, y_col, 'pareto_optimal', 'pareto_distance']]
+        
+        all_distances.append(result_df)
+    
+    if not all_distances:
+        print("No data available for calculating Pareto distances")
+        return None
+    
+    # Combine results from all tasks
+    combined_df = pd.concat(all_distances, ignore_index=True)
+    
+    # Save to CSV
+    csv_path = f'visualizations/pareto_distances/{filename}'
+    combined_df.to_csv(csv_path, index=False)
+    print(f"Saved Pareto distances to: {csv_path}")
+    
+    return combined_df
+
 def create_auc_visualization(auc_data, base_filename):
     """
     Create a bar chart visualization of AUCs across benchmarks.
@@ -574,5 +712,6 @@ def cost_accuracy():
     df_m = model_accuracy.merge(model_costs, on=['model_name_short', 'benchmark_name'], how='left')
     tasks = df_m['benchmark_name'].unique()
     grid_pareto_frontier_by_benchmark(tasks, df_m, 'total_cost', 'accuracy', 'Total Cost', 'Accuracy', 4, 'model_cost_accuracy.png')
+    save_pareto_distances(df_m, tasks, 'total_cost', 'accuracy')
 
 cost_accuracy()
