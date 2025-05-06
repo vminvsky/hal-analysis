@@ -1,3 +1,4 @@
 agent_name_short,benchmark_name,accuracy
-HAL Generalist Agent,taubench_airline,0.10400000000000001
-TAU-bench FewShot,taubench_airline,0.4177777777777778
+Hal Generalist Agent,taubench_airline,0.23142857142857146
+Tau-Bench Fewshot,taubench_airline,0.45599999999999996
+Taubench Fewshot,taubench_airline,0.42000000000000004

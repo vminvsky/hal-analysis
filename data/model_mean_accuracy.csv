@@ -1,7 +1,13 @@
 ,model_name_short,mean_accuracy
-0,claude-3-7-sonnet-20250219,0.42
-1,deepseek-ai/DeepSeek-R1,0.39
-2,deepseek-ai/DeepSeek-V3,0.4
-3,gemini-2.0-flash,0.18
-4,gpt-4o-2024-11-20,0.30000000000000004
-5,o3-mini-2025-01-31,0.22
+0,claude-3-7-sonnet-20250219,0.5
+1,deepseek-ai/DeepSeek-R1,0.22999999999999998
+2,deepseek-ai/DeepSeek-V3,0.26
+3,gemini-2.0-flash,0.22
+4,gpt-4.1-2025-04-14,0.36000000000000004
+5,gpt-4o-2024-11-20,0.4
+6,o3-mini-2025-01-31,0.48
+7,o3-mini-2025-01-31 low,0.4
+8,o4-mini-2025-04-16 high,0.39
+9,o4-mini-2025-04-16 low,0.35
+10,taubench_fewshot_o320250403,0.44
+11,taubench_fewshot_o3mini20250131_high,0.4

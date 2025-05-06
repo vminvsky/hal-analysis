@@ -1,7 +1,13 @@
 model_name_short,benchmark_name,accuracy
-claude-3-7-sonnet-20250219,taubench_airline,0.42
-deepseek-ai/DeepSeek-R1,taubench_airline,0.39
-deepseek-ai/DeepSeek-V3,taubench_airline,0.4
-gemini-2.0-flash,taubench_airline,0.18
-gpt-4o-2024-11-20,taubench_airline,0.30000000000000004
-o3-mini-2025-01-31,taubench_airline,0.22
+claude-3-7-sonnet-20250219,taubench_airline,0.5
+deepseek-ai/DeepSeek-R1,taubench_airline,0.22999999999999998
+deepseek-ai/DeepSeek-V3,taubench_airline,0.26
+gemini-2.0-flash,taubench_airline,0.22
+gpt-4.1-2025-04-14,taubench_airline,0.36000000000000004
+gpt-4o-2024-11-20,taubench_airline,0.4
+o3-mini-2025-01-31,taubench_airline,0.48
+o3-mini-2025-01-31 low,taubench_airline,0.4
+o4-mini-2025-04-16 high,taubench_airline,0.39
+o4-mini-2025-04-16 low,taubench_airline,0.35
+taubench_fewshot_o320250403,taubench_airline,0.44
+taubench_fewshot_o3mini20250131_high,taubench_airline,0.4

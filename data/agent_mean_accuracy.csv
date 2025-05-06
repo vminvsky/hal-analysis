@@ -1,3 +1,4 @@
 ,agent_name_short,mean_accuracy
-0,HAL Generalist Agent,0.10400000000000001
-1,TAU-bench FewShot,0.4177777777777778
+0,Hal Generalist Agent,0.23142857142857146
+1,Tau-Bench Fewshot,0.45599999999999996
+2,Taubench Fewshot,0.42000000000000004

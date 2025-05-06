@@ -4,9 +4,10 @@ from src.dataloaders.abstract import DataCombiner
 
 def main():
     # Load data for all tasks you want to analyze
-    tasks = ['taubench_airline']
+    tasks = ['usaco']
              # , 'usaco', 'test','taubench', 'swebench', 'react', 'planexec', 'ipfuncall', 'inspect', 'gaia', 'fullcode', 'cybench', 'agentharm_', 'agentharm_benign']  # Add your task names here
-    # tasks = ['gaia', 'cybench', 'taubench', 'taubench_retail' , 'agentharm_']
+    # tasks = ['taubench_airline', 'colbench_backend_programming', 'colbench_frontend_design', 'gaia', 'scicode', 'scienceagentbench', 'swebench_verified_mini', 'usaco']
+    # tasks = ['colbench_backend_programming']
     cols = ['model_name_short', 'accuracy', 'benchmark_name', 'agent_name', 'agent_name_short']
     all_data = []
     all_data = pd.DataFrame()
@@ -14,6 +15,7 @@ def main():
         try:
             combiner = DataCombiner(task)
             df = combiner.load()
+            print("load combined")
             df = df[cols]
             all_data = pd.concat([all_data, df])
         except Exception as e:

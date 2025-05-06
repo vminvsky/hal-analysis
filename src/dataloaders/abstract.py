@@ -4,7 +4,7 @@ from glob import glob
 import os 
 import pandas as pd 
 import numpy as np
-from .config import DATA_DIR, MODEL_NAME_MAP
+from .config import DATA_DIR, MODEL_NAME_MAP, AGENT_NAME_MAP
 
 # final dataset 
 # columns: 
@@ -30,8 +30,6 @@ class DataCombiner:
         self.df = pd.DataFrame([d.return_row() for d in self.data])
         return self.df
 
-
-
 class DataLoader(ABC):
     """
     abstract method to harmonize all the different data formats 
@@ -41,10 +39,22 @@ class DataLoader(ABC):
         self.data = self._load_data()
         self.config = self._load_config()
 
+        agent_name = self.config['agent_name']
+        self.config['agent_name'] = AGENT_NAME_MAP.get(agent_name, agent_name)
         self.config['agent_name_short'] = self.config['agent_name'].split(' (')[-2]
+        # if ' (' in self.config['agent_name']:
+        #     self.config['agent_name_short'] = self.config['agent_name'].split(' (')[0].title()
+        # elif '_' in self.config['agent_name']:
+        #     self.config['agent_name_short'] = ' '.join(self.config['agent_name'].split('_')[:2]).title()
+        # else:
+        #     self.config['agent_name_short'] = self.config['agent_name'].title()
+        # print(self.config['agent_name_short'])
+
         model_name_short = (self.config['agent_name'].split(' (')[-1].split(')')[0])
         self.config['model_name_short'] = MODEL_NAME_MAP.get(model_name_short, model_name_short)
-    
+        # print(self.config['agent_name'], " | ", self.config['agent_name_short'], " | ", self.config['model_name_short'])
+
+
     def _load_data(self):
         with open(self.data_path, 'r') as f:
             data = json.load(f)
@@ -58,11 +68,16 @@ class DataLoader(ABC):
 
     def return_metrics(self):
         # return all the metrics we care about.
-        return {'accuracy': self.return_accuracy(), 'total_tokens': self.return_total_tokens(), 'total_cost': self.return_total_cost(), 'latencies_per_task': self.return_latency()}
-        # return {'accuracy': self.return_accuracy(), 'total_tokens': self.return_total_tokens(), 'total_cost': self.return_total_cost()}
+        # return {'accuracy': self.return_accuracy(), 'total_tokens': self.return_total_tokens(), 'total_cost': self.return_total_cost(), 'latencies_per_task': self.return_latency()}
+        return {'accuracy': self.return_accuracy(), 'total_cost': self.return_total_cost(), 'latencies_per_task': self.return_latency()}
 
     def return_accuracy(self):
-        return self.data['results']['accuracy']
+        if ('average_correctness' in self.data['results']):
+            return self.data['results']['average_correctness']
+        elif ('success_rate' in self.data['results']):
+            return self.data['results']['success_rate']
+        else:
+            return self.data['results']['accuracy']
 
     def return_total_tokens(self):
         try:
@@ -81,28 +96,14 @@ class DataLoader(ABC):
     def return_total_cost(self):
         return self.data['results']['total_cost']
 
-    def pass_at_k(self, n, k):
-        """
-        :param n: total number of samples
-        :param c: number of correct samples
-        :param k: k in pass@$k$
-        """
-        # calculate c here # 
-
-        #                  
-        pass 
-        # if n - c < k: return 1.0
-        # return 1.0 - np.prod(1.0 - k / np.arange(n - c + 1, n + 1))
-
-
     def pass_to_the_k():
         pass 
 
     def return_latency(self):
         latencies = []
         if 'latencies' in self.data['results']:
-            for i in range(len(self.data['results']['latencies'].keys())):
-                latencies.append(self.data['results']['latencies'][f'{i}']['total_time'])         
+            for key in self.data['results']['latencies'].keys():
+                latencies.append(self.data['results']['latencies'][key]['total_time'])
         return latencies
 
 
