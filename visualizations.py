@@ -550,12 +550,12 @@ def grid_scatter_by_benchmark(tasks, merged_df, x_axis, y_axis, x_label, y_label
     plt.savefig(f'visualizations/{filename}', dpi=300)
     print(f"Saved file: visualizations/{filename}")
 
-def model_cost_win_rate():
-    model_costs = pd.read_csv('model_total_usage.csv')
-    model_winrates = pd.read_csv('benchmark_win_rates.csv')
-    df_m = model_winrates.merge(model_costs, on=['model_name_short', 'benchmark_name'], how='left')
-    tasks = df_m['benchmark_name'].unique()
-    grid_pareto_frontier_by_benchmark(tasks, df_m, 'total_cost', 'win_rate_mean', 'Total Cost', 'Mean Win Rate', 4, 'cost_win_rate.png')
+# def model_cost_win_rate():
+#     model_costs = pd.read_csv('model_total_usage.csv')
+#     model_winrates = pd.read_csv('benchmark_win_rates.csv')
+#     df_m = model_winrates.merge(model_costs, on=['model_name_short', 'benchmark_name'], how='left')
+#     tasks = df_m['benchmark_name'].unique()
+#     grid_pareto_frontier_by_benchmark(tasks, df_m, 'total_cost', 'win_rate_mean', 'Total Cost', 'Mean Win Rate', 4, 'cost_win_rate.png')
 
 def cost_accuracy():
     model_costs = pd.read_csv('model_total_usage.csv')
@@ -571,15 +571,31 @@ def latency_accuracy():
     tasks = df_m['benchmark_name'].unique()
     grid_pareto_frontier_by_benchmark(tasks, df_m, 'latency', 'accuracy', 'Average Latency', 'Accuracy', 4, 'model_latency_accuracy.png')
 
+def cost_win_rate():
+    # with model win rates and data/model_mean_cost, plot using plot_pareto_fronteir function
+    model_mean_costs = pd.read_csv('data/model_mean_cost.csv')
+    df_m = pd.merge(model_mean_costs, model_win_rates, on='model_name_short', how='inner')
+    cols = ['model_name_short', 'mean_cost', 'win_rate_mean', 'overall_win_rate']
+    df_m = df_m[cols].copy()
+    plot_pareto_frontier(df_m, 'mean_cost', 'overall_win_rate', 'Pareto Frontier: Win Rate vs. Average Cost', 'Mean Cost', 'Win Rate', 'new_plots/cost_win_rate.png')
+
+def latency_win_rate():
+    model_mean_latency = pd.read_csv('data/model_mean_latency.csv')
+    df_m = pd.merge(model_mean_latency, model_win_rates, on='model_name_short', how='inner')
+    cols = ['model_name_short', 'mean_latency', 'win_rate_mean', 'overall_win_rate']
+    df_m = df_m[cols].copy()
+    plot_pareto_frontier(df_m, 'mean_latency', 'overall_win_rate', 'Pareto Frontier: Win Rate vs. Mean Latency', 'Mean Latency', 'Win Rate', 'new_plots/latency_win_rate.png')
+
 # model_win_rate_bar(model_win_rates)
 # benchmark_win_rate_bar_full(grouped_df)
 # benchmark_win_rate_bar(dfs_dict)
 # model_cost_win_rate()
-cost_accuracy()
+# cost_accuracy()
 # mean_cost_accuracy()
 # model_accuracy_full()
 # model_accuracy_mean()
 # scaffold_accuracy()
 # latency_accuracy()
-
+# cost_win_rate()
+latency_win_rate()
 
