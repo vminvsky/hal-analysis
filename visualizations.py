@@ -12,31 +12,32 @@ grouped_df = benchmark_win_rates.groupby('benchmark_name')
 dfs_dict = {category: group for category, group in grouped_df}
 sns.set_theme(style="whitegrid", palette="muted") 
 
-def model_accuracy_full():
-    model_accuracy = pd.read_csv('model_accuracy.csv')
-    grouped_df = model_accuracy.groupby('benchmark_name')
-    dfs_dict = {category: group for category, group in grouped_df}
-    sorted_groups = [group.sort_values(by='accuracy', ascending=False) for _, group in grouped_df]
-    num_groups = len(sorted_groups)
-    cols = 5  
-    rows = (num_groups // cols) + (num_groups % cols > 0)
-    fig, axes = plt.subplots(rows, cols, figsize=(20, 10))
-    axes = axes.flatten()
-    for i, (group) in enumerate(sorted_groups):
-        category = group['benchmark_name'].iloc[0]
-        ax = axes[i]
-        ax = sns.barplot(x='model_name_short', y='accuracy', data=group, hue='model_name_short', palette='magma', ax=ax)
-        ax.set_title(f'{category}', fontsize=14)
-        ax.set_xlabel('Model')
-        ax.set_ylabel('Accuracy')
-        ax.tick_params(axis='x', rotation=90, labelsize=7)
-        for p in ax.patches:
-            ax.annotate(f'{p.get_height():.2f}', (p.get_x() + p.get_width() / 2., p.get_height()),
-                    ha='center', va='center', fontsize=5, color='black', xytext=(0, 5), textcoords='offset points')
-    for j in range(i + 1, len(axes)):
-        axes[j].axis('off')
-    plt.tight_layout()
-    plt.savefig('visualizations/new_plots/model_accuracy.png', dpi=300)
+# def model_accuracy_full():
+#     model_accuracy = pd.read_csv('model_accuracy.csv')
+#     grouped_df = model_accuracy.groupby('benchmark_name')
+#     dfs_dict = {category: group for category, group in grouped_df}
+#     sorted_groups = [group.sort_values(by='accuracy', ascending=False) for _, group in grouped_df]
+#     num_groups = len(sorted_groups)
+#     cols = 5  
+#     rows = (num_groups // cols) + (num_groups % cols > 0)
+#     fig, axes = plt.subplots(rows, cols, figsize=(20, 10))
+#     axes = axes.flatten()
+#     for i, (group) in enumerate(sorted_groups):
+#         category = group['benchmark_name'].iloc[0]
+#         ax = axes[i]
+#         ax = sns.barplot(x='model_name_short', y='accuracy', data=group, hue='model_name_short', palette='magma', ax=ax)
+#         ax.set_title(f'{category}', fontsize=14)
+#         ax.set_xlabel('Model')
+#         ax.set_ylabel('Accuracy')
+#         ax.tick_params(axis='x', rotation=90, labelsize=7)
+#         for p in ax.patches:
+
+#             ax.annotate(f'{p.get_height():.2f}', (p.get_x() + p.get_width() / 2., p.get_height()),
+#                     ha='center', va='center', fontsize=5, color='black', xytext=(0, 5), textcoords='offset points')
+#     for j in range(i + 1, len(axes)):
+#         axes[j].axis('off')
+#     plt.tight_layout()
+#     plt.savefig('visualizations/new_plots/model_accuracy.png', dpi=300)
 
 def scaffold_accuracy():
     scaffold_accuracy = pd.read_csv('benchmark_accuracy.csv')
@@ -592,7 +593,6 @@ def latency_win_rate():
 # model_cost_win_rate()
 # cost_accuracy()
 # mean_cost_accuracy()
-# model_accuracy_full()
 # model_accuracy_mean()
 # scaffold_accuracy()
 # latency_accuracy()

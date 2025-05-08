@@ -77,6 +77,63 @@ def calculate_max_win_rates(df, group_by_cols=['benchmark_name'], group_by_cols_
     
     return pd.DataFrame(all_results)
 
+def calculate_pareto_win_rates(df, group_by_cols=['benchmark_name'], group_by_cols_2='model_name_short'):
+    """
+    Calculate win rates for each model across different benchmarks using the distance from the convex hull of the pareto frontier across all agent scaffolds.
+    
+    Args:
+        df: DataFrame containing the results
+        group_by_cols: Columns to group by (control variables)
+        group_by_cols_2: Column representing the models to compare
+        
+    Returns:
+        DataFrame with win rates for each model
+    """
+    # all_results = []
+
+    #    # Group by the control variables (benchmarks)
+    # for name, group in df.groupby(group_by_cols):
+    #     benchmark = name if not isinstance(name, tuple) else name[0]
+        
+    #     # Get unique models for this benchmark
+    #     models = df[df['benchmark_name'] == benchmark][group_by_cols_2].unique()
+        
+    #     for model_a in models:
+    #         wins = 0
+    #         comparisons = 0
+            
+    #         for model_b in models:
+    #             if model_a == model_b:
+    #                 continue
+                    
+    #             acc_a = max_accuracies[benchmark][model_a]
+    #             acc_b = max_accuracies[benchmark][model_b]
+                
+    #             if acc_a > acc_b:
+    #                 wins += 1
+                
+    #             comparisons += 1
+            
+    #         # Calculate win rate
+    #         win_rate = wins / comparisons if comparisons > 0 else np.nan
+            
+    #         # Store the result
+    #         result = {
+    #             group_by_cols_2: model_a,
+    #             'win_rate': win_rate,
+    #             'wins': wins,
+    #             'comparisons': comparisons
+    #         }
+            
+    #         # Add the group information
+    #         for i, col in enumerate(group_by_cols):
+    #             result[col] = name[i] if isinstance(name, tuple) else name
+                
+    #         all_results.append(result)
+    
+    # return pd.DataFrame(all_results)
+
+
 # def calculate_win_rates(df, group_by_cols=['benchmark_name', 'agent_name_short'], group_by_cols_2='model_name_short'):
 #     """
 #     Calculate win rates for each model across different benchmarks and agent scaffolds.

@@ -29,7 +29,7 @@ def calculate_auc(x, y):
 
 def identify_pareto_optimal(df, x_col, y_col, minimize_x=True, maximize_y=True):
     """
-    Identify Pareto optimal points (best y for a given x).
+    Identify Pareto optimal points that are on the upper convex hull.
     
     Args:
         df: DataFrame with metrics
@@ -43,32 +43,87 @@ def identify_pareto_optimal(df, x_col, y_col, minimize_x=True, maximize_y=True):
     """
     df = df.copy()
     
-    # Sort by x (ascending if minimize_x, descending otherwise) 
-    # and y (descending if maximize_y, ascending otherwise)
-    x_ascending = minimize_x
-    y_ascending = not maximize_y
+    # Initialize all points as non-optimal
+    df['pareto_optimal'] = False
     
-    df = df.sort_values([x_col, y_col], ascending=[x_ascending, y_ascending])
-    
-    # Initialize Pareto frontier with the first point
-    pareto_frontier = [df.iloc[0]]
-    
-    # Iterate through remaining points
-    for i in range(1, len(df)):
-        current_point = df.iloc[i]
-        last_pareto = pareto_frontier[-1]
+    # If we have fewer than 3 points, we can't compute a convex hull
+    if len(df) < 3:
+        # Sort by x (ascending if minimize_x, descending otherwise) 
+        # and y (descending if maximize_y, ascending otherwise)
+        x_ascending = minimize_x
+        y_ascending = not maximize_y
         
-        # If current point has better y than the last Pareto optimal point,
-        # add it to the Pareto frontier
-        if (maximize_y and current_point[y_col] > last_pareto[y_col]) or \
-           (not maximize_y and current_point[y_col] < last_pareto[y_col]):
-            pareto_frontier.append(current_point)
+        df = df.sort_values([x_col, y_col], ascending=[x_ascending, y_ascending])
+        
+        # Initialize Pareto frontier with the first point
+        pareto_frontier = [df.iloc[0]]
+        
+        # Iterate through remaining points
+        for i in range(1, len(df)):
+            current_point = df.iloc[i]
+            last_pareto = pareto_frontier[-1]
+            
+            # If current point has better y than the last Pareto optimal point,
+            # add it to the Pareto frontier
+            if (maximize_y and current_point[y_col] > last_pareto[y_col]) or \
+               (not maximize_y and current_point[y_col] < last_pareto[y_col]):
+                pareto_frontier.append(current_point)
+        
+        # Create a DataFrame from the Pareto frontier
+        pareto_df = pd.DataFrame(pareto_frontier)
+        
+        # Add a flag to the original DataFrame indicating Pareto optimal points
+        df.loc[df.index.isin(pareto_df.index), 'pareto_optimal'] = True
+        
+        return df
     
-    # Create a DataFrame from the Pareto frontier
-    pareto_df = pd.DataFrame(pareto_frontier)
+    # Get coordinates for all points
+    points = np.column_stack([df[x_col].values, df[y_col].values])
     
-    # Add a flag to the original DataFrame indicating Pareto optimal points
-    df['pareto_optimal'] = df.index.isin(pareto_df.index)
+    # Compute the convex hull
+    hull = ConvexHull(points)
+    
+    # Get hull vertices
+    hull_vertices = hull.vertices
+    
+    # Extract the upper hull (points with higher y values)
+    # First, sort vertices by x-coordinate
+    hull_points = points[hull_vertices]
+    sorted_indices = np.argsort(hull_points[:, 0])
+    sorted_hull_vertices = hull_vertices[sorted_indices]
+    
+    # Find the indices of the leftmost and rightmost points
+    leftmost_idx = np.argmin(hull_points[:, 0])
+    rightmost_idx = np.argmax(hull_points[:, 0])
+    
+    # Extract the upper hull (going from leftmost to rightmost)
+    upper_hull_indices = []
+    
+    # If maximize_y is True, we want the upper part of the hull (higher y values)
+    # If maximize_y is False, we want the lower part of the hull (lower y values)
+    if maximize_y:
+        # Start from leftmost, go clockwise until rightmost
+        current_idx = leftmost_idx
+        while True:
+            upper_hull_indices.append(hull_vertices[current_idx])
+            if current_idx == rightmost_idx:
+                break
+            current_idx = (current_idx + 1) % len(hull_vertices)
+    else:
+        # Start from rightmost, go counterclockwise until leftmost
+        current_idx = rightmost_idx
+        while True:
+            upper_hull_indices.append(hull_vertices[current_idx])
+            if current_idx == leftmost_idx:
+                break
+            current_idx = (current_idx - 1) % len(hull_vertices)
+    
+    # Mark points on the upper hull as Pareto optimal
+    for idx in upper_hull_indices:
+        original_idx = np.where((df[x_col].values == points[idx, 0]) & 
+                               (df[y_col].values == points[idx, 1]))[0]
+        if len(original_idx) > 0:
+            df.loc[df.index[original_idx[0]], 'pareto_optimal'] = True
     
     return df
 
@@ -143,40 +198,12 @@ def plot_pareto_frontier(df, x_col, y_col, title, x_label, y_label, filename,
         label='Pareto Optimal'
     )
     
-    # Connect Pareto optimal points with a line
-    optimal_points = optimal.sort_values(x_col)
-    ax.plot(
-        optimal_points[x_col], 
-        optimal_points[y_col], 
-        color='#e74c3c', 
-        linestyle='--',
-        linewidth=2.5,
-        alpha=0.8
-    )
+    # We no longer connect Pareto optimal points with a dotted line
     
-    # Plot convex hull if there are enough points
-    if len(optimal_points) >= 3:
-        # Get coordinates for convex hull
-        points = np.column_stack([optimal_points[x_col].values, optimal_points[y_col].values])
-        hull = ConvexHull(points)
-        
-        # Get hull vertices in order
-        hull_vertices = []
-        for vertex in hull.vertices:
-            hull_vertices.append(points[vertex])
-        hull_vertices.append(hull_vertices[0])  # Close the loop
-        hull_vertices = np.array(hull_vertices)
-        
-        # Plot the convex hull
-        ax.plot(
-            hull_vertices[:, 0],
-            hull_vertices[:, 1],
-            color='#2ecc71',  # Green color for convex hull
-            linestyle='-',
-            linewidth=2,
-            alpha=0.7,
-            label='Convex Hull'
-        )
+    # Sort optimal points by x for AUC calculation and convex hull
+    optimal_points = optimal.sort_values(x_col)
+    
+    # We no longer plot the convex hull
     
     # Calculate AUC
     auc = calculate_auc(optimal_points[x_col].values, optimal_points[y_col].values)
@@ -366,40 +393,12 @@ def grid_pareto_frontier_by_benchmark(tasks, merged_df, x_col, y_col, x_label, y
             label='Pareto Optimal'
         )
         
-        # Connect Pareto optimal points with a line
-        optimal_points = optimal.sort_values(x_col)
-        ax.plot(
-            optimal_points[x_col], 
-            optimal_points[y_col], 
-            color='#e74c3c', 
-            linestyle='--',
-            linewidth=2,
-            alpha=0.8
-        )
+        # We no longer connect Pareto optimal points with a dotted line
         
-        # Plot convex hull if there are enough points
-        if len(optimal_points) >= 3:
-            # Get coordinates for convex hull
-            points = np.column_stack([optimal_points[x_col].values, optimal_points[y_col].values])
-            hull = ConvexHull(points)
-            
-            # Get hull vertices in order
-            hull_vertices = []
-            for vertex in hull.vertices:
-                hull_vertices.append(points[vertex])
-            hull_vertices.append(hull_vertices[0])  # Close the loop
-            hull_vertices = np.array(hull_vertices)
-            
-            # Plot the convex hull
-            ax.plot(
-                hull_vertices[:, 0],
-                hull_vertices[:, 1],
-                color='#2ecc71',  # Green color for convex hull
-                linestyle='-',
-                linewidth=1.5,
-                alpha=0.7,
-                label='Convex Hull'
-            )
+        # Sort optimal points by x for AUC calculation and convex hull
+        optimal_points = optimal.sort_values(x_col)
+        
+        # We no longer plot the convex hull
         
         # Calculate AUC
         auc = calculate_auc(optimal_points[x_col].values, optimal_points[y_col].values)
@@ -473,7 +472,7 @@ def grid_pareto_frontier_by_benchmark(tasks, merged_df, x_col, y_col, x_label, y
             labels,
             loc='lower center',
             bbox_to_anchor=(0.5, 0.01),
-            ncol=3,  # Include Convex Hull in legend
+            ncol=2,  # Only Non-Optimal and Pareto Optimal in legend
             frameon=True,
             framealpha=0.95,
             facecolor='white',
@@ -513,7 +512,7 @@ def grid_pareto_frontier_by_benchmark(tasks, merged_df, x_col, y_col, x_label, y
 
 def calculate_pareto_distance(df, x_col, y_col, minimize_x=True, maximize_y=True):
     """
-    Calculate the distance of each point to the Pareto frontier.
+    Calculate the distance of each point to the upper convex hull.
     
     Args:
         df: DataFrame with Pareto optimal flags
@@ -523,52 +522,52 @@ def calculate_pareto_distance(df, x_col, y_col, minimize_x=True, maximize_y=True
         maximize_y: Whether to maximize the y metric (True for win_rate/accuracy)
         
     Returns:
-        DataFrame with distance to Pareto frontier
+        DataFrame with distance to upper convex hull
     """
     df = df.copy()
     
-    # For points already on the Pareto frontier, distance is 0
+    # For points already on the upper convex hull, distance is 0
     df['pareto_distance'] = 0.0
     
-    # Get Pareto optimal points
-    pareto_points = df[df['pareto_optimal']].copy()
-    non_pareto_points = df[~df['pareto_optimal']].copy()
+    # Get optimal points (those on the upper convex hull)
+    optimal_points = df[df['pareto_optimal']].copy()
+    non_optimal_points = df[~df['pareto_optimal']].copy()
     
-    if len(pareto_points) < 2 or len(non_pareto_points) == 0:
+    if len(optimal_points) < 2 or len(non_optimal_points) == 0:
         return df
     
-    # Sort Pareto points by x
-    pareto_points = pareto_points.sort_values(by=x_col)
+    # Sort optimal points by x
+    optimal_points = optimal_points.sort_values(by=x_col)
     
-    # Get coordinates of Pareto points
-    pareto_x = pareto_points[x_col].values
-    pareto_y = pareto_points[y_col].values
+    # Get coordinates of optimal points
+    optimal_x = optimal_points[x_col].values
+    optimal_y = optimal_points[y_col].values
     
-    # For each non-Pareto point, calculate distance to Pareto frontier
-    for idx, row in non_pareto_points.iterrows():
+    # For each non-optimal point, calculate distance to the upper convex hull
+    for idx, row in non_optimal_points.iterrows():
         point_x = row[x_col]
         point_y = row[y_col]
         
         # Initialize with a large value
         min_distance = float('inf')
         
-        # Check if point is outside the x-range of Pareto frontier
-        if point_x < pareto_x[0]:
-            # Point is to the left of Pareto frontier
-            # Calculate distance to the leftmost Pareto point
-            dist = np.sqrt((point_x - pareto_x[0])**2 + (point_y - pareto_y[0])**2)
+        # Check if point is outside the x-range of optimal points
+        if point_x < optimal_x[0]:
+            # Point is to the left of optimal points
+            # Calculate distance to the leftmost optimal point
+            dist = np.sqrt((point_x - optimal_x[0])**2 + (point_y - optimal_y[0])**2)
             min_distance = min(min_distance, dist)
-        elif point_x > pareto_x[-1]:
-            # Point is to the right of Pareto frontier
-            # Calculate distance to the rightmost Pareto point
-            dist = np.sqrt((point_x - pareto_x[-1])**2 + (point_y - pareto_y[-1])**2)
+        elif point_x > optimal_x[-1]:
+            # Point is to the right of optimal points
+            # Calculate distance to the rightmost optimal point
+            dist = np.sqrt((point_x - optimal_x[-1])**2 + (point_y - optimal_y[-1])**2)
             min_distance = min(min_distance, dist)
         else:
-            # Point is within the x-range of Pareto frontier
-            # Calculate distance to each line segment of the Pareto frontier
-            for i in range(len(pareto_x) - 1):
-                x1, y1 = pareto_x[i], pareto_y[i]
-                x2, y2 = pareto_x[i+1], pareto_y[i+1]
+            # Point is within the x-range of optimal points
+            # Calculate distance to each line segment of the upper convex hull
+            for i in range(len(optimal_x) - 1):
+                x1, y1 = optimal_x[i], optimal_y[i]
+                x2, y2 = optimal_x[i+1], optimal_y[i+1]
                 
                 # Calculate distance to line segment
                 # First, check if the projection of the point onto the line segment falls within the segment
@@ -593,7 +592,7 @@ def calculate_pareto_distance(df, x_col, y_col, minimize_x=True, maximize_y=True
 def save_pareto_distances(merged_df, tasks, x_col, y_col, model_col='model_name_short', 
                           minimize_x=True, maximize_y=True, filename='pareto_distances.csv'):
     """
-    Calculate and save the distance of each model from the Pareto frontier for each task.
+    Calculate and save the distance of each model from the upper convex hull for each task.
     
     Args:
         merged_df: DataFrame with data for all tasks
