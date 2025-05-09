@@ -551,6 +551,26 @@ def grid_scatter_by_benchmark(tasks, merged_df, x_axis, y_axis, x_label, y_label
     plt.savefig(f'visualizations/{filename}', dpi=300)
     print(f"Saved file: visualizations/{filename}")
 
+def create_heatmaps():
+    # To-do:
+        # make this a function so we can run for all 6 heatmaps we want
+
+    df = pd.read_csv('cleaned_all_metrics.csv')
+    cols = ['benchmark_name', 'agent_name_short', 'model_name_short', 'total_cost']
+    df = df[cols].copy()
+    # add code to only keep rows if they are generalist agents, vs. only keep if they are task specific agents depending on what we want
+    df = df.pivot(columns = 'benchmark_name', index = 'model_name_short', values = 'total_cost')
+
+    df['benchmarks_mean'] = df.mean(axis = 1)
+    df.loc['models_mean'] = df.mean(axis = 0)
+
+    fig, ax = plt.subplots()
+
+    sns.heatmap(ax = ax, data = df, annot = True, fmt = '.0f')
+
+    plt.show()
+    plt.savefig('visualizations/new_plots/cost_heatmap.png')
+
 # def model_cost_win_rate():
 #     model_costs = pd.read_csv('model_total_usage.csv')
 #     model_winrates = pd.read_csv('benchmark_win_rates.csv')

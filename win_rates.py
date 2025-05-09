@@ -89,47 +89,50 @@ def calculate_pareto_win_rates(df, group_by_cols=['benchmark_name'], group_by_co
     Returns:
         DataFrame with win rates for each model
     """
-    # all_results = []
 
-    #    # Group by the control variables (benchmarks)
-    # for name, group in df.groupby(group_by_cols):
-    #     benchmark = name if not isinstance(name, tuple) else name[0]
+    df = pd.read_csv('visualizations/pareto_distances/pareto_distances.csv')
+
+    all_results = []
+
+    # Group by the control variables (benchmarks)
+    for name, group in df.groupby(group_by_cols):
+        benchmark = name if not isinstance(name, tuple) else name[0]
         
-    #     # Get unique models for this benchmark
-    #     models = df[df['benchmark_name'] == benchmark][group_by_cols_2].unique()
+        # Get unique models for this benchmark
+        models = df[df['benchmark_name'] == benchmark][group_by_cols_2].unique()
         
-    #     for model_a in models:
-    #         wins = 0
-    #         comparisons = 0
+        for model_a in models:
+            wins = 0
+            comparisons = 0
             
-    #         for model_b in models:
-    #             if model_a == model_b:
-    #                 continue
+            for model_b in models:
+                if model_a == model_b:
+                    continue
                     
-    #             acc_a = max_accuracies[benchmark][model_a]
-    #             acc_b = max_accuracies[benchmark][model_b]
+                dist_a = df.loc[df['model_name_short'] == model_a, 'pareto_distance']
+                dist_b = df.loc[df['model_name_short'] == model_b, 'pareto_distance']
                 
-    #             if acc_a > acc_b:
-    #                 wins += 1
+                if dist_a < dist_b:
+                    wins += 1
                 
-    #             comparisons += 1
+                comparisons += 1
             
-    #         # Calculate win rate
-    #         win_rate = wins / comparisons if comparisons > 0 else np.nan
+            # Calculate win rate
+            win_rate = wins / comparisons if comparisons > 0 else np.nan
             
-    #         # Store the result
-    #         result = {
-    #             group_by_cols_2: model_a,
-    #             'win_rate': win_rate,
-    #             'wins': wins,
-    #             'comparisons': comparisons
-    #         }
+            # Store the result
+            result = {
+                group_by_cols_2: model_a,
+                'win_rate': win_rate,
+                'wins': wins,
+                'comparisons': comparisons
+            }
             
-    #         # Add the group information
-    #         for i, col in enumerate(group_by_cols):
-    #             result[col] = name[i] if isinstance(name, tuple) else name
+            # Add the group information
+            for i, col in enumerate(group_by_cols):
+                result[col] = name[i] if isinstance(name, tuple) else name
                 
-    #         all_results.append(result)
+            all_results.append(result)
     
     # return pd.DataFrame(all_results)
 
@@ -256,28 +259,42 @@ def main():
     if all_data:
         combined_df = pd.concat(all_data, ignore_index=True)
         
-        # Calculate win rates
-        win_rates = calculate_max_win_rates(combined_df)
+        # Calculate win rates using max accuracy
+        win_rates_max = calculate_max_win_rates(combined_df)
+
+        # Calculate win rates using distance from the pareto
+        win_rates_pareto = calculate_pareto_win_rates(combined_df)
         
         # Aggregate by model
-        model_win_rates = aggregate_win_rates(win_rates)
+        model_win_rates_max = aggregate_win_rates(win_rates_max)
+        model_win_rates_pareto = aggregate_win_rates(win_rates_pareto)
         
         # Print results
-        print("Overall model win rates:")
-        print(model_win_rates.sort_values('overall_win_rate', ascending=False))
+        # print("Overall model win rates:")
+        # print(model_win_rates.sort_values('overall_win_rate', ascending=False))
         
         # Plot results
         # plt = plot_win_rates(model_win_rates)
         # plt.savefig('model_win_rates.png')
         
         # You can also analyze by benchmark
-        benchmark_win_rates = aggregate_win_rates(win_rates, group_by=['model_name_short', 'benchmark_name'])
+        benchmark_win_rates_max = aggregate_win_rates(win_rates_max, group_by=['model_name_short', 'benchmark_name'])
         print("\nModel win rates by benchmark:")
-        print(benchmark_win_rates.sort_values(['benchmark_name', 'overall_win_rate'], ascending=[True, False]))
+        print(benchmark_win_rates_max.sort_values(['benchmark_name', 'overall_win_rate'], ascending=[True, False]))
         
         # Save results to CSV
-        model_win_rates.to_csv('model_win_rates.csv', index=False)
-        benchmark_win_rates.to_csv('benchmark_win_rates.csv', index=False)
+        model_win_rates_max.to_csv('model_win_rates_max.csv', index=False)
+        benchmark_win_rates_max.to_csv('benchmark_win_rates_max.csv', index=False)
+
+        ##### pareto distance win rates #####
+
+        benchmark_win_rates_pareto = aggregate_win_rates(win_rates_pareto, group_by=['model_name_short', 'benchmark_name'])
+        print("\nModel win rates by benchmark:")
+        print(benchmark_win_rates_pareto.sort_values(['benchmark_name', 'overall_win_rate'], ascending=[True, False]))
+        
+        # Save results to CSV
+        model_win_rates_pareto.to_csv('model_win_rates_pareto.csv', index=False)
+        benchmark_win_rates_pareto.to_csv('benchmark_win_rates_pareto.csv', index=False)
         
         return combined_df, win_rates, model_win_rates, benchmark_win_rates
     else:
