@@ -40,15 +40,9 @@ class DataLoader(ABC):
         self.config = self._load_config()
 
         agent_name = self.config['agent_name']
+        # print(agent_name)
         self.config['agent_name'] = AGENT_NAME_MAP.get(agent_name, agent_name)
         self.config['agent_name_short'] = self.config['agent_name'].split(' (')[-2]
-        # if ' (' in self.config['agent_name']:
-        #     self.config['agent_name_short'] = self.config['agent_name'].split(' (')[0].title()
-        # elif '_' in self.config['agent_name']:
-        #     self.config['agent_name_short'] = ' '.join(self.config['agent_name'].split('_')[:2]).title()
-        # else:
-        #     self.config['agent_name_short'] = self.config['agent_name'].title()
-        # print(self.config['agent_name_short'])
 
         model_name_short = (self.config['agent_name'].split(' (')[-1].split(')')[0])
         self.config['model_name_short'] = MODEL_NAME_MAP.get(model_name_short, model_name_short)

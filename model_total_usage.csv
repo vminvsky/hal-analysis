@@ -1,12 +1,16 @@
 model_name_short,benchmark_name,total_cost
-claude-3-7-sonnet,colbench_backend_programming,33.770215
-claude-3-7-sonnet,colbench_frontend_design,71.2957715
-claude-3-7-sonnet,gaia,264.3991395
-claude-3-7-sonnet,scicode,85.635643
-claude-3-7-sonnet,scienceagentbench,8.474863000000001
-claude-3-7-sonnet,swebench_verified_mini,349.57340425
-claude-3-7-sonnet,taubench_airline,38.59755933333333
-claude-3-7-sonnet,usaco,47.5661325
+claude-3-7-sonnet-2025-02-19,colbench_frontend_design,71.2957715
+claude-3-7-sonnet-2025-02-19,gaia,415.151697
+claude-3-7-sonnet-2025-02-19,scicode,85.635643
+claude-3-7-sonnet-2025-02-19,scienceagentbench,7.118316
+claude-3-7-sonnet-2025-02-19,swebench_verified_mini,349.57340425
+claude-3-7-sonnet-2025-02-19,taubench_airline,38.59755933333333
+claude-3-7-sonnet-2025-02-19,usaco,38.704869
+claude-3-7-sonnet-2025-02-19 high,gaia,113.646582
+claude-3-7-sonnet-2025-02-19 high,scienceagentbench,11.742204000000001
+claude-3-7-sonnet-2025-02-19 high,usaco,56.427396
+claude-3-7-sonnet-2025-02-19 low,colbench_backend_programming,33.770215
+claude-3-7-sonnet-2025-02-19 low,scienceagentbench,6.564069
 deepseek-ai/DeepSeek-R1,colbench_backend_programming,4.1378225
 deepseek-ai/DeepSeek-R1,colbench_frontend_design,0.8549175000000001
 deepseek-ai/DeepSeek-R1,gaia,108.1348655
@@ -30,28 +34,39 @@ gemini-2.0-flash,scienceagentbench,0.1932662
 gemini-2.0-flash,swebench_verified_mini,6.024403100000001
 gemini-2.0-flash,taubench_airline,2.003067
 gemini-2.5-pro-preview,scienceagentbench,11.198726250000002
-gpt-4.1,colbench_backend_programming,13.992082
-gpt-4.1,gaia,92.03314999999999
-gpt-4.1,scicode,48.692034666666665
-gpt-4.1,scienceagentbench,7.4157399999999996
-gpt-4.1,swebench_verified_mini,222.72492999999997
-gpt-4.1,taubench_airline,30.213046
-gpt-4.1,usaco,28.095832
-gpt-4o,swebench_verified_mini,250.1544225
-gpt-4o,taubench_airline,46.468065
+gpt-4.1,swebench_verified_mini,393.653264
+gpt-4.1-2025-04-14,colbench_backend_programming,13.992082
+gpt-4.1-2025-04-14,gaia,92.03314999999999
+gpt-4.1-2025-04-14,scicode,48.692034666666665
+gpt-4.1-2025-04-14,scienceagentbench,7.4157399999999996
+gpt-4.1-2025-04-14,swebench_verified_mini,51.796595999999994
+gpt-4.1-2025-04-14,taubench_airline,30.213046
+gpt-4.1-2025-04-14,usaco,28.095832
+gpt-4o,swebench_verified_mini,350.71709
+gpt-4o-2024-11-20,swebench_verified_mini,149.59175500000003
+gpt-4o-2024-11-20,taubench_airline,46.468065
 o1,swebench_verified_mini,447.78432
-o3,scienceagentbench,58.440180000000005
-o3,swebench_verified_mini,421.78866000000005
-o3,taubench_airline,237.93406500000003
-o3-mini,gaia,33.5984488
-o3-mini,scicode,292.4105266666667
-o3-mini,swebench_verified_mini,75.79737308
-o3-mini,taubench_airline,24.281665466666666
-o3-mini,usaco,123.61867833333336
-o4-mini,colbench_backend_programming,8.5452184
-o4-mini,colbench_frontend_design,11.180017433333335
-o4-mini,gaia,108.3522858
-o4-mini,scicode,58.21018060000001
-o4-mini,scienceagentbench,7.566315900000001
-o4-mini,swebench_verified_mini,253.83082009999998
-o4-mini,taubench_airline,19.616682800000003
+o3-2025-04-03,taubench_airline,237.93406500000003
+o3-2025-04-16,scicode,292.4105266666667
+o3-2025-04-16,scienceagentbench,58.440180000000005
+o3-2025-04-16,swebench_verified_mini,421.78866000000005
+o3-2025-04-16,usaco,286.50446000000005
+o3-mini,swebench_verified_mini,119.93860633333333
+o3-mini-2025-01-31,gaia,33.5984488
+o3-mini-2025-01-31,swebench_verified_mini,9.5855232
+o3-mini-2025-01-31,taubench_airline,24.281665466666666
+o3-mini-2025-01-31,usaco,42.175787500000006
+o4-mini-2025-04-16,scicode,48.75807786666667
+o4-mini-2025-04-16,swebench_verified_mini,253.83082009999998
+o4-mini-2025-04-16 high,colbench_frontend_design,14.569332900000003
+o4-mini-2025-04-16 high,gaia,122.1285307
+o4-mini-2025-04-16 high,scicode,54.557406566666664
+o4-mini-2025-04-16 high,scienceagentbench,11.178193400000001
+o4-mini-2025-04-16 high,taubench_airline,19.748085100000004
+o4-mini-2025-04-16 low,colbench_backend_programming,8.5452184
+o4-mini-2025-04-16 low,colbench_frontend_design,6.208389700000001
+o4-mini-2025-04-16 low,gaia,80.79979600000001
+o4-mini-2025-04-16 low,scicode,71.31505736666668
+o4-mini-2025-04-16 low,scienceagentbench,3.9544384
+o4-mini-2025-04-16 low,taubench_airline,19.485280500000002
+o4-mini-2025-04-16 medium,colbench_frontend_design,12.7623297

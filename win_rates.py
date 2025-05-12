@@ -100,6 +100,7 @@ def calculate_pareto_win_rates(df, group_by_cols=['benchmark_name'], group_by_co
         
         # Get unique models for this benchmark
         models = df[df['benchmark_name'] == benchmark][group_by_cols_2].unique()
+        print(models)
         
         for model_a in models:
             wins = 0
@@ -109,8 +110,9 @@ def calculate_pareto_win_rates(df, group_by_cols=['benchmark_name'], group_by_co
                 if model_a == model_b:
                     continue
                     
-                dist_a = df.loc[df['model_name_short'] == model_a, 'pareto_distance']
-                dist_b = df.loc[df['model_name_short'] == model_b, 'pareto_distance']
+                dist_a = df.loc[df['model_name_short'] == model_a, 'pareto_distance'].values[0]
+                dist_b = df.loc[df['model_name_short'] == model_b, 'pareto_distance'].values[0]
+                print("dist_a: ", dist_a, " dist_b: ", dist_b)
                 
                 if dist_a < dist_b:
                     wins += 1
@@ -134,7 +136,7 @@ def calculate_pareto_win_rates(df, group_by_cols=['benchmark_name'], group_by_co
                 
             all_results.append(result)
     
-    # return pd.DataFrame(all_results)
+    return pd.DataFrame(all_results)
 
 
 # def calculate_win_rates(df, group_by_cols=['benchmark_name', 'agent_name_short'], group_by_cols_2='model_name_short'):
@@ -285,6 +287,7 @@ def main():
         # Save results to CSV
         model_win_rates_max.to_csv('model_win_rates_max.csv', index=False)
         benchmark_win_rates_max.to_csv('benchmark_win_rates_max.csv', index=False)
+        print("Saved model win rates and benchmark win rates max")
 
         ##### pareto distance win rates #####
 
@@ -295,11 +298,12 @@ def main():
         # Save results to CSV
         model_win_rates_pareto.to_csv('model_win_rates_pareto.csv', index=False)
         benchmark_win_rates_pareto.to_csv('benchmark_win_rates_pareto.csv', index=False)
+        print("Saved model win rates and benchmark win rates pareto")
         
-        return combined_df, win_rates, model_win_rates, benchmark_win_rates
+        return combined_df, win_rates_max, win_rates_pareto, model_win_rates_max, model_win_rates_pareto, benchmark_win_rates_max, benchmark_win_rates_pareto
     else:
         print("No data loaded.")
-        return None, None, None, None
+        return None, None, None, None, None, None, None
 
 if __name__ == "__main__":
-    combined_df, win_rates, model_win_rates, benchmark_win_rates = main()
+    combined_df, win_rates_max, win_rates_pareto, model_win_rates_max, model_win_rates_pareto, benchmark_win_rates_max, benchmark_win_rates_pareto = main()

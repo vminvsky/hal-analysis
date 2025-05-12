@@ -197,16 +197,12 @@ def plot_pareto_frontier(df, x_col, y_col, title, x_label, y_label, filename,
         marker='D',
         label='Pareto Optimal'
     )
-    
-    # We no longer connect Pareto optimal points with a dotted line
-    
+        
     # Sort optimal points by x for AUC calculation and convex hull
     optimal_points = optimal.sort_values(x_col)
-    
-    # We no longer plot the convex hull
-    
+        
     # Calculate AUC
-    auc = calculate_auc(optimal_points[x_col].values, optimal_points[y_col].values)
+    # auc = calculate_auc(optimal_points[x_col].values, optimal_points[y_col].values)
     
     # Add model/agent names as labels with better styling
     for _, row in pareto_df.iterrows():
@@ -253,18 +249,18 @@ def plot_pareto_frontier(df, x_col, y_col, title, x_label, y_label, filename,
         spine.set_linewidth(0.5)
     
     # Add AUC to the plot
-    ax.text(
-        0.05, 0.05, 
-        f'AUC: {auc:.4f}', 
-        transform=ax.transAxes,
-        fontsize=12,
-        bbox=dict(
-            boxstyle="round,pad=0.3",
-            fc='white',
-            ec='gray',
-            alpha=0.8
-        )
-    )
+    # ax.text(
+    #     0.05, 0.05, 
+    #     f'AUC: {auc:.4f}', 
+    #     transform=ax.transAxes,
+    #     fontsize=12,
+    #     bbox=dict(
+    #         boxstyle="round,pad=0.3",
+    #         fc='white',
+    #         ec='gray',
+    #         alpha=0.8
+    #     )
+    # )
     
     plt.tight_layout()
     
@@ -273,18 +269,18 @@ def plot_pareto_frontier(df, x_col, y_col, title, x_label, y_label, filename,
     print(f"Saved file: visualizations/{filename}")
     
     # Save AUC to CSV
-    csv_filename = f'visualizations/auc_data/{filename.replace(".png", "")}_auc.csv'
+    # csv_filename = f'visualizations/auc_data/{filename.replace(".png", "")}_auc.csv'
     
-    with open(csv_filename, 'w', newline='') as csvfile:
-        writer = csv.writer(csvfile)
-        writer.writerow(['Benchmark', 'AUC'])
-        writer.writerow([title, auc])
+    # with open(csv_filename, 'w', newline='') as csvfile:
+    #     writer = csv.writer(csvfile)
+    #     writer.writerow(['Benchmark', 'AUC'])
+    #     writer.writerow([title, auc])
     
-    print(f"Saved AUC data: {csv_filename}")
+    # print(f"Saved AUC data: {csv_filename}")
     
-    # Return the Pareto dataframe with AUC
-    pareto_df['auc'] = auc
-    return pareto_df
+    # # Return the Pareto dataframe with AUC
+    # pareto_df['auc'] = auc
+    # return pareto_df
 
 def grid_pareto_frontier_by_benchmark(tasks, merged_df, x_col, y_col, x_label, y_label, 
                                      num_cols, filename, minimize_x=True, maximize_y=True, 
@@ -308,6 +304,8 @@ def grid_pareto_frontier_by_benchmark(tasks, merged_df, x_col, y_col, x_label, y
     # Ensure directories exist
     os.makedirs('visualizations/new_plots', exist_ok=True)
     os.makedirs('visualizations/auc_data', exist_ok=True)
+    
+    merged_df = merged_df.dropna(subset=[x_col, y_col])
     
     # Calculate the number of tasks
     n_tasks = len(tasks)
@@ -392,31 +390,27 @@ def grid_pareto_frontier_by_benchmark(tasks, merged_df, x_col, y_col, x_label, y
             marker='D',
             label='Pareto Optimal'
         )
-        
-        # We no longer connect Pareto optimal points with a dotted line
-        
+                
         # Sort optimal points by x for AUC calculation and convex hull
         optimal_points = optimal.sort_values(x_col)
-        
-        # We no longer plot the convex hull
-        
+                
         # Calculate AUC
-        auc = calculate_auc(optimal_points[x_col].values, optimal_points[y_col].values)
-        auc_data.append((benchmark_name, auc))
+        # auc = calculate_auc(optimal_points[x_col].values, optimal_points[y_col].values)
+        # auc_data.append((benchmark_name, auc))
         
         # Add AUC to the plot
-        ax.text(
-            0.05, 0.05, 
-            f'AUC: {auc:.4f}', 
-            transform=ax.transAxes,
-            fontsize=10,
-            bbox=dict(
-                boxstyle="round,pad=0.3",
-                fc='white',
-                ec='gray',
-                alpha=0.8
-            )
-        )
+        # ax.text(
+        #     0.05, 0.05, 
+        #     f'AUC: {auc:.4f}', 
+        #     transform=ax.transAxes,
+        #     fontsize=10,
+        #     bbox=dict(
+        #         boxstyle="round,pad=0.3",
+        #         fc='white',
+        #         ec='gray',
+        #         alpha=0.8
+        #     )
+        # )
         
         # Add model/agent names as labels with better styling
         for _, row in pareto_df.iterrows():
@@ -461,8 +455,8 @@ def grid_pareto_frontier_by_benchmark(tasks, merged_df, x_col, y_col, x_label, y
             spine.set_linewidth(0.5)
         
         # Store the pareto dataframe with AUC
-        pareto_df['auc'] = auc
-        all_pareto_dfs.append(pareto_df)
+        # pareto_df['auc'] = auc
+        # all_pareto_dfs.append(pareto_df)
     
     # Add a single legend for the entire figure
     handles, labels = axes[0].get_legend_handles_labels()
@@ -489,19 +483,19 @@ def grid_pareto_frontier_by_benchmark(tasks, merged_df, x_col, y_col, x_label, y
     print(f"Saved file: visualizations/new_plots/convex_{filename}")
     
     # Save AUCs to CSV
-    if auc_data:
-        csv_filename = f'visualizations/auc_data/{filename.replace(".png", "")}_auc.csv'
+    # if auc_data:
+    #     csv_filename = f'visualizations/auc_data/{filename.replace(".png", "")}_auc.csv'
         
-        with open(csv_filename, 'w', newline='') as csvfile:
-            writer = csv.writer(csvfile)
-            writer.writerow(['Benchmark', 'AUC'])
-            for benchmark, auc in auc_data:
-                writer.writerow([benchmark, auc])
+    #     with open(csv_filename, 'w', newline='') as csvfile:
+    #         writer = csv.writer(csvfile)
+    #         writer.writerow(['Benchmark', 'AUC'])
+    #         for benchmark, auc in auc_data:
+    #             writer.writerow([benchmark, auc])
         
-        print(f"Saved AUC data: {csv_filename}")
+    #     print(f"Saved AUC data: {csv_filename}")
         
         # Create AUC visualization
-        create_auc_visualization(auc_data, filename.replace(".png", ""))
+        # create_auc_visualization(auc_data, filename.replace(".png", ""))
     
     # Combine all pareto dataframes
     if all_pareto_dfs:
@@ -713,4 +707,47 @@ def cost_accuracy():
     grid_pareto_frontier_by_benchmark(tasks, df_m, 'total_cost', 'accuracy', 'Total Cost', 'Accuracy', 4, 'model_cost_accuracy.png')
     save_pareto_distances(df_m, tasks, 'total_cost', 'accuracy')
 
-cost_accuracy()
+def cost_win_rate():
+    # with model win rates and data/model_mean_cost, plot using plot_pareto_fronteir function
+    model_mean_costs = pd.read_csv('data/model_mean_cost.csv')
+    model_win_rates_max = pd.read_csv('model_win_rates_max.csv')
+    model_win_rates_pareto = pd.read_csv('model_win_rates_pareto.csv')
+
+    # plot pareto frontier for win rate calculation using max accuracy
+    df_m = pd.merge(model_mean_costs, model_win_rates_max, on='model_name_short', how='inner')
+    cols = ['model_name_short', 'mean_cost', 'win_rate_mean', 'overall_win_rate']
+    df_m = df_m[cols].copy()
+    plot_pareto_frontier(df_m, 'mean_cost', 'overall_win_rate', 'Max Accuracy Win Rate vs. Mean Cost', 'Mean Cost', 'Win Rate', 'new_plots/cost_win_rate_max.png')
+
+    # plot pareto frontier for win rate calculation using distance from convex hull
+    df_m = pd.merge(model_mean_costs, model_win_rates_pareto, on='model_name_short', how='inner')
+    cols = ['model_name_short', 'mean_cost', 'win_rate_mean', 'overall_win_rate']
+    df_m = df_m[cols].copy()
+    plot_pareto_frontier(df_m, 'mean_cost', 'overall_win_rate', 'Distance from Convex Hull Win Rate vs. Mean Cost', 'Mean Cost', 'Win Rate', 'new_plots/cost_win_rate_pareto.png')
+
+def latency_win_rate():
+    model_mean_latency = pd.read_csv('data/model_mean_latency.csv')
+    model_win_rates_max = pd.read_csv('model_win_rates_max.csv')
+    model_win_rates_pareto = pd.read_csv('model_win_rates_pareto.csv')
+
+    df_m = pd.merge(model_mean_latency, model_win_rates_max, on='model_name_short', how='inner')
+    cols = ['model_name_short', 'mean_latency', 'win_rate_mean', 'overall_win_rate']
+    df_m = df_m[cols].copy()
+    plot_pareto_frontier(df_m, 'mean_latency', 'overall_win_rate', 'Max Accuracy Win Rate vs. Mean Latency', 'Mean Latency', 'Win Rate', 'new_plots/latency_win_rate_max.png')
+
+    df_m = pd.merge(model_mean_latency, model_win_rates_pareto, on='model_name_short', how='inner')
+    cols = ['model_name_short', 'mean_latency', 'win_rate_mean', 'overall_win_rate']
+    df_m = df_m[cols].copy()
+    plot_pareto_frontier(df_m, 'mean_latency', 'overall_win_rate', 'Distance from Convex Hull Win Rate vs. Mean Latency', 'Mean Latency', 'Win Rate', 'new_plots/latency_win_rate_pareto.png')
+
+def latency_accuracy():
+    model_latency = pd.read_csv('model_latency.csv')
+    model_accuracy = pd.read_csv('model_accuracy.csv')
+    df_m = model_accuracy.merge(model_latency, on=['model_name_short', 'benchmark_name'], how='left')
+    tasks = df_m['benchmark_name'].unique()
+    grid_pareto_frontier_by_benchmark(tasks, df_m, 'latency', 'accuracy', 'Mean Latency', 'Accuracy', 4, 'model_latency_accuracy.png')
+
+# cost_accuracy()
+# cost_win_rate()
+# latency_win_rate()
+latency_accuracy()

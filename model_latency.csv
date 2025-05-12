@@ -1,12 +1,16 @@
 model_name_short,benchmark_name,latency
-claude-3-7-sonnet,colbench_backend_programming,19.925769816
-claude-3-7-sonnet,colbench_frontend_design,292.06871225000003
-claude-3-7-sonnet,gaia,346.95517905454545
-claude-3-7-sonnet,scicode,282.0447467949519
-claude-3-7-sonnet,scienceagentbench,132.86207952941177
-claude-3-7-sonnet,swebench_verified_mini,226.16925897772148
-claude-3-7-sonnet,taubench_airline,104.75565170666668
-claude-3-7-sonnet,usaco,38.031980747557
+claude-3-7-sonnet-2025-02-19,colbench_frontend_design,292.06871225000003
+claude-3-7-sonnet-2025-02-19,gaia,329.5887224787879
+claude-3-7-sonnet-2025-02-19,scicode,282.0447467949519
+claude-3-7-sonnet-2025-02-19,scienceagentbench,91.51818347058823
+claude-3-7-sonnet-2025-02-19,swebench_verified_mini,226.16925897772148
+claude-3-7-sonnet-2025-02-19,taubench_airline,104.75565170666668
+claude-3-7-sonnet-2025-02-19,usaco,23.678290254071662
+claude-3-7-sonnet-2025-02-19 high,gaia,364.32163563030304
+claude-3-7-sonnet-2025-02-19 high,scienceagentbench,203.72024783333333
+claude-3-7-sonnet-2025-02-19 high,usaco,52.385671241042346
+claude-3-7-sonnet-2025-02-19 low,colbench_backend_programming,19.925769816
+claude-3-7-sonnet-2025-02-19 low,scienceagentbench,103.34780728431373
 deepseek-ai/DeepSeek-R1,colbench_backend_programming,5.424455370786517
 deepseek-ai/DeepSeek-R1,colbench_frontend_design,11.590135051020406
 deepseek-ai/DeepSeek-R1,gaia,296.1228625515152
@@ -30,28 +34,39 @@ gemini-2.0-flash,scienceagentbench,98.20503210784312
 gemini-2.0-flash,swebench_verified_mini,152.84063788
 gemini-2.0-flash,taubench_airline,32.196711480000005
 gemini-2.5-pro-preview,scienceagentbench,89.39475854901961
-gpt-4.1,colbench_backend_programming,7.596508673000001
-gpt-4.1,gaia,64.89790752222838
-gpt-4.1,scicode,190.23153081538462
-gpt-4.1,scienceagentbench,438.6389596176472
-gpt-4.1,swebench_verified_mini,123.52847895
-gpt-4.1,taubench_airline,59.70568273000001
-gpt-4.1,usaco,15.240435143322474
-gpt-4o,swebench_verified_mini,145.69710356000002
-gpt-4o,taubench_airline,
+gpt-4.1,swebench_verified_mini,169.96179252
+gpt-4.1-2025-04-14,colbench_backend_programming,7.596508673000001
+gpt-4.1-2025-04-14,gaia,64.89790752222838
+gpt-4.1-2025-04-14,scicode,190.23153081538462
+gpt-4.1-2025-04-14,scienceagentbench,438.6389596176472
+gpt-4.1-2025-04-14,swebench_verified_mini,77.09516538
+gpt-4.1-2025-04-14,taubench_airline,59.70568273000001
+gpt-4.1-2025-04-14,usaco,15.240435143322474
+gpt-4o,swebench_verified_mini,
+gpt-4o-2024-11-20,swebench_verified_mini,145.69710356000002
+gpt-4o-2024-11-20,taubench_airline,
 o1,swebench_verified_mini,
-o3,scienceagentbench,81.34541526470588
-o3,swebench_verified_mini,386.77938113999994
-o3,taubench_airline,58.30647268
-o3-mini,gaia,93.1165843941365
-o3-mini,scicode,274.67678661538463
-o3-mini,swebench_verified_mini,351.49641109132654
-o3-mini,taubench_airline,129.43986652
-o3-mini,usaco,82.44551758089032
-o4-mini,colbench_backend_programming,8.399910957
-o4-mini,colbench_frontend_design,123.19568069333333
-o4-mini,gaia,298.55602213042624
-o4-mini,scicode,374.7436760946314
-o4-mini,scienceagentbench,158.14738374509807
-o4-mini,swebench_verified_mini,1000.9112270957141
-o4-mini,taubench_airline,106.81108024
+o3-2025-04-03,taubench_airline,58.30647268
+o3-2025-04-16,scicode,274.67678661538463
+o3-2025-04-16,scienceagentbench,81.34541526470588
+o3-2025-04-16,swebench_verified_mini,386.77938113999994
+o3-2025-04-16,usaco,101.11133081433225
+o3-mini,swebench_verified_mini,629.7792695526531
+o3-mini-2025-01-31,gaia,93.1165843941365
+o3-mini-2025-01-31,swebench_verified_mini,73.21355263
+o3-mini-2025-01-31,taubench_airline,129.43986652
+o3-mini-2025-01-31,usaco,73.11261096416938
+o4-mini-2025-04-16,scicode,349.9636118
+o4-mini-2025-04-16,swebench_verified_mini,1000.9112270957141
+o4-mini-2025-04-16 high,colbench_frontend_design,177.63856307000003
+o4-mini-2025-04-16 high,gaia,380.79443991515154
+o4-mini-2025-04-16 high,scicode,498.8361877556891
+o4-mini-2025-04-16 high,scienceagentbench,186.15367191176472
+o4-mini-2025-04-16 high,taubench_airline,105.01771814
+o4-mini-2025-04-16 low,colbench_backend_programming,8.399910957
+o4-mini-2025-04-16 low,colbench_frontend_design,58.20670389
+o4-mini-2025-04-16 low,gaia,134.07918656097561
+o4-mini-2025-04-16 low,scicode,275.4312287282051
+o4-mini-2025-04-16 low,scienceagentbench,130.1410955784314
+o4-mini-2025-04-16 low,taubench_airline,108.60444233999999
+o4-mini-2025-04-16 medium,colbench_frontend_design,133.74177511999997
