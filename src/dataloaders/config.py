@@ -1,4 +1,4 @@
-DATA_DIR = "/scratch/gpfs/vv7118/models/hub/datasets--agent-evals--hal_traces/snapshots/07911e1785edc9e6ba8927d3553e5e26d8685b22/"
+DATA_DIR = "/scratch/gpfs/vv7118/models/hub/datasets--agent-evals--hal_traces/snapshots/597b22d25a9649ff7f5c97f7115fb8a158961709/"
 
 MODEL_NAME_MAP = {
     "o3-mini-2025-01-31 med": "o3-mini-2025-01-31",

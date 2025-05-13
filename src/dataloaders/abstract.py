@@ -42,7 +42,10 @@ class DataLoader(ABC):
         agent_name = self.config['agent_name']
         # print(agent_name)
         self.config['agent_name'] = AGENT_NAME_MAP.get(agent_name, agent_name)
-        self.config['agent_name_short'] = self.config['agent_name'].split(' (')[-2]
+        if (agent_name != 'CORE-Agent') and (agent_name != 'coreagent'):
+            self.config['agent_name_short'] = self.config['agent_name'].split(' (')[-2]
+        else:
+            self.config['agent_name_short'] = self.config['agent_name']
 
         model_name_short = (self.config['agent_name'].split(' (')[-1].split(')')[0])
         self.config['model_name_short'] = MODEL_NAME_MAP.get(model_name_short, model_name_short)
@@ -70,6 +73,8 @@ class DataLoader(ABC):
             return self.data['results']['average_correctness']
         elif ('success_rate' in self.data['results']):
             return self.data['results']['success_rate']
+        elif ('average_score' in self.data['results']):
+            return self.data['results']['average_score']
         else:
             return self.data['results']['accuracy']
 
