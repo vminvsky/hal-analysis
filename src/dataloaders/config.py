@@ -7,6 +7,11 @@ MODEL_NAME_MAP = {
     "o3-mini-2025-01-31 high": "o3-mini-2025-01-31",
     "claude-3-7-sonnet-20250219": "claude-3-7-sonnet-2025-02-19",
     "claude-3-7-sonnet-20250219 high": "claude-3-7-sonnet-2025-02-19 high",
+    "together_ai/deepseek-ai/DeepSeek-R1": "deepseek-ai/DeepSeek-R1",
+    "openai/o3-mini-2025-01-31": "o3-mini-2025-01-31",
+    "gemini/gemini-2.5-pro-preview-03-25": "gemini-2.5-pro-preview-03-25",
+    "together_ai/deepseek-ai/DeepSeek-V3": "deepseek-ai/DeepSeek-V3",
+    "gemini/gemini-2.0-flash": "gemini-2.0-flash"
 }
 
 AGENT_NAME_MAP = {
@@ -62,7 +67,8 @@ AGENT_NAME_MAP = {
     "Hal Generalist Agent (gpt-4.1-2025-04-14)": "HAL Generalist Agent (gpt-4.1-2025-04-14)",
     "Hal Generalist Agent (o4-mini-2025-04-16 low)": "HAL Generalist Agent (o4-mini-2025-04-16 low)",
     "Hal Generalist Agent (o4-mini-2025-04-16)": "HAL Generalist Agent (o4-mini-2025-04-16)",
-    "Hal Generalist Agent (o4-mini-2025-04-16 high)": "HAL Generalist Agent (o4-mini-2025-04-16 high)"
+    "Hal Generalist Agent (o4-mini-2025-04-16 high)": "HAL Generalist Agent (o4-mini-2025-04-16 high)",
+    "coreagent": "CORE-Agent"
 }
 
 

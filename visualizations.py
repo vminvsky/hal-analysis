@@ -106,14 +106,14 @@ def create_heatmaps(df, agent_scaffold, metric, title, x_label, y_label, legend_
         df = df[df['agent_name_short'] == generalist_scaffold]
     # only keep rows with task specific agents
     elif agent_scaffold == 'task_specific':
-        task_specific_scaffolds = ['Col-bench Text', 'HF Open Deep Research', 'Scicode Tool Calling Agent', 'Scicode Zero Shot Agent', 'SAB Example Agent', 'SWE-Agent', 'TAU-bench FewShot', 'USACO Episodic + Semantic']
+        task_specific_scaffolds = ['Col-bench Text', 'HF Open Deep Research', 'Scicode Tool Calling Agent', 'Scicode Zero Shot Agent', 'SAB Example Agent', 'SWE-Agent', 'TAU-bench FewShot', 'USACO Episodic + Semantic', 'CORE-Agent', 'Assistantbench Browser Agent']
         df = df[df['agent_name_short'].isin(task_specific_scaffolds)]
     else:
         print("Error: scaffold type not found")
         return
     
     duplicates = df[df.duplicated(subset=['benchmark_name', 'model_name_short'], keep=False)]
-    print(duplicates)
+   # print(duplicates)
     
     df_pivot = df.pivot_table(columns='model_name_short', index='benchmark_name', values=metric, aggfunc='mean')
     
@@ -127,7 +127,7 @@ def create_heatmaps(df, agent_scaffold, metric, title, x_label, y_label, legend_
     # Create the figure with appropriate size (only create one figure)
     plt.figure(figsize=(11, 5))
     
-    # Create the main heatmap (without averages)
+    # Create the main heatmap 
     main_data = df_pivot.iloc[:-1, :-1]
     ax = sns.heatmap(
         data=main_data,
