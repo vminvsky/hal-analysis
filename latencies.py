@@ -18,7 +18,7 @@ def z_score(lst):
 
 def main():
     # Load data for all tasks you want to analyze
-    tasks = ['taubench_airline', 'colbench_backend_programming', 'colbench_frontend_design', 'gaia', 'scicode', 'scienceagentbench', 'swebench_verified_mini', 'usaco']
+    tasks = ['taubench_airline', 'colbench_backend_programming', 'colbench_frontend_design', 'gaia', 'scicode', 'scienceagentbench', 'swebench_verified_mini', 'usaco', 'corebench_hard', 'assistantbench']
     cols = ['model_name_short', 'latencies_per_task', 'benchmark_name', 'agent_name', 'agent_name_short']
     all_data = []
     all_data = pd.DataFrame()

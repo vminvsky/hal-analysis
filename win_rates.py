@@ -247,7 +247,7 @@ def plot_win_rates(agg_df, title="Model Win Rates"):
 
 def main():
     # Load data for all tasks you want to analyze
-    tasks = ['taubench_airline', 'colbench_backend_programming', 'colbench_frontend_design', 'gaia', 'scicode', 'scienceagentbench', 'swebench_verified_mini', 'usaco']
+    tasks = ['taubench_airline', 'colbench_backend_programming', 'colbench_frontend_design', 'gaia', 'scicode', 'scienceagentbench', 'swebench_verified_mini', 'usaco', 'corebench_hard', 'assistantbench']
     all_data = []
     for task in tqdm(tasks):
         try:

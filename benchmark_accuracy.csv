@@ -1,6 +1,9 @@
 agent_name_short,benchmark_name,accuracy
+Assistantbench Browser Agent,assistantbench,0.4683567387553612
+CORE-Agent,corebench_hard,0.35555555555555557
 Col-bench Text,colbench_backend_programming,0.519
 Col-bench Text,colbench_frontend_design,0.836669987500316
+HAL Generalist Agent,assistantbench,0.3750173000573835
 HAL Generalist Agent,gaia,0.5454545454545454
 HAL Generalist Agent,scicode,0.06153846153846154
 HAL Generalist Agent,swebench_verified_mini,0.26

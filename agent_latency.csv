@@ -1,6 +1,9 @@
 agent_name_short,benchmark_name,latency
+Assistantbench Browser Agent,assistantbench,127.31208850757577
+CORE-Agent,corebench_hard,724.2518678116745
 Col-bench Text,colbench_backend_programming,7.860143272075113
 Col-bench Text,colbench_frontend_design,103.61223687783286
+HAL Generalist Agent,assistantbench,77.55518339772728
 HAL Generalist Agent,gaia,92.14297797922076
 HAL Generalist Agent,scicode,590.9359795504206
 HAL Generalist Agent,swebench_verified_mini,175.18773066386075

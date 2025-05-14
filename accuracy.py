@@ -6,7 +6,7 @@ def main():
     # Load data for all tasks you want to analyze
     # tasks = ['usaco']
              # , 'usaco', 'test','taubench', 'swebench', 'react', 'planexec', 'ipfuncall', 'inspect', 'gaia', 'fullcode', 'cybench', 'agentharm_', 'agentharm_benign']  # Add your task names here
-    tasks = ['taubench_airline', 'colbench_backend_programming', 'colbench_frontend_design', 'gaia', 'scicode', 'scienceagentbench', 'swebench_verified_mini', 'usaco']
+    tasks = ['taubench_airline', 'colbench_backend_programming', 'colbench_frontend_design', 'gaia', 'scicode', 'scienceagentbench', 'swebench_verified_mini', 'usaco', 'corebench_hard', 'assistantbench']
     # tasks = ['colbench_backend_programming']
     cols = ['model_name_short', 'accuracy', 'benchmark_name', 'agent_name', 'agent_name_short']
     all_data = []

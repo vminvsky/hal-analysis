@@ -177,35 +177,6 @@ def ensure_list(x):
             return []
     return [x]
 
-# # def model_cost_win_rate():
-# #     model_costs = pd.read_csv('model_total_usage.csv')
-# #     model_winrates = pd.read_csv('benchmark_win_rates.csv')
-# #     df_m = model_winrates.merge(model_costs, on=['model_name_short', 'benchmark_name'], how='left')
-# #     tasks = df_m['benchmark_name'].unique()
-# #     grid_pareto_frontier_by_benchmark(tasks, df_m, 'total_cost', 'win_rate_mean', 'Total Cost', 'Mean Win Rate', 4, 'cost_win_rate.png')
-
-# def latency_accuracy():
-#     model_latency = pd.read_csv('model_latency.csv')
-#     model_accuracy = pd.read_csv('model_accuracy.csv')
-#     df_m = model_accuracy.merge(model_latency, on=['model_name_short', 'benchmark_name'], how='left')
-#     tasks = df_m['benchmark_name'].unique()
-#     grid_pareto_frontier_by_benchmark(tasks, df_m, 'latency', 'accuracy', 'Mean Latency', 'Accuracy', 4, 'model_latency_accuracy.png')
-
-# def cost_win_rate():
-#     # with model win rates and data/model_mean_cost, plot using plot_pareto_fronteir function
-#     model_mean_costs = pd.read_csv('data/model_mean_cost.csv')
-#     df_m = pd.merge(model_mean_costs, model_win_rates, on='model_name_short', how='inner')
-#     cols = ['model_name_short', 'mean_cost', 'win_rate_mean', 'overall_win_rate']
-#     df_m = df_m[cols].copy()
-#     plot_pareto_frontier(df_m, 'mean_cost', 'overall_win_rate', 'Pareto Frontier: Win Rate vs. Mean Cost', 'Mean Cost', 'Win Rate', 'new_plots/cost_win_rate.png')
-
-# def latency_win_rate():
-#     model_mean_latency = pd.read_csv('data/model_mean_latency.csv')
-#     df_m = pd.merge(model_mean_latency, model_win_rates, on='model_name_short', how='inner')
-#     cols = ['model_name_short', 'mean_latency', 'win_rate_mean', 'overall_win_rate']
-#     df_m = df_m[cols].copy()
-#     plot_pareto_frontier(df_m, 'mean_latency', 'overall_win_rate', 'Pareto Frontier: Win Rate vs. Mean Latency', 'Mean Latency', 'Win Rate', 'new_plots/latency_win_rate.png')
-
 cleaned_dataset = pd.read_csv('cleaned_all_metrics.csv')
 cleaned_dataset['latencies_per_task'] = cleaned_dataset['latencies_per_task'].apply(ensure_list)
 cleaned_dataset['mean_latency'] = cleaned_dataset['latencies_per_task'].apply(lambda x: np.mean(x) if x else np.nan)
