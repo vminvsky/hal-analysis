@@ -1,10 +1,10 @@
 ,agent_name_short,mean_latency
 0,Col-bench Text,55.73619007495398
-1,HAL Generalist Agent,249.82910645123266
+1,HAL Generalist Agent,251.46418111900053
 2,HF Open Deep Research,278.7342948410734
 3,SAB Example Agent,173.06713529322639
 4,SWE-Agent,411.10310534095237
 5,Scicode Tool Calling Agent,475.3638924365385
 6,Scicode Zero Shot Agent,51.91219268302284
-7,TAU-bench FewShot,98.67243615818182
-8,USACO Episodic + Semantic,78.55906002238882
+7,TAU-bench FewShot,102.709032506
+8,USACO Episodic + Semantic,73.3279965758915

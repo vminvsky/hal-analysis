@@ -1,14 +1,17 @@
 agent_name_short,benchmark_name,total_cost
+Assistantbench Browser Agent,assistantbench,22.644328050000002
+CORE-Agent,corebench_hard,109.08499223076925
 Col-bench Text,colbench_backend_programming,11.301760833333333
 Col-bench Text,colbench_frontend_design,15.599320442857143
+HAL Generalist Agent,assistantbench,9.1677381125
 HAL Generalist Agent,gaia,41.056127585714286
 HAL Generalist Agent,scicode,131.5370736
 HAL Generalist Agent,swebench_verified_mini,65.27410805000001
-HAL Generalist Agent,taubench_airline,20.514599357142856
+HAL Generalist Agent,taubench_airline,22.2729200625
 HF Open Deep Research,gaia,133.34609574444443
 SAB Example Agent,scienceagentbench,12.557998431818184
 SWE-Agent,swebench_verified_mini,252.19614076000002
 Scicode Tool Calling Agent,scicode,130.2596194875
 Scicode Zero Shot Agent,scicode,6.104658381250001
-TAU-bench FewShot,taubench_airline,47.799990799999996
-USACO Episodic + Semantic,usaco,73.27579212500001
+TAU-bench FewShot,taubench_airline,30.515074963636366
+USACO Episodic + Semantic,usaco,65.13867292

@@ -13,4 +13,8 @@ for file in files:
     all_data.append(data.return_row())
 
 all_data = pd.DataFrame(all_data)
-all_data.to_csv('cleaned_all_metrics.csv', index=False)
+models_to_remove = ['2.5-pro', 'o1', 'o3-mini']
+pattern = '|'.join(models_to_remove)
+all_data_filtered = all_data[~all_data['model_name_short'].str.contains(pattern, case=False, na=False)]
+
+all_data_filtered.to_csv('cleaned_all_metrics.csv', index=False)

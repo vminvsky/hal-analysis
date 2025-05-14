@@ -73,8 +73,16 @@ def model_win_rate_bar(model_win_rates, calc_type):
         model_win_rates: DataFrame with win rates for each model
     """
     plt.figure(figsize=(12, 6))
+
+    # Remove three models from win rate analysis
+    models_to_remove = ['2.5-pro', 'o1', 'o3-mini']
+    pattern = '|'.join(models_to_remove)
+    model_win_rates_cleaned = model_win_rates[~model_win_rates['model_name_short'].str.contains(pattern, case=False, na=False)]
+
     # Sort by win rate
-    sorted_df = model_win_rates.sort_values('overall_win_rate', ascending=False)
+    sorted_df = model_win_rates_cleaned.sort_values('overall_win_rate', ascending=False)
+
+
     # Create bar plot
     ax = sns.barplot(x='model_name_short', y='overall_win_rate', data=sorted_df, hue='model_name_short', palette='magma')
     
@@ -132,7 +140,7 @@ def create_heatmaps(df, agent_scaffold, metric, title, x_label, y_label, legend_
     ax = sns.heatmap(
         data=main_data,
         annot=True,
-        annot_kws={"fontsize":8},
+        annot_kws={"fontsize":7},
         fmt='.2f',
         cmap=cmap,
         linewidths=0.5,
@@ -152,7 +160,7 @@ def create_heatmaps(df, agent_scaffold, metric, title, x_label, y_label, legend_
     plt.yticks(fontsize=10)
     
     # Adjust layout
-    plt.savefig(f'visualizations/new_plots/{agent_scaffold}_{metric}_heatmap.png', bbox_inches='tight', dpi=300)
+    plt.savefig(f'visualizations/new_plots/heatmaps/{agent_scaffold}_{metric}_heatmap.png', bbox_inches='tight', dpi=300)
 
 def ensure_list(x):
     if pd.isna(x):
@@ -176,13 +184,6 @@ def ensure_list(x):
 # #     tasks = df_m['benchmark_name'].unique()
 # #     grid_pareto_frontier_by_benchmark(tasks, df_m, 'total_cost', 'win_rate_mean', 'Total Cost', 'Mean Win Rate', 4, 'cost_win_rate.png')
 
-# def cost_accuracy():
-#     model_costs = pd.read_csv('model_total_usage.csv')
-#     model_accuracy = pd.read_csv('model_accuracy.csv')
-#     df_m = model_accuracy.merge(model_costs, on=['model_name_short', 'benchmark_name'], how='left')
-#     tasks = df_m['benchmark_name'].unique()
-#     grid_pareto_frontier_by_benchmark(tasks, df_m, 'total_cost', 'accuracy', 'Total Cost', 'Accuracy', 4, 'model_cost_accuracy.png')
-
 # def latency_accuracy():
 #     model_latency = pd.read_csv('model_latency.csv')
 #     model_accuracy = pd.read_csv('model_accuracy.csv')
@@ -205,18 +206,17 @@ def ensure_list(x):
 #     df_m = df_m[cols].copy()
 #     plot_pareto_frontier(df_m, 'mean_latency', 'overall_win_rate', 'Pareto Frontier: Win Rate vs. Mean Latency', 'Mean Latency', 'Win Rate', 'new_plots/latency_win_rate.png')
 
-# model_win_rate_bar(model_win_rates_max, 'max')
-# model_win_rate_bar(model_win_rates_pareto, 'pareto')
-# model_accuracy_full()
-# scaffold_accuracy()
-
 cleaned_dataset = pd.read_csv('cleaned_all_metrics.csv')
 cleaned_dataset['latencies_per_task'] = cleaned_dataset['latencies_per_task'].apply(ensure_list)
 cleaned_dataset['mean_latency'] = cleaned_dataset['latencies_per_task'].apply(lambda x: np.mean(x) if x else np.nan)
 
-create_heatmaps(cleaned_dataset, 'generalist', 'total_cost', 'Total Costs of Generalist Agents', 'Model Name', 'Benchmark Name', 'Total Cost')
-create_heatmaps(cleaned_dataset, 'generalist', 'accuracy', 'Accuracy of Generalist Agents', 'Model Name', 'Benchmark Name', 'Accuracy')
-create_heatmaps(cleaned_dataset, 'task_specific', 'accuracy', 'Accuracy of Task Specific Agents', 'Model Name', 'Benchmark Name', 'Accuracy')
-create_heatmaps(cleaned_dataset, 'task_specific', 'total_cost', 'Total Costs of Task Specific Agents', 'Model Name', 'Benchmark Name', 'Total Cost')
-create_heatmaps(cleaned_dataset, 'generalist', 'mean_latency', 'Mean Latencies of Generalist Agents', 'Model Name', 'Benchmark Name', 'Mean Latency')
-create_heatmaps(cleaned_dataset, 'task_specific', 'mean_latency', 'Mean Latencies of Task Specific Agents', 'Model Name', 'Benchmark Name', 'Mean Latency')
+
+model_win_rate_bar(model_win_rates_max, 'max')
+model_win_rate_bar(model_win_rates_pareto, 'pareto')
+
+# create_heatmaps(cleaned_dataset, 'generalist', 'total_cost', 'Total Costs of Generalist Agents', 'Model Name', 'Benchmark Name', 'Total Cost')
+# create_heatmaps(cleaned_dataset, 'generalist', 'accuracy', 'Accuracy of Generalist Agents', 'Model Name', 'Benchmark Name', 'Accuracy')
+# create_heatmaps(cleaned_dataset, 'task_specific', 'accuracy', 'Accuracy of Task Specific Agents', 'Model Name', 'Benchmark Name', 'Accuracy')
+# create_heatmaps(cleaned_dataset, 'task_specific', 'total_cost', 'Total Costs of Task Specific Agents', 'Model Name', 'Benchmark Name', 'Total Cost')
+# create_heatmaps(cleaned_dataset, 'generalist', 'mean_latency', 'Mean Latencies of Generalist Agents', 'Model Name', 'Benchmark Name', 'Mean Latency')
+# create_heatmaps(cleaned_dataset, 'task_specific', 'mean_latency', 'Mean Latencies of Task Specific Agents', 'Model Name', 'Benchmark Name', 'Mean Latency')

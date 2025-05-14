@@ -11,4 +11,4 @@ SWE-Agent,swebench_verified_mini,0.54
 Scicode Tool Calling Agent,scicode,0.09230769230769231
 Scicode Zero Shot Agent,scicode,0.09230769230769231
 TAU-bench FewShot,taubench_airline,0.6
-USACO Episodic + Semantic,usaco,0.498371335504886
+USACO Episodic + Semantic,usaco,0.5798045602605864

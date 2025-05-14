@@ -8,6 +8,7 @@ claude-3-7-sonnet-2025-02-19,taubench_airline,104.75565170666668
 claude-3-7-sonnet-2025-02-19,usaco,23.678290254071662
 claude-3-7-sonnet-2025-02-19 high,gaia,364.32163563030304
 claude-3-7-sonnet-2025-02-19 high,scienceagentbench,203.72024783333333
+claude-3-7-sonnet-2025-02-19 high,taubench_airline,193.37212698
 claude-3-7-sonnet-2025-02-19 high,usaco,52.385671241042346
 claude-3-7-sonnet-2025-02-19 low,colbench_backend_programming,19.925769816
 claude-3-7-sonnet-2025-02-19 low,scienceagentbench,103.34780728431373
@@ -46,7 +47,6 @@ gpt-4o,swebench_verified_mini,
 gpt-4o-2024-11-20,swebench_verified_mini,145.69710356000002
 gpt-4o-2024-11-20,taubench_airline,
 o1,swebench_verified_mini,
-o3-2025-04-03,taubench_airline,58.30647268
 o3-2025-04-16,scicode,274.67678661538463
 o3-2025-04-16,scienceagentbench,81.34541526470588
 o3-2025-04-16,swebench_verified_mini,386.77938113999994
@@ -63,10 +63,12 @@ o4-mini-2025-04-16 high,gaia,380.79443991515154
 o4-mini-2025-04-16 high,scicode,498.8361877556891
 o4-mini-2025-04-16 high,scienceagentbench,186.15367191176472
 o4-mini-2025-04-16 high,taubench_airline,105.01771814
+o4-mini-2025-04-16 high,usaco,84.16706886970685
 o4-mini-2025-04-16 low,colbench_backend_programming,8.399910957
 o4-mini-2025-04-16 low,colbench_frontend_design,58.20670389
 o4-mini-2025-04-16 low,gaia,134.07918656097561
 o4-mini-2025-04-16 low,scicode,275.4312287282051
 o4-mini-2025-04-16 low,scienceagentbench,130.1410955784314
 o4-mini-2025-04-16 low,taubench_airline,108.60444233999999
+o4-mini-2025-04-16 low,usaco,20.64041671009772
 o4-mini-2025-04-16 medium,colbench_frontend_design,133.74177511999997

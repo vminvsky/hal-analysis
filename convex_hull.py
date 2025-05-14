@@ -63,12 +63,41 @@ def identify_pareto_optimal(df, x_col, y_col, minimize_x=True, maximize_y=True):
         if (maximize_y and current_point[y_col] > last_pareto[y_col]) or \
            (not maximize_y and current_point[y_col] < last_pareto[y_col]):
             pareto_frontier.append(current_point)
+    # print("pareto frontier points", pareto_frontier)
+    pareto_df = pd.DataFrame(pareto_frontier)
+    df['pareto_optimal'] = df.index.isin(pareto_df.index)
+    non_optimal = df[~df['pareto_optimal']]
+    optimal = df[df['pareto_optimal']]
+    optimal_points = optimal.sort_values(x_col)
+    # print("optimal points", optimal_points)
+
+    # Get the convex hull if there are enough points
+    if len(optimal_points) >= 3:
+        # Get coordinates for convex hull
+        points = np.column_stack([optimal_points[x_col].values, optimal_points[y_col].values])
+        hull = ConvexHull(points)
+            
+        # Get hull vertices in order
+        hull_vertices = []
+        for vertex in hull.vertices:
+            hull_vertices.append(points[vertex])
+        hull_vertices = np.array(hull_vertices)
+        hull_set = set(map(tuple, hull_vertices))
+        df['pareto_optimal'] = df.apply(lambda row: (row[x_col], row[y_col]) in hull_set, axis=1)
+    else:
+        df['pareto_optimal'] = df.index.isin(pareto_df.index)
     
     # Create a DataFrame from the Pareto frontier
-    pareto_df = pd.DataFrame(pareto_frontier)
+    # pareto_df = pd.DataFrame(pareto_frontier)
     
+    #  print("hull vertices", hull_vertices)
+
     # Add a flag to the original DataFrame indicating Pareto optimal points
-    df['pareto_optimal'] = df.index.isin(pareto_df.index)
+    # df['pareto_optimal'] = df.index.isin(pareto_df.index)
+
+    # If the point is in the hull vertices, set the flag to optimal
+
+    print(df.head())
     
     return df
 
@@ -153,28 +182,28 @@ def plot_pareto_frontier(df, x_col, y_col, title, x_label, y_label, filename,
     )
     
     # Plot convex hull if there are enough points
-    if len(optimal_points) >= 3:
-        # Get coordinates for convex hull
-        points = np.column_stack([optimal_points[x_col].values, optimal_points[y_col].values])
-        hull = ConvexHull(points)
+    # if len(optimal_points) >= 3:
+    #     # Get coordinates for convex hull
+    #     points = np.column_stack([optimal_points[x_col].values, optimal_points[y_col].values])
+    #     hull = ConvexHull(points)
         
-        # Get hull vertices in order
-        hull_vertices = []
-        for vertex in hull.vertices:
-            hull_vertices.append(points[vertex])
-        hull_vertices.append(hull_vertices[0])  # Close the loop
-        hull_vertices = np.array(hull_vertices)
+    #     # Get hull vertices in order
+    #     hull_vertices = []
+    #     for vertex in hull.vertices:
+    #         hull_vertices.append(points[vertex])
+    #     hull_vertices.append(hull_vertices[0])  # Close the loop
+    #     hull_vertices = np.array(hull_vertices)
         
-        # Plot the convex hull
-        ax.plot(
-            hull_vertices[:, 0],
-            hull_vertices[:, 1],
-            color='#2ecc71',  # Green color for convex hull
-            linestyle='-',
-            linewidth=2,
-            alpha=0.7,
-            label='Convex Hull'
-        )
+        # # Plot the convex hull
+        # ax.plot(
+        #     hull_vertices[:, 0],
+        #     hull_vertices[:, 1],
+        #     color='#2ecc71',  # Green color for convex hull
+        #     linestyle='-',
+        #     linewidth=2,
+        #     alpha=0.7,
+        #     label='Convex Hull'
+        # )
     
     # Calculate AUC
     # auc = calculate_auc(optimal_points[x_col].values, optimal_points[y_col].values)
@@ -360,28 +389,27 @@ def grid_pareto_frontier_by_benchmark(tasks, merged_df, x_col, y_col, x_label, y
         )
         
         # Plot convex hull if there are enough points
-        if len(optimal_points) >= 3:
-            # Get coordinates for convex hull
-            points = np.column_stack([optimal_points[x_col].values, optimal_points[y_col].values])
-            hull = ConvexHull(points)
+        # if len(optimal_points) >= 3:
+        #     # Get coordinates for convex hull
+        #     points = np.column_stack([optimal_points[x_col].values, optimal_points[y_col].values])
+        #     hull = ConvexHull(points)
             
-            # Get hull vertices in order
-            hull_vertices = []
-            for vertex in hull.vertices:
-                hull_vertices.append(points[vertex])
-            hull_vertices.append(hull_vertices[0])  # Close the loop
-            hull_vertices = np.array(hull_vertices)
+        #     # Get hull vertices in order
+        #     hull_vertices = []
+        #     for vertex in hull.vertices:
+        #         hull_vertices.append(points[vertex])
+        #     hull_vertices = np.array(hull_vertices)
             
-            # Plot the convex hull
-            ax.plot(
-                hull_vertices[:, 0],
-                hull_vertices[:, 1],
-                color='#2ecc71',  # Green color for convex hull
-                linestyle='-',
-                linewidth=1.5,
-                alpha=0.7,
-                label='Convex Hull'
-            )
+            # # Plot the convex hull
+            # ax.plot(
+            #     hull_vertices[:, 0],
+            #     hull_vertices[:, 1],
+            #     color='#2ecc71',  # Green color for convex hull
+            #     linestyle='-',
+            #     linewidth=1.5,
+            #     alpha=0.7,
+            #     label='Convex Hull'
+            # )
         
         # Add model/agent names as labels with better styling
         for _, row in pareto_df.iterrows():
@@ -678,4 +706,33 @@ def cost_accuracy():
     grid_pareto_frontier_by_benchmark(tasks, df_m, 'total_cost', 'accuracy', 'Total Cost', 'Accuracy', 4, 'model_cost_accuracy.png')
     # save_pareto_distances(df_m, tasks, 'total_cost', 'accuracy')
 
-cost_accuracy()
+def latency_accuracy():
+    model_latency = pd.read_csv('model_latency.csv')
+    model_accuracy = pd.read_csv('model_accuracy.csv')
+    df_m = model_accuracy.merge(model_latency, on=['model_name_short', 'benchmark_name'], how='left')
+    tasks = df_m['benchmark_name'].unique()
+    grid_pareto_frontier_by_benchmark(tasks, df_m, 'latency', 'accuracy', 'Mean Latency', 'Accuracy', 4, 'model_latency_accuracy.png')
+
+def cost_win_rate():
+    # with model win rates and data/model_mean_cost, plot using plot_pareto_fronteir function
+    model_mean_costs = pd.read_csv('data/model_mean_cost.csv')
+    model_win_rates_max = pd.read_csv('model_win_rates_max.csv')
+    model_win_rates_pareto = pd.read_csv('model_win_rates_pareto.csv')
+
+    # plot pareto frontier for win rate calculation using max accuracy
+    df_m = pd.merge(model_mean_costs, model_win_rates_max, on='model_name_short', how='inner')
+    cols = ['model_name_short', 'mean_cost', 'win_rate_mean', 'overall_win_rate']
+    df_m = df_m[cols].copy()
+    plot_pareto_frontier(df_m, 'mean_cost', 'overall_win_rate', 'Max Accuracy Win Rate vs. Mean Cost', 'Mean Cost', 'Win Rate', 'new_plots/cost_win_rate_max.png')
+
+    # plot pareto frontier for win rate calculation using distance from convex hull
+    df_m = pd.merge(model_mean_costs, model_win_rates_pareto, on='model_name_short', how='inner')
+    cols = ['model_name_short', 'mean_cost', 'win_rate_mean', 'overall_win_rate']
+    df_m = df_m[cols].copy()
+    plot_pareto_frontier(df_m, 'mean_cost', 'overall_win_rate', 'Distance from Convex Hull Win Rate vs. Mean Cost', 'Mean Cost', 'Win Rate', 'new_plots/cost_win_rate_pareto.png')
+
+
+
+# cost_accuracy()
+# latency_accuracy()
+cost_win_rate()
