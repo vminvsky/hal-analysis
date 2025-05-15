@@ -514,7 +514,6 @@ def grid_pareto_frontier_by_benchmark(tasks, merged_df, x_col, y_col, x_label, y
     else:
         return None
 
-
 def calculate_pareto_distance(df, x_col, y_col, minimize_x=True, maximize_y=True):
 #     """
 #     Calculate the distance of each point to the Pareto frontier.
@@ -615,83 +614,10 @@ def get_max_accuracy():
     # print(model_accuracy.head(), model_accuracy.columns)
     return model_accuracy
 
-def get_mean_latency():
-    full_dataset = pd.read_csv('cleaned_all_metrics.csv')
-    model_latency = full_dataset.groupby(['model_name_short', 'benchmark_name'])[['mean_latency']].mean()
-
-    # mean latency of models across benchmarks
-    model_mean_latency = model_latency.groupby('model_name_short')['mean_latency'].mean().reset_index()
-    model_mean_latency = model_mean_latency.rename(columns={'mean_latency':'mean_of_mean_latency'})
-    model_mean_latency.to_csv('data/model_mean_latency.csv')
-
-def get_mean_cost():
-    full_dataset = pd.read_csv('cleaned_all_metrics.csv')
-    model_cost = full_dataset.groupby(['model_name_short', 'benchmark_name'])[['total_cost']].mean()
-
-    # mean latency of models across benchmarks
-    model_mean_cost = model_cost.groupby('model_name_short')['total_cost'].mean().reset_index()
-    model_mean_cost = model_mean_cost.rename(columns={'total_cost':'mean_cost'})
-    model_mean_cost.to_csv('data/model_mean_cost.csv')
-
 def cost_accuracy():
-    # model_costs = pd.read_csv('model_total_usage.csv')
-    # model_accuracy = pd.read_csv('model_accuracy.csv')
-    # df_m = model_accuracy.merge(model_costs, on=['model_name_short', 'benchmark_name'], how='left')
     df_m = get_max_accuracy()
     tasks = df_m['benchmark_name'].unique()
     grid_pareto_frontier_by_benchmark(tasks, df_m, 'total_cost', 'accuracy', 'Total Cost', 'Accuracy', 5, 'model_cost_accuracy.png')
-    # save_pareto_distances(df_m, tasks, 'total_cost', 'accuracy')
-
-def latency_accuracy():
-    # model_latency = pd.read_csv('model_latency.csv')
-    # model_accuracy = pd.read_csv('model_accuracy.csv')
-    df_m = get_max_accuracy()
-    # df_m = acc.merge(latency, on=['model_name_short', 'benchmark_name'], how='left')
-    tasks = df_m['benchmark_name'].unique()
-    grid_pareto_frontier_by_benchmark(tasks, df_m, 'mean_latency', 'accuracy', 'Latency', 'Accuracy', 5, 'model_latency_accuracy.png', )
-
-def cost_win_rate():
-    # with model win rates and data/model_mean_cost, plot using plot_pareto_fronteir function
-    get_mean_cost()
-    model_mean_costs = pd.read_csv('data/model_mean_cost.csv')
-    model_win_rates_max = pd.read_csv('model_win_rates_max.csv')
-    model_win_rates_pareto = pd.read_csv('model_win_rates_pareto.csv')
-
-    # plot pareto frontier for win rate calculation using max accuracy
-    df_m = pd.merge(model_mean_costs, model_win_rates_max, on='model_name_short', how='inner')
-    cols = ['model_name_short', 'mean_cost', 'win_rate_mean', 'overall_win_rate']
-    df_m = df_m[cols].copy()
-    plot_pareto_frontier(df_m, 'mean_cost', 'overall_win_rate', 'Max Accuracy Win Rate vs. Mean Cost', 'Mean Cost', 'Win Rate', 'new_plots/cost_win_rate_max.png')
-
-    # plot pareto frontier for win rate calculation using distance from convex hull
-    df_m = pd.merge(model_mean_costs, model_win_rates_pareto, on='model_name_short', how='inner')
-    cols = ['model_name_short', 'mean_cost', 'win_rate_mean', 'overall_win_rate']
-    df_m = df_m[cols].copy()
-    plot_pareto_frontier(df_m, 'mean_cost', 'overall_win_rate', 'Distance from Convex Hull Win Rate vs. Mean Cost', 'Mean Cost', 'Win Rate', 'new_plots/cost_win_rate_pareto.png')
-
-def latency_win_rate():
-    # with model win rates and data/model_mean_latency, plot using plot_pareto_fronteir function
-    get_mean_latency()
-    model_mean_latencies = pd.read_csv('data/model_mean_latency.csv')
-    model_win_rates_max = pd.read_csv('model_win_rates_max.csv')
-    model_win_rates_pareto = pd.read_csv('model_win_rates_pareto.csv')
-
-    # plot pareto frontier for win rate calculation using max accuracy
-    df_m = pd.merge(model_mean_latencies, model_win_rates_max, on='model_name_short', how='inner')
-    cols = ['model_name_short', 'mean_of_mean_latency', 'win_rate_mean', 'overall_win_rate']
-    df_m = df_m[cols].copy()
-    plot_pareto_frontier(df_m, 'mean_of_mean_latency', 'overall_win_rate', 'Max Accuracy Win Rate vs. Mean Latency', 'Mean Latency', 'Win Rate', 'new_plots/latency_win_rate_max.png')
-
-    # plot pareto frontier for win rate calculation using distance from convex hull
-    df_m = pd.merge(model_mean_latencies, model_win_rates_pareto, on='model_name_short', how='inner')
-    cols = ['model_name_short', 'mean_of_mean_latency', 'win_rate_mean', 'overall_win_rate']
-    df_m = df_m[cols].copy()
-    plot_pareto_frontier(df_m, 'mean_of_mean_latency', 'overall_win_rate', 'Distance from Convex Hull Win Rate vs. Mean Latency', 'Mean Latency', 'Win Rate', 'new_plots/latency_win_rate_pareto.png')
+    save_pareto_distances(df_m, tasks, 'total_cost', 'accuracy')
 
 cost_accuracy()
-latency_accuracy()
-cost_win_rate()
-latency_win_rate()
-
-# minimize_x=True, maximize_y=True, 
-#                                      model_col='model_name_short'

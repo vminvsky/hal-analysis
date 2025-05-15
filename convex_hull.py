@@ -539,15 +539,6 @@ def get_mean_cost():
     model_mean_cost = model_mean_cost.rename(columns={'total_cost':'mean_cost'})
     model_mean_cost.to_csv('data/model_mean_cost.csv')
 
-def cost_accuracy():
-    # model_costs = pd.read_csv('model_total_usage.csv')
-    # model_accuracy = pd.read_csv('model_accuracy.csv')
-    # df_m = model_accuracy.merge(model_costs, on=['model_name_short', 'benchmark_name'], how='left')
-    df_m = get_max_accuracy()
-    tasks = df_m['benchmark_name'].unique()
-    grid_pareto_frontier_by_benchmark(tasks, df_m, 'total_cost', 'accuracy', 'Total Cost', 'Accuracy', 5, 'model_cost_accuracy.png')
-    # save_pareto_distances(df_m, tasks, 'total_cost', 'accuracy')
-
 def latency_accuracy():
     # model_latency = pd.read_csv('model_latency.csv')
     # model_accuracy = pd.read_csv('model_accuracy.csv')
@@ -594,7 +585,6 @@ def latency_win_rate():
     df_m = df_m[cols].copy()
     plot_pareto_frontier(df_m, 'mean_of_mean_latency', 'overall_win_rate', 'Distance from Convex Hull Win Rate vs. Mean Latency', 'Mean Latency', 'Win Rate', 'new_plots/latency_win_rate_pareto.png')
 
-cost_accuracy()
 latency_accuracy()
 cost_win_rate()
 latency_win_rate()
