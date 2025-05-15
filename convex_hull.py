@@ -7,6 +7,73 @@ from scipy.spatial import ConvexHull
 import os
 import csv
 
+def cross(o, a, b):
+    """
+    Cross product for determining the convex hull.
+    
+    Args:
+        o, a, b: Points for cross product calculation
+        
+    Returns:
+        Cross product value
+    """
+    return (a[0] - o[0]) * (b[1] - o[1]) - (a[1] - o[1]) * (b[0] - o[0])
+
+def compute_hull_side(points):
+    """
+    Compute one side of the convex hull using the cross product test.
+    
+    Args:
+        points: List of points as (x, y, index) tuples
+        
+    Returns:
+        List of indices of points on the hull
+    """
+    hull = []
+    for i, p in enumerate(points):
+        while len(hull) >= 2 and cross(points[hull[-2]], points[hull[-1]], p) <= 0:
+            hull.pop()
+        hull.append(i)
+    return [points[i][2] for i in hull]
+
+def is_pareto_efficient(points, candidate_idx, x_col, y_col, minimize_x=True, maximize_y=True):
+    """
+    Determine if a point is Pareto efficient.
+    
+    Args:
+        points: DataFrame with all points
+        candidate_idx: Index of the candidate point
+        x_col, y_col: Column names for metrics
+        minimize_x, maximize_y: Optimization directions
+        
+    Returns:
+        Boolean indicating if the point is Pareto efficient
+    """
+    candidate = points.iloc[candidate_idx]
+    
+    for i in range(len(points)):
+        if i == candidate_idx:  # Skip comparing with itself
+            continue
+            
+        other = points.iloc[i]
+        
+        # Check if other dominates candidate
+        x_better = (minimize_x and other[x_col] <= candidate[x_col]) or \
+                   (not minimize_x and other[x_col] >= candidate[x_col])
+                   
+        y_better = (maximize_y and other[y_col] >= candidate[y_col]) or \
+                   (not maximize_y and other[y_col] <= candidate[y_col])
+                   
+        strictly_better = (minimize_x and other[x_col] < candidate[x_col]) or \
+                          (not minimize_x and other[x_col] > candidate[x_col]) or \
+                          (maximize_y and other[y_col] > candidate[y_col]) or \
+                          (not maximize_y and other[y_col] < candidate[y_col])
+                          
+        if x_better and y_better and strictly_better:
+            return False
+            
+    return True
+
 def identify_pareto_optimal(df, x_col, y_col, minimize_x=True, maximize_y=True):
     """
     Identify Pareto optimal points (best y for a given x).
@@ -23,60 +90,39 @@ def identify_pareto_optimal(df, x_col, y_col, minimize_x=True, maximize_y=True):
     """
     df = df.copy()
     
-    # Sort by x (ascending if minimize_x, descending otherwise) 
-    # and y (descending if maximize_y, ascending otherwise)
-    x_ascending = minimize_x
-    y_ascending = not maximize_y
+    # Initialize all points as non-optimal
+    df['pareto_optimal'] = False
     
-    df = df.sort_values([x_col, y_col], ascending=[x_ascending, y_ascending])
+    # If we have fewer than 2 points, they're all optimal
+    if len(df) <= 1:
+        df['pareto_optimal'] = True
+        return df
     
-    # Initialize Pareto frontier with the first point
-    pareto_frontier = [df.iloc[0]]
+    # Extract points as (x, y, index) tuples
+    # Transform values based on minimize/maximize preferences
+    points = []
+    for i in range(len(df)):
+        x_val = df.iloc[i][x_col] if minimize_x else -df.iloc[i][x_col]
+        y_val = df.iloc[i][y_col] if maximize_y else -df.iloc[i][y_col]
+        points.append((x_val, y_val, i))
     
-    # Iterate through remaining points
-    for i in range(1, len(df)):
-        current_point = df.iloc[i]
-        last_pareto = pareto_frontier[-1]
-        
-        # If current point has better y than the last Pareto optimal point,
-        # add it to the Pareto frontier
-        if (maximize_y and current_point[y_col] > last_pareto[y_col]) or \
-           (not maximize_y and current_point[y_col] < last_pareto[y_col]):
-            pareto_frontier.append(current_point)
-    # print("pareto frontier points", pareto_frontier)
-    pareto_df = pd.DataFrame(pareto_frontier)
-    df['pareto_optimal'] = df.index.isin(pareto_df.index)
-    non_optimal = df[~df['pareto_optimal']]
-    optimal = df[df['pareto_optimal']]
-    optimal_points = optimal.sort_values(x_col)
-    # print("optimal points", optimal_points)
-
-    # Get the convex hull if there are enough points
-    if len(optimal_points) >= 3:
-        # Get coordinates for convex hull
-        points = np.column_stack([optimal_points[x_col].values, optimal_points[y_col].values])
-        hull = ConvexHull(points)
-            
-        # Get hull vertices in order
-        hull_vertices = []
-        for vertex in hull.vertices:
-            hull_vertices.append(points[vertex])
-        hull_vertices = np.array(hull_vertices)
-        hull_set = set(map(tuple, hull_vertices))
-        df['pareto_optimal'] = df.apply(lambda row: (row[x_col], row[y_col]) in hull_set, axis=1)
-    else:
-        df['pareto_optimal'] = df.index.isin(pareto_df.index)
+    # Sort points by x (ascending)
+    points.sort()
     
-    # Create a DataFrame from the Pareto frontier
-    # pareto_df = pd.DataFrame(pareto_frontier)
+    # Compute the upper convex hull (which becomes the Pareto frontier)
+    # Reverse the points as in test_analysis.py
+    hull_indices = compute_hull_side(list(reversed(points)))
     
-    #  print("hull vertices", hull_vertices)
-
-    # Add a flag to the original DataFrame indicating Pareto optimal points
-    # df['pareto_optimal'] = df.index.isin(pareto_df.index)
-
-    # If the point is in the hull vertices, set the flag to optimal
-
+    # Filter points on the hull to ensure they are truly Pareto efficient
+    pareto_indices = []
+    for idx in hull_indices:
+        if is_pareto_efficient(df, idx, x_col, y_col, minimize_x, maximize_y):
+            pareto_indices.append(idx)
+    
+    # Mark points on the Pareto frontier in the original DataFrame
+    for idx in pareto_indices:
+        df.iloc[idx, df.columns.get_loc('pareto_optimal')] = True
+    
     print(df.head())
     
     return df
@@ -461,27 +507,13 @@ def grid_pareto_frontier_by_benchmark(tasks, merged_df, x_col, y_col, x_label, y
     plt.savefig(f'visualizations/new_plots/convex_{filename}', dpi=300, bbox_inches='tight')
     print(f"Saved file: visualizations/new_plots/convex_{filename}")
     
-    # Save AUCs to CSV
-    # if auc_data:
-    #     csv_filename = f'visualizations/auc_data/{filename.replace(".png", "")}_auc.csv'
-        
-    #     with open(csv_filename, 'w', newline='') as csvfile:
-    #         writer = csv.writer(csvfile)
-    #         writer.writerow(['Benchmark', 'AUC'])
-    #         for benchmark, auc in auc_data:
-    #             writer.writerow([benchmark, auc])
-        
-    #     print(f"Saved AUC data: {csv_filename}")
-        
-        # Create AUC visualization
-        # create_auc_visualization(auc_data, filename.replace(".png", ""))
-    
     # Combine all pareto dataframes
     if all_pareto_dfs:
         combined_pareto_df = pd.concat(all_pareto_dfs, ignore_index=True)
         return combined_pareto_df
     else:
         return None
+
 
 def calculate_pareto_distance(df, x_col, y_col, minimize_x=True, maximize_y=True):
 #     """
@@ -589,7 +621,7 @@ def latency_accuracy():
     model_accuracy = pd.read_csv('model_accuracy.csv')
     df_m = model_accuracy.merge(model_latency, on=['model_name_short', 'benchmark_name'], how='left')
     tasks = df_m['benchmark_name'].unique()
-    grid_pareto_frontier_by_benchmark(tasks, df_m, 'latency', 'accuracy', 'Mean Latency', 'Accuracy', 5, 'model_latency_accuracy.png')
+    grid_pareto_frontier_by_benchmark(tasks, df_m, 'latency', 'accuracy', 'Mean Latency', 'Accuracy', 5, 'model_latency_accuracy.png', )
 
 def cost_win_rate():
     # with model win rates and data/model_mean_cost, plot using plot_pareto_fronteir function
@@ -611,6 +643,9 @@ def cost_win_rate():
 
 
 
-cost_accuracy()
+# cost_accuracy()
 latency_accuracy()
 cost_win_rate()
+
+# minimize_x=True, maximize_y=True, 
+#                                      model_col='model_name_short'
