@@ -3,7 +3,7 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 from tabulate import tabulate
 import numpy as np
-from matplotlib.colors import LinearSegmentedColormap
+from matplotlib.colors import LinearSegmentedColormap, ListedColormap, Normalize
 import matplotlib as mpl
 from matplotlib import rcParams
 import ast
@@ -125,35 +125,48 @@ def create_heatmaps(df, agent_scaffold, metric, title, x_label, y_label, legend_
         print("Error: scaffold type not found")
         return
     
-    duplicates = df[df.duplicated(subset=['benchmark_name', 'model_name_short'], keep=False)]
-   # print(duplicates)
+    # duplicates = df[df.duplicated(subset=['benchmark_name', 'model_name_short'], keep=False)]
+    # print(duplicates)
     
     df_pivot = df.pivot_table(columns='model_name_short', index='benchmark_name', values=metric, aggfunc='mean')
-    
-    # Calculate averages
-    df_pivot['Average'] = df_pivot.mean(axis=1)  # Average for each benchmark (row)
-    col_avg = df_pivot.drop(columns=['Average']).mean(axis=0)
+
+    # normalize by row for color gradient
+    norm = df_pivot.sub(df_pivot.min(axis=1), axis=0)
+    norm = norm.div(df_pivot.max(axis=1) - df_pivot.min(axis=1), axis=0)
     
     # Create a custom colormap
-    cmap = sns.color_palette("coolwarm", as_cmap=True)
-    
+    base_cmap = plt.colormaps.get_cmap('Purples')
+    colors = base_cmap(np.linspace(0,1,256))
+    colors = colors[50:]
+    custom_purples =LinearSegmentedColormap.from_list("custom_purples", colors)
+    custom_purples.set_bad(color='#404040')
+
+    # Create greyed out boxes for NaN values
+    # annot = df_pivot.copy()
+    # annot = annot.map(lambda x: "no runs" if pd.isna(x) else f"{x:.2f}")
+
     # Create the figure with appropriate size (only create one figure)
-    plt.figure(figsize=(11, 5))
     
+    fig, ax = plt.subplots(figsize=(11, 5))
+
     # Create the main heatmap 
-    main_data = df_pivot.iloc[:-1, :-1]
-    ax = sns.heatmap(
-        data=main_data,
-        annot=True,
+    sns.heatmap(
+        data=norm,
+        annot=df_pivot,
         annot_kws={"fontsize":7},
         fmt='.2f',
-        cmap=cmap,
+        cmap=custom_purples,
         linewidths=0.5,
         linecolor='white',
-        cbar_kws={'label': legend_name}
+        cbar_kws={'label': legend_name, 'orientation': 'vertical', 'ticks':[]},
     )
     
     plt.tight_layout()
+
+    for i in range(norm.shape[0]):
+        for j in range(norm.shape[1]):
+            if pd.isna(df_pivot.iloc[i,j]):
+                ax.text(j+0.5, i+0.5, 'no runs', ha='center', va='center', color='white', fontsize=7)
     
     # Customize the appearance
     plt.title(title, fontsize=14, pad=20)
@@ -187,12 +200,12 @@ cleaned_dataset['latencies_per_task'] = cleaned_dataset['latencies_per_task'].ap
 cleaned_dataset['mean_latency'] = cleaned_dataset['latencies_per_task'].apply(lambda x: np.mean(x) if x else np.nan)
 
 
-model_win_rate_bar(model_win_rates_max, 'max')
-model_win_rate_bar(model_win_rates_pareto, 'pareto')
+# model_win_rate_bar(model_win_rates_max, 'max')
+# model_win_rate_bar(model_win_rates_pareto, 'pareto')
 
-# create_heatmaps(cleaned_dataset, 'generalist', 'total_cost', 'Total Costs of Generalist Agents', 'Model Name', 'Benchmark Name', 'Total Cost')
-# create_heatmaps(cleaned_dataset, 'generalist', 'accuracy', 'Accuracy of Generalist Agents', 'Model Name', 'Benchmark Name', 'Accuracy')
-# create_heatmaps(cleaned_dataset, 'task_specific', 'accuracy', 'Accuracy of Task Specific Agents', 'Model Name', 'Benchmark Name', 'Accuracy')
-# create_heatmaps(cleaned_dataset, 'task_specific', 'total_cost', 'Total Costs of Task Specific Agents', 'Model Name', 'Benchmark Name', 'Total Cost')
-# create_heatmaps(cleaned_dataset, 'generalist', 'mean_latency', 'Mean Latencies of Generalist Agents', 'Model Name', 'Benchmark Name', 'Mean Latency')
-# create_heatmaps(cleaned_dataset, 'task_specific', 'mean_latency', 'Mean Latencies of Task Specific Agents', 'Model Name', 'Benchmark Name', 'Mean Latency')
+create_heatmaps(cleaned_dataset, 'generalist', 'total_cost', 'Total Costs of Generalist Agents', 'Model Name', 'Benchmark Name', 'Total Cost')
+create_heatmaps(cleaned_dataset, 'generalist', 'accuracy', 'Accuracy of Generalist Agents', 'Model Name', 'Benchmark Name', 'Accuracy')
+create_heatmaps(cleaned_dataset, 'task_specific', 'accuracy', 'Accuracy of Task Specific Agents', 'Model Name', 'Benchmark Name', 'Accuracy')
+create_heatmaps(cleaned_dataset, 'task_specific', 'total_cost', 'Total Costs of Task Specific Agents', 'Model Name', 'Benchmark Name', 'Total Cost')
+create_heatmaps(cleaned_dataset, 'generalist', 'mean_latency', 'Mean Latencies of Generalist Agents', 'Model Name', 'Benchmark Name', 'Mean Latency')
+create_heatmaps(cleaned_dataset, 'task_specific', 'mean_latency', 'Mean Latencies of Task Specific Agents', 'Model Name', 'Benchmark Name', 'Mean Latency')
