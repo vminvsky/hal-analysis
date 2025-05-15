@@ -294,7 +294,7 @@ def grid_pareto_frontier_by_benchmark(tasks, merged_df, x_col, y_col, x_label, y
     # Flatten the axes array for easy iteration
     axes = axes.flatten()
     
-    all_pareto_dfs = []
+    #all_pareto_dfs = []
     auc_data = []  # Store benchmark names and AUC values
     
     for idx, task in enumerate(tasks):
@@ -353,6 +353,9 @@ def grid_pareto_frontier_by_benchmark(tasks, merged_df, x_col, y_col, x_label, y
             alpha=0.8
         )
         
+        auc = calculate_auc(optimal_points[x_col].values, optimal_points[y_col].values)
+        auc_data.append((benchmark_name, auc))
+
         # Add model/agent names as labels with better styling
         for _, row in pareto_df.iterrows():
             color = '#e74c3c' if row['pareto_optimal'] else '#3498db'
@@ -389,16 +392,16 @@ def grid_pareto_frontier_by_benchmark(tasks, merged_df, x_col, y_col, x_label, y
         # Improve grid appearance
         ax.grid(True, linestyle='--', alpha=0.3, color='gray')
         
-        # Add a subtle border around the plot
+        # Add a border around the plot
         for spine in ax.spines.values():
             spine.set_visible(True)
             spine.set_color('lightgray')
             spine.set_linewidth(0.5)
         
         # Store the pareto dataframe with AUC
-        # pareto_df['auc'] = auc
+        pareto_df['auc'] = auc
         # all_pareto_dfs.append(pareto_df)
-    
+        # print(pareto_df.head())
     # Add a single legend for the entire figure
     handles, labels = axes[0].get_legend_handles_labels()
     if handles:
@@ -495,7 +498,7 @@ def create_auc_visualization(auc_data, base_filename):
     plt.savefig(f'visualizations/auc_visualizations/{base_filename}_auc_viz.png', dpi=300, bbox_inches='tight')
     print(f"Saved AUC visualization: visualizations/auc_visualizations/{base_filename}_auc_viz.png")
 
-def cost_accuracy():
+def inverse_cost_accuracy():
     model_costs = pd.read_csv('model_total_usage.csv')
     model_accuracy = pd.read_csv('model_accuracy.csv')
     df_m = model_accuracy.merge(model_costs, on=['model_name_short', 'benchmark_name'], how='left')
@@ -503,4 +506,4 @@ def cost_accuracy():
     tasks = df_m['benchmark_name'].unique()
     grid_pareto_frontier_by_benchmark(tasks, df_m, 'inverse_cost', 'accuracy', 'Inverse Cost', 'Accuracy', 4, 'inverse_cost_accuracy.png')
 
-cost_accuracy()
+inverse_cost_accuracy()

@@ -7,26 +7,6 @@ from scipy.spatial import ConvexHull
 import os
 import csv
 
-def calculate_auc(x, y):
-    """
-    Calculate the area under the curve (AUC) using the trapezoidal rule.
-    
-    Args:
-        x: x-coordinates
-        y: y-coordinates
-        
-    Returns:
-        Area under the curve
-    """
-    # Sort points by x
-    indices = np.argsort(x)
-    x_sorted = np.array(x)[indices]
-    y_sorted = np.array(y)[indices]
-    
-    # Calculate AUC using trapezoidal rule
-    auc = np.trapezoid(y_sorted, x_sorted)
-    return auc
-
 def identify_pareto_optimal(df, x_col, y_col, minimize_x=True, maximize_y=True):
     """
     Identify Pareto optimal points (best y for a given x).
@@ -503,7 +483,7 @@ def grid_pareto_frontier_by_benchmark(tasks, merged_df, x_col, y_col, x_label, y
     else:
         return None
 
-# def calculate_pareto_distance(df, x_col, y_col, minimize_x=True, maximize_y=True):
+def calculate_pareto_distance(df, x_col, y_col, minimize_x=True, maximize_y=True):
 #     """
 #     Calculate the distance of each point to the Pareto frontier.
     
@@ -541,64 +521,21 @@ def grid_pareto_frontier_by_benchmark(tasks, merged_df, x_col, y_col, x_label, y
 #         point_x = row[x_col]
 #         point_y = row[y_col]
         
-#         # Initialize with a large value
 #         min_distance = float('inf')
         
-#         # Check if point is outside the x-range of Pareto frontier
-#         if point_x < pareto_x[0]:
-#             # Point is to the left of Pareto frontier
-#             # Calculate distance to the leftmost Pareto point
-#             dist = np.sqrt((point_x - pareto_x[0])**2 + (point_y - pareto_y[0])**2)
-#             min_distance = min(min_distance, dist)
-#         elif point_x > pareto_x[-1]:
-#             # Point is to the right of Pareto frontier
-#             # Calculate distance to the rightmost Pareto point
-#             dist = np.sqrt((point_x - pareto_x[-1])**2 + (point_y - pareto_y[-1])**2)
-#             min_distance = min(min_distance, dist)
-#         else:
-#             # Point is within the x-range of Pareto frontier
-#             # Calculate distance to each line segment of the Pareto frontier
-#             for i in range(len(pareto_x) - 1):
-#                 x1, y1 = pareto_x[i], pareto_y[i]
-#                 x2, y2 = pareto_x[i+1], pareto_y[i+1]
-                
-#                 # Calculate distance to line segment
-#                 # First, check if the projection of the point onto the line segment falls within the segment
-#                 segment_length_squared = (x2 - x1)**2 + (y2 - y1)**2
-#                 if segment_length_squared == 0:
-#                     # Degenerate case: segment is a point
-#                     dist = np.sqrt((point_x - x1)**2 + (point_y - y1)**2)
-#                 else:
-#                     # Calculate projection
-#                     t = max(0, min(1, ((point_x - x1) * (x2 - x1) + (point_y - y1) * (y2 - y1)) / segment_length_squared))
-#                     proj_x = x1 + t * (x2 - x1)
-#                     proj_y = y1 + t * (y2 - y1)
-#                     dist = np.sqrt((point_x - proj_x)**2 + (point_y - proj_y)**2)
-                
-#                 min_distance = min(min_distance, dist)
-        
-#         # Update distance in the DataFrame
+          ##########################################
+          ####### DISTANCE CALCULATION HERE #########
+          ##########################################
+
 #         df.loc[idx, 'pareto_distance'] = min_distance
     
-#     return df
+    # return df
+    return None
 
 # def save_pareto_distances(merged_df, tasks, x_col, y_col, model_col='model_name_short', 
 #                           minimize_x=True, maximize_y=True, filename='pareto_distances.csv'):
 #     """
 #     Calculate and save the distance of each model from the Pareto frontier for each task.
-    
-#     Args:
-#         merged_df: DataFrame with data for all tasks
-#         tasks: List of task/benchmark names
-#         x_col: Column name for x metric (e.g., latency, cost)
-#         y_col: Column name for y metric (e.g., win_rate, accuracy)
-#         model_col: Column name for model/agent names
-#         minimize_x: Whether to minimize the x metric (True for cost/latency)
-#         maximize_y: Whether to maximize the y metric (True for win_rate/accuracy)
-#         filename: Output CSV filename
-        
-#     Returns:
-#         DataFrame with distances for all tasks
 #     """
 #     # Ensure directory exists
 #     os.makedirs('visualizations/pareto_distances', exist_ok=True)
@@ -638,65 +575,6 @@ def grid_pareto_frontier_by_benchmark(tasks, merged_df, x_col, y_col, x_label, y
 #     csv_path = f'visualizations/pareto_distances/{filename}'
 #     combined_df.to_csv(csv_path, index=False)
 #     print(f"Saved Pareto distances to: {csv_path}")
-    
-#     return combined_df
-
-# def create_auc_visualization(auc_data, base_filename):
-#     """
-#     Create a bar chart visualization of AUCs across benchmarks.
-    
-#     Args:
-#         auc_data: List of tuples (benchmark_name, auc_value)
-#         base_filename: Base filename for saving the visualization
-#     """
-#     # Extract benchmark names and AUC values
-#     benchmarks = [item[0] for item in auc_data]
-#     auc_values = [item[1] for item in auc_data]
-    
-#     if not benchmarks:
-#         print("No AUC data available for visualization")
-#         return
-    
-#     # Create bar chart
-#     plt.figure(figsize=(12, 8), facecolor='white')
-    
-#     # Set a more attractive style
-#     plt.style.use('seaborn-v0_8-whitegrid')
-    
-#     # Create bars with gradient color
-#     bars = plt.bar(benchmarks, auc_values, color='#3498db', alpha=0.8, edgecolor='white', linewidth=1.5)
-    
-#     # Add value labels on top of bars
-#     for bar in bars:
-#         height = bar.get_height()
-#         plt.text(
-#             bar.get_x() + bar.get_width()/2.,
-#             height + 0.01 * max(auc_values),
-#             f'{height:.4f}',
-#             ha='center', 
-#             va='bottom',
-#             fontsize=10,
-#             fontweight='bold'
-#         )
-    
-#     # Add title and labels
-#     plt.title('Area Under Curve (AUC) by Benchmark', fontsize=16, pad=20, weight='bold')
-#     plt.xlabel('Benchmark', fontsize=14, labelpad=10)
-#     plt.ylabel('AUC', fontsize=14, labelpad=10)
-    
-#     # Improve grid appearance
-#     plt.grid(True, linestyle='--', alpha=0.3, color='gray', axis='y')
-    
-#     # Rotate x-axis labels if there are many benchmarks
-#     if len(benchmarks) > 5:
-#         plt.xticks(rotation=45, ha='right')
-    
-#     plt.tight_layout()
-    
-#     # Save visualization
-#     os.makedirs('visualizations/auc_visualizations', exist_ok=True)
-#     plt.savefig(f'visualizations/auc_visualizations/{base_filename}_auc_viz.png', dpi=300, bbox_inches='tight')
-#     print(f"Saved AUC visualization: visualizations/auc_visualizations/{base_filename}_auc_viz.png")
 
 def cost_accuracy():
     model_costs = pd.read_csv('model_total_usage.csv')

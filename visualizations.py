@@ -82,9 +82,14 @@ def model_win_rate_bar(model_win_rates, calc_type):
     # Sort by win rate
     sorted_df = model_win_rates_cleaned.sort_values('overall_win_rate', ascending=False)
 
-
     # Create bar plot
-    ax = sns.barplot(x='model_name_short', y='overall_win_rate', data=sorted_df, hue='model_name_short', palette='magma')
+    ax = sns.barplot(x='model_name_short', y='overall_win_rate', data=sorted_df, hue='model_name_short', palette='dark:gray')
+    norm = plt.Normalize(sorted_df['overall_win_rate'].min(), sorted_df['overall_win_rate'].max())
+    cmap = plt.cm.magma_r
+    colors = cmap(norm(sorted_df['overall_win_rate']))
+
+    for bar, color in zip(ax.patches, colors):
+        bar.set_facecolor(color)
     
     if calc_type == 'max':
         plt.title(f'Model Win Rates Calculated Using Max Accuracy')
