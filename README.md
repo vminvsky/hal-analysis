@@ -47,34 +47,22 @@ Analysis of agent traces
 
 <!-- USAGE EXAMPLES -->
 ## Usage
-
-* `accuracy.py`: outputs two csv files with
-  * the accuracy for each model benchmark pair (`model_accuracy.csv`)
-  * the accuracy for each agent scaffold benchmark pair (`benchmark_accuracy.csv`)
-* `latencies.py`: outputs four csv files with
-  * the latency for each model benchmark pair (`model_latency.csv`)
-  * the latency for each agent scaffold benchmark pair (`agent_latency.csv`)
-  * the mean latencies of each model across all benchmarks (`data/model_mean_latency.csv`)
-  * the mean latencies of each agent scaffold across all benchmarks (`data/agent_mean_latency.csv`)
-* `convex_hull.py`:
-  * plots the convex hull of the pareto frontier per model per benchmark of cost and accuracy as subplots (`visualizations/new_plots/convex_model_cost_accuracy.png`)
-  * calculates the AUCs from each subplot and returns as a csv (`visualizations/auc_data/model_cost_accuracy_auc.csv`)
-  * plots the AUCs as a bar plot (`visualizations/auc_visualizations/model_cost_accuracy_auc_viz.png`)
-  * measures the distance of each model from the convex hull, saves as a csv (`visualizations/pareto_distances/pareto_distances.csv`)
-* `token_usage.py`: outputs four csv files with 
-  * the cost for each model benchmark pair (`model_total_usage.csv`)
-  * the cost for each agent scaffold benchmark pair (`benchmark_total_usage.csv`)
-  * the mean costs of each model across all benchmarks (`data/model_mean_cost.csv`)
-  * the mean costs of each agent scaffold across all benchmarks (`data/agent_mean_cost.csv`)
-* `win_rates.py`: outputs two csv files with:
-  * overall model win rates across benchmarks (`model_win_rates.csv`)
-  * model win rates by benchmark (`benchmark_win_rates.csv`)
-* `visualizations.py`: script that plots all figures for our analysis
-* `src/dataloaders/config.py`: mappings to standardize agent and model names across benchmarks
-* `visualizations`: folder with visualizations
-  * `visualizations/auc_data/model_cost_accuracy_auc.csv`: csv file with auc for the cost accuracy pareto
-  * `visualizations/auc_visualizations/model_cost_accuracy_auc_viz.png`: bar plot of auc for the cost accuracy pareto for each benchmark
-  * `visualizations/new_plots`: folder with final visualizations
+1. Run `cost_accuracy_curve.py`. This will create the pareto frontiers by benchmark of cost vs. accuracy. It will also save the distance of each point from the pareto frontier per benchmark in `visualizations/pareto_distances/pareto_distances.csv`.
+2. Run `win_rates.py`. This outputs two files:
+    1. `model_win_rates_max.csv` overall model win rates across benchmarks calculated using max accuracy
+    2. `model_win_rates_max_pareto.csv` overall model win rates across benchmarks calculated using distance from the pareto frontier
+4. Run `convex_hull.py`. This will create the pareto frontiers for:
+    1. latency vs. accuracy pareto per benchmark
+    2. cost vs. win rate calculated using max accuracy pareto
+    3. cost vs. win rate calculated using distance from the pareto frontier pareto
+    4. latency vs. win rate calculated using max accuracy pareto
+    5. latency vs. win rate calculated using distance from the pareto frontier pareto
+4. Run `visualizations.py`. This will create:
+    1. A bar plot for win rates calculated using max accuracy for models across benchmarks
+    2. A bar plot for win rates calculated using using distance from the pareto frontier for models across benchmarks
+    3. Six heatmaps: (generalist agent scaffold, task-specific agent scaffold) x (latency, cost, accuracy)
+   
+All plots can be found in the `visualizations/new_plots` folder.
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ### Contributors:
