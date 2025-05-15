@@ -17,7 +17,7 @@ def z_score(lst):
     return [(x - mean) / std for x in lst]
 
 def main():
-    # Load data for all tasks you want to analyze
+    Load data for all tasks you want to analyze
     tasks = ['taubench_airline', 'colbench_backend_programming', 'colbench_frontend_design', 'gaia', 'scicode', 'scienceagentbench', 'swebench_verified_mini', 'usaco', 'corebench_hard', 'assistantbench']
     cols = ['model_name_short', 'latencies_per_task', 'benchmark_name', 'agent_name', 'agent_name_short']
     all_data = []
@@ -37,8 +37,7 @@ def main():
         except Exception as e:
             print(f"Error loading task {task}: {e}")
 
-    df = all_data
-    print(df.keys())
+
     model_latency = df.groupby(['model_name_short', 'benchmark_name'])[['latency']].mean()
     benchmark_latency = df.groupby(['agent_name_short', 'benchmark_name'])[['latency']].mean()
     model_latency.to_csv('model_latency.csv')

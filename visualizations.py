@@ -180,28 +180,9 @@ def create_heatmaps(df, agent_scaffold, metric, title, x_label, y_label, legend_
     # Adjust layout
     plt.savefig(f'visualizations/new_plots/heatmaps/{agent_scaffold}_{metric}_heatmap.png', bbox_inches='tight', dpi=300)
 
-def ensure_list(x):
-    if pd.isna(x):
-        return []
-    if isinstance(x,str):
-        try:
-            val = ast.literal_eval(x)
-            if isinstance(val, (list, tuple)):
-                return list(val)
-            else:
-                return [val]
-        except Exception as e:
-            print(f"Failed to parse: {x!r} - {type(x).__name__} - Error: {e}")
-            return []
-    return [x]
 
-cleaned_dataset = pd.read_csv('cleaned_all_metrics.csv')
-cleaned_dataset['latencies_per_task'] = cleaned_dataset['latencies_per_task'].apply(ensure_list)
-cleaned_dataset['mean_latency'] = cleaned_dataset['latencies_per_task'].apply(lambda x: np.mean(x) if x else np.nan)
-
-
-# model_win_rate_bar(model_win_rates_max, 'max')
-# model_win_rate_bar(model_win_rates_pareto, 'pareto')
+model_win_rate_bar(model_win_rates_max, 'max')
+model_win_rate_bar(model_win_rates_pareto, 'pareto')
 
 create_heatmaps(cleaned_dataset, 'generalist', 'total_cost', 'Total Costs of Generalist Agents', 'Model Name', 'Benchmark Name', 'Total Cost')
 create_heatmaps(cleaned_dataset, 'generalist', 'accuracy', 'Accuracy of Generalist Agents', 'Model Name', 'Benchmark Name', 'Accuracy')

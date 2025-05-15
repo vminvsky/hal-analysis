@@ -100,7 +100,7 @@ def calculate_pareto_win_rates(df, group_by_cols=['benchmark_name'], group_by_co
         
         # Get unique models for this benchmark
         models = df[df['benchmark_name'] == benchmark][group_by_cols_2].unique()
-        print(models)
+        # print(models)
         
         for model_a in models:
             wins = 0
@@ -112,7 +112,6 @@ def calculate_pareto_win_rates(df, group_by_cols=['benchmark_name'], group_by_co
                     
                 dist_a = df.loc[df['model_name_short'] == model_a, 'pareto_distance'].values[0]
                 dist_b = df.loc[df['model_name_short'] == model_b, 'pareto_distance'].values[0]
-                print("dist_a: ", dist_a, " dist_b: ", dist_b)
                 
                 if dist_a < dist_b:
                     wins += 1
@@ -221,89 +220,63 @@ def aggregate_win_rates(win_rates_df, group_by='model_name_short'):
     
     return agg_df
 
-def plot_win_rates(agg_df, title="Model Win Rates"):
-    """
-    Plot the win rates for each model.
-    
-    Args:
-        agg_df: Aggregated DataFrame with win rates
-        title: Plot title
-    """
-    plt.figure(figsize=(12, 6))
-    
-    # Sort by win rate
-    sorted_df = agg_df.sort_values('overall_win_rate', ascending=False)
-    
-    # Create bar plot
-    sns.barplot(x='model_name_short', y='overall_win_rate', data=sorted_df)
-    
-    plt.title(title)
-    plt.xlabel('Model')
-    plt.ylabel('Win Rate')
-    plt.xticks(rotation=45, ha='right')
-    plt.tight_layout()
-    
-    return plt
-
 def main():
     # Load data for all tasks you want to analyze
-    tasks = ['taubench_airline', 'colbench_backend_programming', 'colbench_frontend_design', 'gaia', 'scicode', 'scienceagentbench', 'swebench_verified_mini', 'usaco', 'corebench_hard', 'assistantbench']
-    all_data = []
-    for task in tqdm(tasks):
-        try:
-            combiner = DataCombiner(task)
-            df = combiner.load()
-            all_data.append(df)
-        except Exception as e:
-            print(f"Error loading task {task}: {e}")
+    # tasks = ['taubench_airline', 'colbench_backend_programming', 'colbench_frontend_design', 'gaia', 'scicode', 'scienceagentbench', 'swebench_verified_mini', 'usaco', 'corebench_hard', 'assistantbench']
+    # all_data = []
+    # for task in tqdm(tasks):
+    #     try:
+    #         combiner = DataCombiner(task)
+    #         df = combiner.load()
+    #         all_data.append(df)
+    #     except Exception as e:
+    #         print(f"Error loading task {task}: {e}")
     
-    # Combine all data
-    if all_data:
-        combined_df = pd.concat(all_data, ignore_index=True)
+    # # Combine all data
+    # if all_data:
+    #     combined_df = pd.concat(all_data, ignore_index=True)
+    
+    # print(combined_df.head(), combined_df.columns)
         
-        # Calculate win rates using max accuracy
-        win_rates_max = calculate_max_win_rates(combined_df)
+    # Calculate win rates using max accuracy
+    combined_df = pd.read_csv('cleaned_all_metrics.csv')
+    combined_df = combined_df.reset_index(drop=True)
+    win_rates_max = calculate_max_win_rates(combined_df)
 
-        # Calculate win rates using distance from the pareto
-        win_rates_pareto = calculate_pareto_win_rates(combined_df)
+    # Calculate win rates using distance from the pareto
+    win_rates_pareto = calculate_pareto_win_rates(combined_df)
         
-        # Aggregate by model
-        model_win_rates_max = aggregate_win_rates(win_rates_max)
-        model_win_rates_pareto = aggregate_win_rates(win_rates_pareto)
+    # Aggregate by model
+    model_win_rates_max = aggregate_win_rates(win_rates_max)
+    model_win_rates_pareto = aggregate_win_rates(win_rates_pareto)
         
-        # Print results
-        # print("Overall model win rates:")
-        # print(model_win_rates.sort_values('overall_win_rate', ascending=False))
+    # Print results
+    # print("Overall model win rates:")
+    # print(model_win_rates.sort_values('overall_win_rate', ascending=False))
         
-        # Plot results
-        # plt = plot_win_rates(model_win_rates)
-        # plt.savefig('model_win_rates.png')
+    # You can also analyze by benchmark
+    # benchmark_win_rates_max = aggregate_win_rates(win_rates_max, group_by=['model_name_short', 'benchmark_name'])
+    # print("\nModel win rates by benchmark:")
+    # print(benchmark_win_rates_max.sort_values(['benchmark_name', 'overall_win_rate'], ascending=[True, False]))
         
-        # You can also analyze by benchmark
-        benchmark_win_rates_max = aggregate_win_rates(win_rates_max, group_by=['model_name_short', 'benchmark_name'])
-        print("\nModel win rates by benchmark:")
-        print(benchmark_win_rates_max.sort_values(['benchmark_name', 'overall_win_rate'], ascending=[True, False]))
-        
-        # Save results to CSV
-        model_win_rates_max.to_csv('model_win_rates_max.csv', index=False)
-        benchmark_win_rates_max.to_csv('benchmark_win_rates_max.csv', index=False)
-        print("Saved model win rates and benchmark win rates max")
+    # Save results to CSV
+    model_win_rates_max.to_csv('model_win_rates_max.csv', index=False)
+    print(model_win_rates_max.head())
+    # benchmark_win_rates_max.to_csv('benchmark_win_rates_max.csv', index=False)
+    print("Saved win rates max")
 
-        ##### pareto distance win rates #####
+    ##### pareto distance win rates #####
 
-        benchmark_win_rates_pareto = aggregate_win_rates(win_rates_pareto, group_by=['model_name_short', 'benchmark_name'])
-        print("\nModel win rates by benchmark:")
-        print(benchmark_win_rates_pareto.sort_values(['benchmark_name', 'overall_win_rate'], ascending=[True, False]))
+    # benchmark_win_rates_pareto = aggregate_win_rates(win_rates_pareto, group_by=['model_name_short', 'benchmark_name'])
+    # print("\nModel win rates by benchmark:")
+    # print(benchmark_win_rates_pareto.sort_values(['benchmark_name', 'overall_win_rate'], ascending=[True, False]))
         
-        # Save results to CSV
-        model_win_rates_pareto.to_csv('model_win_rates_pareto.csv', index=False)
-        benchmark_win_rates_pareto.to_csv('benchmark_win_rates_pareto.csv', index=False)
-        print("Saved model win rates and benchmark win rates pareto")
+    # Save results to CSV
+    model_win_rates_pareto.to_csv('model_win_rates_pareto.csv', index=False)
+    # benchmark_win_rates_pareto.to_csv('benchmark_win_rates_pareto.csv', index=False)
+    print("Saved win rates pareto")
         
-        return combined_df, win_rates_max, win_rates_pareto, model_win_rates_max, model_win_rates_pareto, benchmark_win_rates_max, benchmark_win_rates_pareto
-    else:
-        print("No data loaded.")
-        return None, None, None, None, None, None, None
+    return combined_df, win_rates_max, win_rates_pareto, model_win_rates_max, model_win_rates_pareto
 
 if __name__ == "__main__":
-    combined_df, win_rates_max, win_rates_pareto, model_win_rates_max, model_win_rates_pareto, benchmark_win_rates_max, benchmark_win_rates_pareto = main()
+    combined_df, win_rates_max, win_rates_pareto, model_win_rates_max, model_win_rates_pareto = main()
