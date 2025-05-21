@@ -515,97 +515,119 @@ def grid_pareto_frontier_by_benchmark(tasks, merged_df, x_col, y_col, x_label, y
         return None
 
 def calculate_pareto_distance(df, x_col, y_col, minimize_x=True, maximize_y=True):
-#     """
-#     Calculate the distance of each point to the Pareto frontier.
+    """
+    Calculate the distance of each point to the Pareto frontier.
     
-#     Args:
-#         df: DataFrame with Pareto optimal flags
-#         x_col: Column name for x metric (e.g., latency, cost)
-#         y_col: Column name for y metric (e.g., win_rate, accuracy)
-#         minimize_x: Whether to minimize the x metric (True for cost/latency)
-#         maximize_y: Whether to maximize the y metric (True for win_rate/accuracy)
+    Args:
+        df: DataFrame with Pareto optimal flags
+        x_col: Column name for x metric (e.g., latency, cost)
+        y_col: Column name for y metric (e.g., win_rate, accuracy)
+        minimize_x: Whether to minimize the x metric (True for cost/latency)
+        maximize_y: Whether to maximize the y metric (True for win_rate/accuracy)
         
-#     Returns:
-#         DataFrame with distance to Pareto frontier
-#     """
-#     df = df.copy()
+    Returns:
+        DataFrame with distance to Pareto frontier
+    """
+    df = df.copy()
     
-#     # For points already on the Pareto frontier, distance is 0
-#     df['pareto_distance'] = 0.0
-    
-#     # Get Pareto optimal points
-#     pareto_points = df[df['pareto_optimal']].copy()
-#     non_pareto_points = df[~df['pareto_optimal']].copy()
-    
-#     if len(pareto_points) < 2 or len(non_pareto_points) == 0:
-#         return df
-    
-#     # Sort Pareto points by x
-#     pareto_points = pareto_points.sort_values(by=x_col)
-    
-#     # Get coordinates of Pareto points
-#     pareto_x = pareto_points[x_col].values
-#     pareto_y = pareto_points[y_col].values
-    
-#     # For each non-Pareto point, calculate distance to Pareto frontier
-#     for idx, row in non_pareto_points.iterrows():
-#         point_x = row[x_col]
-#         point_y = row[y_col]
-        
-#         min_distance = float('inf')
-        
-          ##########################################
-          ####### DISTANCE CALCULATION HERE #########
-          ##########################################
+    # For points already on the Pareto frontier, distance is 0
+    df['pareto_distance'] = 0.0
 
-#         df.loc[idx, 'pareto_distance'] = min_distance
+    # Min-max normalize the x and y columns
+    min_x = df[x_col].min()
+    max_x = df[x_col].max()
+    min_y = df[y_col].min()
+    max_y = df[y_col].max()
+    df[x_col] = (df[x_col] - min_x) / (max_x - min_x)
+    df[y_col] = (df[y_col] - min_y) / (max_y - min_y)
     
-    # return df
-    return None
+    # Get Pareto optimal points
+    pareto_points = df[df['pareto_optimal']].copy()
+    non_pareto_points = df[~df['pareto_optimal']].copy()
+    
+    if len(pareto_points) < 2 or len(non_pareto_points) == 0:
+        return df
+    
+    # Sort Pareto points by x
+    pareto_points = pareto_points.sort_values(by=x_col)
+    
+    # Get coordinates of Pareto points
+    pareto_x = pareto_points[x_col].values
+    pareto_y = pareto_points[y_col].values
 
-# def save_pareto_distances(merged_df, tasks, x_col, y_col, model_col='model_name_short', 
-#                           minimize_x=True, maximize_y=True, filename='pareto_distances.csv'):
-#     """
-#     Calculate and save the distance of each model from the Pareto frontier for each task.
-#     """
-#     # Ensure directory exists
-#     os.makedirs('visualizations/pareto_distances', exist_ok=True)
+    # Convert to a list of tuples for distance calculation
+    frontier = list(zip(pareto_x, pareto_y))
+    f = np.asarray(frontier, dtype=float)
     
-#     all_distances = []
+    # For each non-Pareto point, calculate distance to Pareto frontier
+    for idx, row in non_pareto_points.iterrows():
+        point_x = row[x_col]
+        point_y = row[y_col]
+
+        point = (point_x, point_y)
+
+        p = np.asarray(point, dtype=float)
+
+        min_distance = float('inf')
+
+        for i in range(len(f) - 1):
+            a, b = f[i], f[i + 1]
+            ab = b - a
+            ab2 = np.dot(ab, ab)
+            ap = p - a
+            t = np.dot(ap, ab) / ab2
+            t = np.clip(t, 0.0, 1.0)
+            projection = a + t * ab
+            distance = np.linalg.norm(p - projection)
+            min_distance = min(min_distance, distance)
+
+        df.loc[idx, 'pareto_distance'] = min_distance
     
-#     # Process each task
-#     for task in tasks:
-#         # Filter data for this task
-#         df_task = merged_df[merged_df['benchmark_name'] == task].copy()
-        
-#         if len(df_task) < 2:
-#             continue
-        
-#         # Identify Pareto optimal points
-#         pareto_df = identify_pareto_optimal(df_task, x_col, y_col, minimize_x, maximize_y)
-        
-#         # Calculate distances
-#         distance_df = calculate_pareto_distance(pareto_df, x_col, y_col, minimize_x, maximize_y)
-        
-#         # Add task name
-#         distance_df['benchmark_name'] = task
-        
-#         # Select relevant columns
-#         result_df = distance_df[[model_col, 'benchmark_name', x_col, y_col, 'pareto_optimal', 'pareto_distance']]
-        
-#         all_distances.append(result_df)
+    return df
+
+def save_pareto_distances(merged_df, tasks, x_col, y_col, model_col='model_name_short', 
+                          minimize_x=True, maximize_y=True, filename='pareto_distances.csv'):
+    """
+    Calculate and save the distance of each model from the Pareto frontier for each task.
+    """
+    # Ensure directory exists
+    os.makedirs('visualizations/pareto_distances', exist_ok=True)
     
-#     if not all_distances:
-#         print("No data available for calculating Pareto distances")
-#         return None
+    all_distances = []
     
-#     # Combine results from all tasks
-#     combined_df = pd.concat(all_distances, ignore_index=True)
+    # Process each task
+    for task in tasks:
+        # Filter data for this task
+        df_task = merged_df[merged_df['benchmark_name'] == task].copy()
+        
+        if len(df_task) < 2:
+            continue
+        
+        # Identify Pareto optimal points
+        pareto_df = identify_pareto_optimal(df_task, x_col, y_col, minimize_x, maximize_y)
+        
+        # Calculate distances
+        distance_df = calculate_pareto_distance(pareto_df, x_col, y_col, minimize_x, maximize_y)
+        
+        # Add task name
+        distance_df['benchmark_name'] = task
+        
+        # Select relevant columns
+        result_df = distance_df[[model_col, 'benchmark_name', x_col, y_col, 'pareto_optimal', 'pareto_distance']]
+        
+        all_distances.append(result_df)
     
-#     # Save to CSV
-#     csv_path = f'visualizations/pareto_distances/{filename}'
-#     combined_df.to_csv(csv_path, index=False)
-#     print(f"Saved Pareto distances to: {csv_path}")
+    if not all_distances:
+        print("No data available for calculating Pareto distances")
+        return None
+    
+    # Combine results from all tasks
+    combined_df = pd.concat(all_distances, ignore_index=True)
+    
+    # Save to CSV
+    csv_path = f'visualizations/pareto_distances/{filename}'
+    combined_df.to_csv(csv_path, index=False)
+    print(f"Saved Pareto distances to: {csv_path}")
 
 def get_max_accuracy():
     full_dataset = pd.read_csv('cleaned_all_metrics.csv')
