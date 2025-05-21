@@ -111,16 +111,22 @@ def model_win_rate_bar(model_win_rates, calc_type):
     plt.savefig(f'visualizations/new_plots/model_win_rates_{calc_type}.png')
 
 def create_heatmaps(df, agent_scaffold, metric, title, x_label, y_label, legend_name):
-    cols = ['benchmark_name', 'agent_name_short', 'model_name_short', metric]
-    df = df[cols].copy()
     # Only keep rows with generalist agents
     if agent_scaffold == 'generalist':
+        cols = ['benchmark_name', 'agent_name_short', 'model_name_short', metric]
+        df = df[cols].copy()
         generalist_scaffold = 'HAL Generalist Agent'
         df = df[df['agent_name_short'] == generalist_scaffold]
     # only keep rows with task specific agents
     elif agent_scaffold == 'task_specific':
+        cols = ['benchmark_name', 'agent_name_short', 'model_name_short', metric]
+        df = df[cols].copy()
         task_specific_scaffolds = ['Col-bench Text', 'HF Open Deep Research', 'Scicode Tool Calling Agent', 'Scicode Zero Shot Agent', 'SAB Example Agent', 'SWE-Agent', 'TAU-bench FewShot', 'USACO Episodic + Semantic', 'CORE-Agent', 'Assistantbench Browser Agent']
         df = df[df['agent_name_short'].isin(task_specific_scaffolds)]
+    elif agent_scaffold == 'max_acc' or agent_scaffold == 'dist':
+        cols = ['benchmark_name', 'model_name_short', metric]
+        df = df[cols].copy()
+        print("Creating win rate heatmaps")
     else:
         print("Error: scaffold type not found")
         return
@@ -131,8 +137,8 @@ def create_heatmaps(df, agent_scaffold, metric, title, x_label, y_label, legend_
     df_pivot = df.pivot_table(columns='model_name_short', index='benchmark_name', values=metric, aggfunc='mean')
 
     # normalize by row for color gradient
-    norm = df_pivot.sub(df_pivot.min(axis=1), axis=0)
-    norm = norm.div(df_pivot.max(axis=1) - df_pivot.min(axis=1), axis=0)
+    # norm = df_pivot.sub(df_pivot.min(axis=1), axis=0)
+    # norm = norm.div(df_pivot.max(axis=1) - df_pivot.min(axis=1), axis=0)
     
     # Create a custom colormap
     base_cmap = plt.colormaps.get_cmap('Purples')
@@ -144,27 +150,25 @@ def create_heatmaps(df, agent_scaffold, metric, title, x_label, y_label, legend_
     # Create greyed out boxes for NaN values
     # annot = df_pivot.copy()
     # annot = annot.map(lambda x: "no runs" if pd.isna(x) else f"{x:.2f}")
-
-    # Create the figure with appropriate size (only create one figure)
     
     fig, ax = plt.subplots(figsize=(11, 5))
 
     # Create the main heatmap 
     sns.heatmap(
-        data=norm,
+        data=df_pivot,
         annot=df_pivot,
         annot_kws={"fontsize":7},
         fmt='.2f',
         cmap=custom_purples,
         linewidths=0.5,
         linecolor='white',
-        cbar_kws={'label': legend_name, 'orientation': 'vertical', 'ticks':[]},
+        cbar_kws={'label': legend_name, 'orientation': 'vertical'},
     )
     
     plt.tight_layout()
 
-    for i in range(norm.shape[0]):
-        for j in range(norm.shape[1]):
+    for i in range(df_pivot.shape[0]):
+        for j in range(df_pivot.shape[1]):
             if pd.isna(df_pivot.iloc[i,j]):
                 ax.text(j+0.5, i+0.5, 'no runs', ha='center', va='center', color='white', fontsize=7)
     
@@ -184,9 +188,18 @@ def create_heatmaps(df, agent_scaffold, metric, title, x_label, y_label, legend_
 model_win_rate_bar(model_win_rates_max, 'max')
 model_win_rate_bar(model_win_rates_pareto, 'pareto')
 
+cleaned_dataset = pd.read_csv('cleaned_all_metrics.csv')
+win_rates_max = pd.read_csv("benchmark_win_rates_max.csv")
+win_rates_pareto = pd.read_csv("benchmark_win_rates_pareto.csv")
+win_rates = pd.read_csv("benchmark_win_rates.csv")
+
 create_heatmaps(cleaned_dataset, 'generalist', 'total_cost', 'Total Costs of Generalist Agents', 'Model Name', 'Benchmark Name', 'Total Cost')
 create_heatmaps(cleaned_dataset, 'generalist', 'accuracy', 'Accuracy of Generalist Agents', 'Model Name', 'Benchmark Name', 'Accuracy')
 create_heatmaps(cleaned_dataset, 'task_specific', 'accuracy', 'Accuracy of Task Specific Agents', 'Model Name', 'Benchmark Name', 'Accuracy')
 create_heatmaps(cleaned_dataset, 'task_specific', 'total_cost', 'Total Costs of Task Specific Agents', 'Model Name', 'Benchmark Name', 'Total Cost')
 create_heatmaps(cleaned_dataset, 'generalist', 'mean_latency', 'Mean Latencies of Generalist Agents', 'Model Name', 'Benchmark Name', 'Mean Latency')
 create_heatmaps(cleaned_dataset, 'task_specific', 'mean_latency', 'Mean Latencies of Task Specific Agents', 'Model Name', 'Benchmark Name', 'Mean Latency')
+create_heatmaps(win_rates_max, 'max_acc', 'overall_win_rate', 'Win Rates Using Max Accuracy Across Agents', 'Model Name', 'Benchmark Name', 'Win Rate')
+create_heatmaps(win_rates_pareto, 'dist', 'overall_win_rate', 'Win Rates Using Distance from Cost vs. Max Accuracy Pareto', 'Model Name', 'Benchmark Name', 'Win Rate')
+create_heatmaps(win_rates, 'generalist', 'overall_win_rate', 'Win Rates of Generalist Agents', 'Model Name', 'Benchmark Name', 'Win Rate')
+create_heatmaps(win_rates, 'task_specific', 'overall_win_rate', 'Win Rates of Task Specific Agents', 'Model Name', 'Benchmark Name', 'Win Rate')

@@ -11,7 +11,10 @@ MODEL_NAME_MAP = {
     "openai/o3-mini-2025-01-31": "o3-mini-2025-01-31",
     "gemini/gemini-2.5-pro-preview-03-25": "gemini-2.5-pro-preview-03-25",
     "together_ai/deepseek-ai/DeepSeek-V3": "deepseek-ai/DeepSeek-V3",
-    "gemini/gemini-2.0-flash": "gemini-2.0-flash"
+    "gemini/gemini-2.0-flash": "gemini-2.0-flash",
+    "o4-mini-2025-04-16 medium": "o4-mini-2025-04-16",
+    "gpt-4.1":"gpt-4.1-2025-04-14",
+    "claude-3-7-sonnet-20250219 low": "claude-3-7-sonnet-2025-02-19 low"
 }
 
 AGENT_NAME_MAP = {
