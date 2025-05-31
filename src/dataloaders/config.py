@@ -1,21 +1,39 @@
 DATA_DIR = "/scratch/gpfs/vv7118/models/hub/datasets--agent-evals--hal_traces/snapshots/597b22d25a9649ff7f5c97f7115fb8a158961709/"
 
 MODEL_NAME_MAP = {
-    "o3-mini-2025-01-31 med": "o3-mini-2025-01-31",
-    "o3-mini-2025-01-31 low": "o3-mini-2025-01-31",
-    "DeepSeek-V3": "deepseek-ai/DeepSeek-V3",
-    "o3-mini-2025-01-31 high": "o3-mini-2025-01-31",
     "claude-3-7-sonnet-20250219": "claude-3-7-sonnet-2025-02-19",
     "claude-3-7-sonnet-20250219 high": "claude-3-7-sonnet-2025-02-19 high",
     "together_ai/deepseek-ai/DeepSeek-R1": "deepseek-ai/DeepSeek-R1",
-    "openai/o3-mini-2025-01-31": "o3-mini-2025-01-31",
-    "gemini/gemini-2.5-pro-preview-03-25": "gemini-2.5-pro-preview-03-25",
+    "openai/gpt-4.1-2025-04-14": "gpt-4.1-2025-04-14",
     "together_ai/deepseek-ai/DeepSeek-V3": "deepseek-ai/DeepSeek-V3",
     "gemini/gemini-2.0-flash": "gemini-2.0-flash",
     "o4-mini-2025-04-16 medium": "o4-mini-2025-04-16",
     "gpt-4.1":"gpt-4.1-2025-04-14",
-    "claude-3-7-sonnet-20250219 low": "claude-3-7-sonnet-2025-02-19 low"
+    "claude-3-7-sonnet-20250219 low": "claude-3-7-sonnet-2025-02-19 low",
+    "anthropic/claude-3-7-sonnet-20250219": "claude-3-7-sonnet-2025-02-19",
+    "openai/o3-2025-04-16 low": "o3-2025-04-16 low",
+    "openai/o4-mini-2025-04-16": "o4-mini-2025-04-16",
+    "openai/o4-mini-2025-04-16 low": "o4-mini-2025-04-16 low",
+    "openai/o4-mini-2025-04-16 high": "o4-mini-2025-04-16 high",
+    "openai/o3-2025-04-16": "o3-2025-04-16",
 }
+
+# MODEL_NAME_MAP = {
+#     "o3-mini-2025-01-31 med": "o3-mini-2025-01-31",
+#     "o3-mini-2025-01-31 low": "o3-mini-2025-01-31",
+#     "DeepSeek-V3": "deepseek-ai/DeepSeek-V3",
+#     "o3-mini-2025-01-31 high": "o3-mini-2025-01-31",
+#     "claude-3-7-sonnet-20250219": "claude-3-7-sonnet-2025-02-19",
+#     "claude-3-7-sonnet-20250219 high": "claude-3-7-sonnet-2025-02-19 high",
+#     "together_ai/deepseek-ai/DeepSeek-R1": "deepseek-ai/DeepSeek-R1",
+#     "openai/o3-mini-2025-01-31": "o3-mini-2025-01-31",
+#     "gemini/gemini-2.5-pro-preview-03-25": "gemini-2.5-pro-preview-03-25",
+#     "together_ai/deepseek-ai/DeepSeek-V3": "deepseek-ai/DeepSeek-V3",
+#     "gemini/gemini-2.0-flash": "gemini-2.0-flash",
+#     "o4-mini-2025-04-16 medium": "o4-mini-2025-04-16",
+#     "gpt-4.1":"gpt-4.1-2025-04-14",
+#     "claude-3-7-sonnet-20250219 low": "claude-3-7-sonnet-2025-02-19 low"
+# }
 
 AGENT_NAME_MAP = {
     "taubench_fewshot_o320250403": "TAU-bench FewShot (o3-2025-04-03)",

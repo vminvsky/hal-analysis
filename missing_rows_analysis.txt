@@ -1,0 +1,149 @@
+MISSING ROWS ANALYSIS
+==================================================
+Rows in agent_run_status but missing from cleaned_dataset (84 rows):
+
+        benchmark_name             agent_name_short                        model_name_short
+      taubench_airline            TAU-bench FewShot                           o3-2025-04-16
+                  gaia        HF Open Deep Research                           o3-2025-04-16
+                  gaia         HAL Generalist Agent                  o4-mini-2025-04-16 low
+                  gaia         HAL Generalist Agent            claude-3-7-sonnet-2025-02-19
+                  gaia         HAL Generalist Agent       claude-3-7-sonnet-2025-02-19 high
+                 usaco    USACO Episodic + Semantic                        gemini-2.0-flash
+swebench-verified-mini                    SWE-Agent                           o3-2025-04-16
+swebench-verified-mini                    SWE-Agent                  o4-mini-2025-04-16 low
+swebench-verified-mini                    SWE-Agent                 o4-mini-2025-04-16 high
+swebench-verified-mini                    SWE-Agent            claude-3-7-sonnet-2025-02-19
+swebench-verified-mini                    SWE-Agent       claude-3-7-sonnet-2025-02-19 high
+swebench-verified-mini                    SWE-Agent claude-3-7-sonnet-20250219-thinking low
+swebench-verified-mini                    SWE-Agent                        gemini-2.0-flash
+swebench-verified-mini                    SWE-Agent                      gpt-4.1-2025-04-14
+swebench-verified-mini                    SWE-Agent                 deepseek-ai/DeepSeek-V3
+swebench-verified-mini                    SWE-Agent                 deepseek-ai/DeepSeek-R1
+swebench-verified-mini         HAL Generalist Agent            claude-3-7-sonnet-2025-02-19
+swebench-verified-mini         HAL Generalist Agent       claude-3-7-sonnet-2025-02-19 high
+swebench-verified-mini         HAL Generalist Agent                        gemini-2.0-flash
+swebench-verified-mini         HAL Generalist Agent                      gpt-4.1-2025-04-14
+swebench-verified-mini         HAL Generalist Agent                 deepseek-ai/DeepSeek-V3
+swebench-verified-mini         HAL Generalist Agent                 deepseek-ai/DeepSeek-R1
+      colbench-backend               Col-bench Text                      gpt-4.1-2025-04-14
+      colbench-backend               Col-bench Text                  o4-mini-2025-04-16 low
+      colbench-backend               Col-bench Text                 o4-mini-2025-04-16 high
+      colbench-backend               Col-bench Text claude-3-7-sonnet-20250219-thinking low
+      colbench-backend               Col-bench Text       claude-3-7-sonnet-2025-02-19 high
+      colbench-backend               Col-bench Text                        gemini-2.0-flash
+      colbench-backend               Col-bench Text                 deepseek-ai/DeepSeek-V3
+      colbench-backend               Col-bench Text                 deepseek-ai/DeepSeek-R1
+      colbench-backend               Col-bench Text                           o3-2025-04-16
+     colbench-frontend               Col-bench Text                      gpt-4.1-2025-04-14
+     colbench-frontend               Col-bench Text                  o4-mini-2025-04-16 low
+     colbench-frontend               Col-bench Text                 o4-mini-2025-04-16 high
+     colbench-frontend               Col-bench Text claude-3-7-sonnet-20250219-thinking low
+     colbench-frontend               Col-bench Text       claude-3-7-sonnet-2025-02-19 high
+     colbench-frontend               Col-bench Text                        gemini-2.0-flash
+     colbench-frontend               Col-bench Text                 deepseek-ai/DeepSeek-V3
+     colbench-frontend               Col-bench Text                 deepseek-ai/DeepSeek-R1
+     colbench-frontend               Col-bench Text                           o3-2025-04-16
+     ScienceAgentBench            SAB Example Agent                        gemini-2.0-flash
+     ScienceAgentBench            SAB Example Agent            claude-3-7-sonnet-2025-02-19
+     ScienceAgentBench            SAB Example Agent claude-3-7-sonnet-20250219-thinking low
+     ScienceAgentBench            SAB Example Agent       claude-3-7-sonnet-2025-02-19 high
+     ScienceAgentBench            SAB Example Agent                 deepseek-ai/DeepSeek-V3
+     ScienceAgentBench            SAB Example Agent                 deepseek-ai/DeepSeek-R1
+     ScienceAgentBench            SAB Example Agent                      gpt-4.1-2025-04-14
+     ScienceAgentBench            SAB Example Agent                  o4-mini-2025-04-16 low
+     ScienceAgentBench            SAB Example Agent                 o4-mini-2025-04-16 high
+     ScienceAgentBench            SAB Example Agent                           o3-2025-04-16
+        corebench_hard                   CORE-Agent claude-3-7-sonnet-20250219-thinking low
+               scicode   Scicode Tool Calling Agent               o4-mini-2025-04-16 medium
+               scicode      Scicode Zero Shot Agent               o4-mini-2025-04-16 medium
+               scicode         HAL Generalist Agent               o4-mini-2025-04-16 medium
+               scicode         HAL Generalist Agent                           o3-2025-04-16
+        assistantbench Assistantbench Browser Agent               o4-mini-2025-04-16 medium
+        assistantbench Assistantbench Browser Agent                           o3-2025-04-16
+        assistantbench         HAL Generalist Agent               o4-mini-2025-04-16 medium
+      colbench-backend         HAL Generalist Agent                      gpt-4.1-2025-04-14
+      colbench-backend         HAL Generalist Agent                  o4-mini-2025-04-16 low
+      colbench-backend         HAL Generalist Agent                 o4-mini-2025-04-16 high
+      colbench-backend         HAL Generalist Agent            claude-3-7-sonnet-2025-02-19
+      colbench-backend         HAL Generalist Agent                 deepseek-ai/DeepSeek-V3
+      colbench-backend         HAL Generalist Agent                 deepseek-ai/DeepSeek-R1
+      colbench-backend         HAL Generalist Agent                           o3-2025-04-16
+     colbench-frontend         HAL Generalist Agent                      gpt-4.1-2025-04-14
+     colbench-frontend         HAL Generalist Agent                  o4-mini-2025-04-16 low
+     colbench-frontend         HAL Generalist Agent                 o4-mini-2025-04-16 high
+     colbench-frontend         HAL Generalist Agent            claude-3-7-sonnet-2025-02-19
+     colbench-frontend         HAL Generalist Agent                 deepseek-ai/DeepSeek-V3
+     colbench-frontend         HAL Generalist Agent                 deepseek-ai/DeepSeek-R1
+     colbench-frontend         HAL Generalist Agent                           o3-2025-04-16
+       Online-Mind2Web                  Browser-Use                 deepseek-ai/DeepSeek-V3
+       Online-Mind2Web                  Browser-Use                 deepseek-ai/DeepSeek-R1
+       Online-Mind2Web                  Browser-Use            claude-3-7-sonnet-2025-02-19
+       Online-Mind2Web                  Browser-Use                  o4-mini-2025-04-16 low
+       Online-Mind2Web                  Browser-Use                 o4-mini-2025-04-16 high
+       Online-Mind2Web                  Browser-Use                      gpt-4.1-2025-04-14
+       Online-Mind2Web                  Browser-Use                           o3-2025-04-16
+       Online-Mind2Web                       SeeAct            claude-3-7-sonnet-2025-02-19
+       Online-Mind2Web                       SeeAct                  o4-mini-2025-04-16 low
+       Online-Mind2Web                       SeeAct                 o4-mini-2025-04-16 high
+       Online-Mind2Web                       SeeAct                      gpt-4.1-2025-04-14
+       Online-Mind2Web                       SeeAct                           o3-2025-04-16
+
+
+EXTRA ROWS: Rows in cleaned_dataset that shouldn't be there (46 rows):
+
+            agent_name_short                  model_name_short               benchmark_name
+              Col-bench Text                  gemini-2.0-flash     colbench_frontend_design
+           SAB Example Agent              o3-2025-04-16 medium            scienceagentbench
+              Col-bench Text            o4-mini-2025-04-16 low colbench_backend_programming
+Assistantbench Browser Agent                o4-mini-2025-04-16               assistantbench
+        HAL Generalist Agent                gpt-4.1-2025-04-14       swebench_verified_mini
+                   SWE-Agent                  gemini-2.0-flash       swebench_verified_mini
+        HAL Generalist Agent                 o3-2025-04-16 low                      scicode
+        HAL Generalist Agent                  gemini-2.0-flash       swebench_verified_mini
+           SAB Example Agent      claude-3-7-sonnet-2025-02-19            scienceagentbench
+           SAB Example Agent            o4-mini-2025-04-16 low            scienceagentbench
+     Scicode Zero Shot Agent                o4-mini-2025-04-16                      scicode
+           SAB Example Agent                  gemini-2.0-flash            scienceagentbench
+                   SWE-Agent  claude-3-7-sonnet-2025-02-19 low       swebench_verified_mini
+              Col-bench Text           deepseek-ai/DeepSeek-V3     colbench_frontend_design
+                   SWE-Agent              o3-2025-04-16 medium       swebench_verified_mini
+              Col-bench Text      claude-3-7-sonnet-2025-02-19     colbench_frontend_design
+        HAL Generalist Agent                o4-mini-2025-04-16               assistantbench
+              Col-bench Text                  gemini-2.0-flash colbench_backend_programming
+        HAL Generalist Agent           deepseek-ai/DeepSeek-V3       swebench_verified_mini
+                   SWE-Agent           o4-mini-2025-04-16 high       swebench_verified_mini
+              Col-bench Text                gpt-4.1-2025-04-14 colbench_backend_programming
+           SAB Example Agent claude-3-7-sonnet-2025-02-19 high            scienceagentbench
+        HAL Generalist Agent      claude-3-7-sonnet-2025-02-19       swebench_verified_mini
+              Col-bench Text  claude-3-7-sonnet-2025-02-19 low colbench_backend_programming
+  Scicode Tool Calling Agent                o4-mini-2025-04-16                      scicode
+           SAB Example Agent                gpt-4.1-2025-04-14            scienceagentbench
+        HAL Generalist Agent           deepseek-ai/DeepSeek-R1       swebench_verified_mini
+                   SWE-Agent      claude-3-7-sonnet-2025-02-19       swebench_verified_mini
+           SAB Example Agent           deepseek-ai/DeepSeek-V3            scienceagentbench
+Assistantbench Browser Agent                 o3-2025-04-16 low               assistantbench
+                   SWE-Agent           deepseek-ai/DeepSeek-V3       swebench_verified_mini
+                   SWE-Agent            o4-mini-2025-04-16 low       swebench_verified_mini
+           SAB Example Agent  claude-3-7-sonnet-2025-02-19 low            scienceagentbench
+              Col-bench Text            o4-mini-2025-04-16 low     colbench_frontend_design
+              Col-bench Text           deepseek-ai/DeepSeek-R1     colbench_frontend_design
+                   SWE-Agent claude-3-7-sonnet-2025-02-19 high       swebench_verified_mini
+                  CORE-Agent  claude-3-7-sonnet-2025-02-19 low               corebench_hard
+           SAB Example Agent           o4-mini-2025-04-16 high            scienceagentbench
+        HAL Generalist Agent                o4-mini-2025-04-16                      scicode
+                   SWE-Agent           deepseek-ai/DeepSeek-R1       swebench_verified_mini
+              Col-bench Text           deepseek-ai/DeepSeek-R1 colbench_backend_programming
+              Col-bench Text                o4-mini-2025-04-16     colbench_frontend_design
+              Col-bench Text           o4-mini-2025-04-16 high     colbench_frontend_design
+                   SWE-Agent                gpt-4.1-2025-04-14       swebench_verified_mini
+           SAB Example Agent           deepseek-ai/DeepSeek-R1            scienceagentbench
+              Col-bench Text           deepseek-ai/DeepSeek-V3 colbench_backend_programming
+
+
+==================================================
+SUMMARY
+==================================================
+Total rows in agent_run_status: 162
+Total rows in cleaned_dataset: 124
+Rows missing from cleaned_dataset: 84
+Extra rows in cleaned_dataset: 46

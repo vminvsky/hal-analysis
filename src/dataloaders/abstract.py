@@ -47,20 +47,28 @@ class DataLoader(ABC):
         else:
             self.config['agent_name_short'] = self.config['agent_name']
 
-        if (self.config['agent_name'] == 'CORE-Agent'):
-            model_name_short = self.config['agent_args']['model_name']
-            if 'reasoning_effort' in self.config['agent_args']:
-                reasoning_effort = self.config['agent_args']['reasoning_effort']
+        if ('agent.model.name' in self.config['agent_args']):
+            model_name_short = self.config['agent_args']['agent.model.name']
+            if  'agent.model.reasoning_effort' in self.config['agent_args']:
+                reasoning_effort = self.config['agent_args']['agent.model.reasoning_effort']
                 self.config['model_name_short'] = model_name_short + ' ' + reasoning_effort
                 model_name_short = self.config['model_name_short']
             else:   
                 self.config['model_name_short'] = model_name_short
             self.config['model_name_short'] = MODEL_NAME_MAP.get(model_name_short, model_name_short)
             # print(self.config['agent_name'], self.config['agent_args']['model_name'], " | ", self.config['agent_name_short'], " | ", self.config['model_name_short'])
-        else:
-            model_name_short = (self.config['agent_name'].split(' (')[-1].split(')')[0])
+        elif ('model_name' in self.config['agent_args']):
+            model_name_short = self.config['agent_args']['model_name']
+            if  'reasoning_effort' in self.config['agent_args']:
+                reasoning_effort = self.config['agent_args']['reasoning_effort']
+                self.config['model_name_short'] = model_name_short + ' ' + reasoning_effort
+                model_name_short = self.config['model_name_short']
+            else:
+                self.config['model_name_short'] = model_name_short
             self.config['model_name_short'] = MODEL_NAME_MAP.get(model_name_short, model_name_short)
-            # print(self.config['agent_name'], " | ", self.config['agent_name_short'], " | ", self.config['model_name_short'])
+        else:
+            print("Error: Missing a format type")
+        print(self.config['agent_name'], " | ", self.config['agent_name_short'], " | ", self.config['model_name_short'])
 
     def _load_data(self):
         with open(self.data_path, 'r') as f:
