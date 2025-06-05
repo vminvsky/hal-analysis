@@ -29,7 +29,7 @@ def ensure_list(x):
     return [x]
 
 
-files = glob('/scratch/gpfs/vv7118/models/hub/datasets--agent-evals--hal_traces/snapshots/597b22d25a9649ff7f5c97f7115fb8a158961709/*.json')
+files = glob('/scratch/gpfs/vv7118/models/hub/datasets--agent-evals--hal_traces/snapshots/e2c52999d3b9624dae0532533876e17e9fdd664f/*.json')
 
 all_data = []
 for file in files:

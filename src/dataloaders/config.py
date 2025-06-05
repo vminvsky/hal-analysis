@@ -1,4 +1,4 @@
-DATA_DIR = "/scratch/gpfs/vv7118/models/hub/datasets--agent-evals--hal_traces/snapshots/597b22d25a9649ff7f5c97f7115fb8a158961709/"
+DATA_DIR = "/scratch/gpfs/vv7118/models/hub/datasets--agent-evals--hal_traces/snapshots/e2c52999d3b9624dae0532533876e17e9fdd664f"
 
 MODEL_NAME_MAP = {
     "claude-3-7-sonnet-20250219": "claude-3-7-sonnet-2025-02-19",
@@ -16,24 +16,9 @@ MODEL_NAME_MAP = {
     "openai/o4-mini-2025-04-16 low": "o4-mini-2025-04-16 low",
     "openai/o4-mini-2025-04-16 high": "o4-mini-2025-04-16 high",
     "openai/o3-2025-04-16": "o3-2025-04-16",
+    "o3-2025-04-16 medium": "o3-2025-04-16",
+    "openai/o3-mini-2025-01-31 low": "o3-mini-2025-01-31 low"
 }
-
-# MODEL_NAME_MAP = {
-#     "o3-mini-2025-01-31 med": "o3-mini-2025-01-31",
-#     "o3-mini-2025-01-31 low": "o3-mini-2025-01-31",
-#     "DeepSeek-V3": "deepseek-ai/DeepSeek-V3",
-#     "o3-mini-2025-01-31 high": "o3-mini-2025-01-31",
-#     "claude-3-7-sonnet-20250219": "claude-3-7-sonnet-2025-02-19",
-#     "claude-3-7-sonnet-20250219 high": "claude-3-7-sonnet-2025-02-19 high",
-#     "together_ai/deepseek-ai/DeepSeek-R1": "deepseek-ai/DeepSeek-R1",
-#     "openai/o3-mini-2025-01-31": "o3-mini-2025-01-31",
-#     "gemini/gemini-2.5-pro-preview-03-25": "gemini-2.5-pro-preview-03-25",
-#     "together_ai/deepseek-ai/DeepSeek-V3": "deepseek-ai/DeepSeek-V3",
-#     "gemini/gemini-2.0-flash": "gemini-2.0-flash",
-#     "o4-mini-2025-04-16 medium": "o4-mini-2025-04-16",
-#     "gpt-4.1":"gpt-4.1-2025-04-14",
-#     "claude-3-7-sonnet-20250219 low": "claude-3-7-sonnet-2025-02-19 low"
-# }
 
 AGENT_NAME_MAP = {
     "taubench_fewshot_o320250403": "TAU-bench FewShot (o3-2025-04-03)",
@@ -89,5 +74,16 @@ AGENT_NAME_MAP = {
     "Hal Generalist Agent (o4-mini-2025-04-16 low)": "HAL Generalist Agent (o4-mini-2025-04-16 low)",
     "Hal Generalist Agent (o4-mini-2025-04-16)": "HAL Generalist Agent (o4-mini-2025-04-16)",
     "Hal Generalist Agent (o4-mini-2025-04-16 high)": "HAL Generalist Agent (o4-mini-2025-04-16 high)",
-    "coreagent": "CORE-Agent"
+    "coreagent": "CORE-Agent",
+    'Browser-Use_test(DeepSeek-R1)': 'Browser-Use(DeepSeek-R1)',
+    "Browser-Use_test(claude-3-7-sonnet-20250219)": "Browser-Use(claude-3-7-sonnet-20250219)",
+    "Browser-Use_test(DeepSeek-V3)": "Browser-Use(DeepSeek-V3)",
+    "Hal Generalist Agent (GPT4.1)": "HAL Generalist Agent (GPT4.1)",
+    "Hal Generalist Agent (DeepSeek-R1)": "HAL Generalist Agent (DeepSeek-R1)",
+    "Hal Generalist Agent (O3-low)": "HAL Generalist Agent (O3-low)",
+    "Hal Generalist Agent (DeepSeek-V3)": "HAL Generalist Agent (DeepSeek-V3)",
+    "Hal Generalist Agent (Sonnet3.7)": "HAL Generalist Agent (Sonnet3.7)",
+    "Hal Generalist Agent (O4-mini-high)": "HAL Generalist Agent (O4-mini-high)",
+    "Hal Generalist Agent (Sonnet 3.7)": "HAL Generalist Agent (Sonnet 3.7)",
+    "Hal Generalist Agent (o4-mini-high)": "HAL Generalist Agent (o4-mini-high)"
 }

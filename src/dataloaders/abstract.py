@@ -42,10 +42,12 @@ class DataLoader(ABC):
         agent_name = self.config['agent_name']
         # print(agent_name)
         self.config['agent_name'] = AGENT_NAME_MAP.get(agent_name, agent_name)
-        if (self.config['agent_name'] != 'CORE-Agent'):
-            self.config['agent_name_short'] = self.config['agent_name'].split(' (')[-2]
-        else:
+        if (self.config['agent_name'] == 'CORE-Agent') or (self.config['agent_name'] == 'HAL Generalist Agent'):
             self.config['agent_name_short'] = self.config['agent_name']
+        elif ("Browser-Use" in self.config['agent_name']) or ("SeeAct" in self.config['agent_name']):
+            self.config['agent_name_short'] = self.config['agent_name'].split('(')[0]
+        else:
+            self.config['agent_name_short'] = self.config['agent_name'].split(' (')[-2]
 
         if ('agent.model.name' in self.config['agent_args']):
             model_name_short = self.config['agent_args']['agent.model.name']
@@ -68,7 +70,8 @@ class DataLoader(ABC):
             self.config['model_name_short'] = MODEL_NAME_MAP.get(model_name_short, model_name_short)
         else:
             print("Error: Missing a format type")
-        print(self.config['agent_name'], " | ", self.config['agent_name_short'], " | ", self.config['model_name_short'])
+        # print(self.config['agent_name'], " | ", self.config['agent_name_short'], " | ", self.config['model_name_short'])
+        
 
     def _load_data(self):
         with open(self.data_path, 'r') as f:

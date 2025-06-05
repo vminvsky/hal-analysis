@@ -6,12 +6,35 @@ cleaned_dataset = pd.read_csv('cleaned_all_metrics.csv')
 
 agent_run_status = agent_run_status[agent_run_status['Status'] == 'Uploaded']
 
-value_map = {
+model_map = {
     'claude-3-7-sonnet-20250219': 'claude-3-7-sonnet-2025-02-19',
-    'claude-3-7-sonnet-20250219-thinking-high': 'claude-3-7-sonnet-2025-02-19 high'
+    'claude-3-7-sonnet-20250219-thinking-high': 'claude-3-7-sonnet-2025-02-19 high',
+    'claude-3-7-sonnet-20250219-thinking-low': 'claude-3-7-sonnet-2025-02-19 low',
+    'claude-3-7-sonnet-20250219-thinking-low': 'claude-3-7-sonnet-2025-02-19 low',
+    'o4-mini-2025-04-16-medium': 'o4-mini-2025-04-16'
 }
 
-agent_run_status['Model'] = agent_run_status['Model'].replace(value_map)
+benchmark_map = {
+    'swebench-verified-mini': 'swebench_verified_mini',
+    'colbench-backend': 'colbench_backend_programming',
+    'colbench-frontend': 'colbench_frontend_design',
+    'ScienceAgentBench': 'scienceagentbench',
+    'Online-Mind2Web': 'online_mind2web'
+}
+
+scaffold_map = {
+    'TAU-bench FewShot Agent': 'TAU-bench FewShot',
+    'Open Deep Research': 'HF Open Deep Research',
+    'Reflexion': 'USACO Episodic + Semantic',
+    'Colbench Agent': 'Col-bench Text',
+    'SciCode Tool Calling': 'Scicode Tool Calling Agent',
+    'Scicode Zero Shot': 'Scicode Zero Shot Agent',
+    'Assistantbench Browsing Agent': 'Assistantbench Browser Agent'
+}
+
+agent_run_status['Model'] = agent_run_status['Model'].replace(model_map)
+agent_run_status['Benchmark'] = agent_run_status['Benchmark'].replace(benchmark_map)
+agent_run_status['Agent'] = agent_run_status['Agent'].replace(scaffold_map)
 
 agent_run_status['Model'] = agent_run_status['Model'].str.replace('-low', ' low', regex=False)
 agent_run_status['Model'] = agent_run_status['Model'].str.replace('-high', ' high', regex=False)

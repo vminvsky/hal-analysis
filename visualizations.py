@@ -121,7 +121,7 @@ def create_heatmaps(df, agent_scaffold, metric, title, x_label, y_label, legend_
     elif agent_scaffold == 'task_specific':
         cols = ['benchmark_name', 'agent_name_short', 'model_name_short', metric]
         df = df[cols].copy()
-        task_specific_scaffolds = ['Col-bench Text', 'HF Open Deep Research', 'Scicode Tool Calling Agent', 'Scicode Zero Shot Agent', 'SAB Example Agent', 'SWE-Agent', 'TAU-bench FewShot', 'USACO Episodic + Semantic', 'CORE-Agent', 'Assistantbench Browser Agent']
+        task_specific_scaffolds = ['Col-bench Text', 'HF Open Deep Research', 'Scicode Tool Calling Agent', 'Scicode Zero Shot Agent', 'SAB Example Agent', 'SWE-Agent', 'TAU-bench FewShot', 'USACO Episodic + Semantic', 'CORE-Agent', 'Assistantbench Browser Agent', 'Browser-Use', "SeeAct"]
         df = df[df['agent_name_short'].isin(task_specific_scaffolds)]
     elif agent_scaffold == 'max_acc' or agent_scaffold == 'dist':
         cols = ['benchmark_name', 'model_name_short', metric]
