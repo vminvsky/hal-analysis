@@ -47,22 +47,35 @@ Analysis of agent traces
 
 <!-- USAGE EXAMPLES -->
 ## Usage
-1. Run `cost_accuracy_curve.py`. This will create the pareto frontiers by benchmark of cost vs. accuracy. It will also save the distance of each point from the pareto frontier per benchmark in `visualizations/pareto_distances/pareto_distances.csv`.
-2. Run `win_rates.py`. This outputs two files:
-    1. `model_win_rates_max.csv` overall model win rates across benchmarks calculated using max accuracy
-    2. `model_win_rates_max_pareto.csv` overall model win rates across benchmarks calculated using distance from the pareto frontier
-4. Run `convex_hull.py`. This will create the pareto frontiers for:
-    1. latency vs. accuracy pareto per benchmark
-    2. cost vs. win rate calculated using max accuracy pareto
-    3. cost vs. win rate calculated using distance from the pareto frontier pareto
-    4. latency vs. win rate calculated using max accuracy pareto
-    5. latency vs. win rate calculated using distance from the pareto frontier pareto
-4. Run `visualizations.py`. This will create:
-    1. A bar plot for win rates calculated using max accuracy for models across benchmarks
-    2. A bar plot for win rates calculated using using distance from the pareto frontier for models across benchmarks
-    3. Six heatmaps: (generalist agent scaffold, task-specific agent scaffold) x (latency, cost, accuracy)
-   
-All plots can be found in the `visualizations/new_plots` folder.
+Run `run_pipeline.py`. This will run the following scripts:
+1. `generate_cleaned_dataset.py`
+2. `check_data.py`
+3. `cost_accuracy_curve.py`
+4. `win_rates.py`
+5. `convex_hull.py`
+6. `visualizations.py`
+
+## Visualizations generated
+1. `visualizations/new_plots/heatmaps/dist_overall_win_rate_heatmap.png` - heatmap of win rates calculated using the distance from pareto frontier of the Cost vs. Max Accuracy over all agent scaffolds
+2. `visualizations/new_plots/heatmaps/generalist_accuracy_heatmap.png`
+3. `visualizations/new_plots/heatmaps/generalist_mean_latency_heatmap.png` - heatmap of the latencies for each model/benchmark pair for generalist agents (latency per benchmark calculated by taking the mean of the latency of each task)
+4. `visualizations/new_plots/heatmaps/generalist_overall_win_rate_heatmap.png` - heatmap of win rates of models with the generalist agent scaffold; win rate for each benchmark is calculated as the proportion of times a model has a higher accuracy than other models with generalist scaffolds within the benchmark 
+5. `visualizations/new_plots/heatmaps/generalist_total_cost_heatmap.png`
+6. `visualizations/new_plots/heatmaps/max_acc_overall_win_rate_heatmap.png` - heatmap of win rates calculated as: using the max accuracy of the model across all agent scaffolds for a particular benchmark, the proportion of times a model has a higher accuracy than other models with the highest accuracy scaffold within the benchmark 
+7. `visualizations/new_plots/heatmaps/task_specific_accuracy_heatmap.png`
+8. `visualizations/new_plots/heatmaps/task_specific_mean_latency_heatmap.png` - heatmap of the latencies for each model/benchmark pair for task specific agents (latency per benchmark calculated by taking the mean of the latency of each task)
+9. `visualizations/new_plots/heatmaps/task_specific_overall_win_rate_heatmap.png` - heatmap of win rates of models with the task specific agent scaffold; win rate for each benchmark is calculated as the proportion of times a model has a higher accuracy than other models with task specific scaffolds within the benchmark 
+10. `visualizations/new_plots/heatmaps/task_specific_total_cost_heatmap.png`
+11. `visualizations/new_plots/convex_model_cost_accuracy.png` - accuracy vs. total cost paretos for each bechmark, using max accuracy across agent scaffolds for each model 
+12. `visualizations/new_plots/convex_model_latency_accuracy.png` - accuracy vs. latency paretos for each bechmark, using max accuracy across agent scaffolds for each model 
+13. `visualizations/new_plots/cost_win_rate_max.png` - pareto frontier of win rate across all benchmarks calculated using the max accuracy across agents vs mean cost across all benchmarks 
+14. `visualizations/new_plots/cost_win_rate_pareto.png` - pareto frontier of win rate across all benchmarks vs mean cost across all benchmarks; win rate across benchmarks is calculated as the proportion of times a model has a higher accuracy than other models with the highest accuracy scaffold across benchmarks
+15. `visualizations/new_plots/latency_win_rate_max.png` -  pareto frontier of win rate across all benchmarks calculated using the max accuracy across agents vs mean latency of all tasks across all benchmarks 
+16. `visualizations/new_plots/latency_win_rate_pareto.png` - pareto frontier of win rate across all benchmarks calculated  using the distance from pareto frontier of the cost vs. max accuracy over all agent scaffolds vs. mean latency of all tasks across all benchmarks 
+17. `visualizations/new_plots/model_win_rates_max.png` - win rates of each model calculated using the max accuracy across agents
+18.  `visualizations/new_plots/model_win_rates_pareto.png` - win rates of each model calculated using the distance from pareto frontier of the cost vs. max accuracy over all agent scaffolds 
+
+
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ### Contributors:
