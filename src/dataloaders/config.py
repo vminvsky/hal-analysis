@@ -17,7 +17,9 @@ MODEL_NAME_MAP = {
     "openai/o4-mini-2025-04-16 high": "o4-mini-2025-04-16 high",
     "openai/o3-2025-04-16": "o3-2025-04-16",
     "o3-2025-04-16 medium": "o3-2025-04-16",
-    "openai/o3-mini-2025-01-31 low": "o3-mini-2025-01-31 low"
+    "openai/o3-mini-2025-01-31 low": "o3-mini-2025-01-31 low",
+    "anthropic/claude-3-7-sonnet-20250219 low": "claude-3-7-sonnet-2025-02-19 low",
+    "anthropic/claude-3-7-sonnet-20250219 high": "claude-3-7-sonnet-2025-02-19 high"
 }
 
 AGENT_NAME_MAP = {

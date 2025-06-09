@@ -1,6 +1,6 @@
 MISSING ROWS ANALYSIS
 ==================================================
-Rows in agent_run_status but missing from cleaned_dataset (21 rows):
+Rows in agent_run_status but missing from cleaned_dataset (22 rows):
 
               benchmark_name             agent_name_short                  model_name_short
             taubench_airline            TAU-bench FewShot                     o3-2025-04-16
@@ -24,47 +24,41 @@ colbench_backend_programming         HAL Generalist Agent                     o3
     colbench_frontend_design         HAL Generalist Agent                     o3-2025-04-16
              online_mind2web                       SeeAct            o4-mini-2025-04-16 low
              online_mind2web                       SeeAct           o4-mini-2025-04-16 high
+             online_mind2web                       SeeAct claude-3-7-sonnet-2025-02-19 high
 
 
-EXTRA ROWS: Rows in cleaned_dataset that shouldn't be there (30 rows):
+EXTRA ROWS: Rows in cleaned_dataset that shouldn't be there (23 rows):
 
-            agent_name_short                          model_name_short               benchmark_name
-        HAL Generalist Agent                             o3-2025-04-16            scienceagentbench
-        HAL Generalist Agent              claude-3-7-sonnet-2025-02-19            scienceagentbench
-        HAL Generalist Agent                          gemini-2.0-flash               corebench_hard
-        HAL Generalist Agent                         o3-2025-04-16 low                      scicode
-        HAL Generalist Agent                   deepseek-ai/DeepSeek-R1               corebench_hard
-        HAL Generalist Agent                   deepseek-ai/DeepSeek-V3            scienceagentbench
-        HAL Generalist Agent                    o4-mini-2025-04-16 low               corebench_hard
-        HAL Generalist Agent          claude-3-7-sonnet-2025-02-19 low               assistantbench
-        HAL Generalist Agent                   o4-mini-2025-04-16 high            scienceagentbench
-              Col-bench Text              claude-3-7-sonnet-2025-02-19     colbench_frontend_design
-        Hal Generalist Agent                         o3-2025-04-16 low     colbench_frontend_design
-        HAL Generalist Agent                             o3-2025-04-16               corebench_hard
-        HAL Generalist Agent                   o4-mini-2025-04-16 high               corebench_hard
-        HAL Generalist Agent              claude-3-7-sonnet-2025-02-19               corebench_hard
-        HAL Generalist Agent         claude-3-7-sonnet-2025-02-19 high               assistantbench
-        HAL Generalist Agent                        gpt-4.1-2025-04-14            scienceagentbench
-                      SeeAct                        o4-mini-2025-04-16              online_mind2web
-Assistantbench Browser Agent                         o3-2025-04-16 low               assistantbench
-                      SeeAct                        o4-mini-2025-04-16              online_mind2web
-        Hal Generalist Agent                    o4-mini-2025-04-16 low     colbench_frontend_design
-        HAL Generalist Agent                    o4-mini-2025-04-16 low            scienceagentbench
-        HAL Generalist Agent         claude-3-7-sonnet-2025-02-19 high            scienceagentbench
-Assistantbench Browser Agent  anthropic/claude-3-7-sonnet-20250219 low               assistantbench
-Assistantbench Browser Agent                   deepseek-ai/DeepSeek-R1               assistantbench
-        HAL Generalist Agent                         o3-2025-04-16 low colbench_backend_programming
-        HAL Generalist Agent                   deepseek-ai/DeepSeek-R1               assistantbench
-Assistantbench Browser Agent anthropic/claude-3-7-sonnet-20250219 high               assistantbench
-        HAL Generalist Agent                   deepseek-ai/DeepSeek-V3               corebench_hard
-              Col-bench Text                        o4-mini-2025-04-16     colbench_frontend_design
-        HAL Generalist Agent                        gpt-4.1-2025-04-14               corebench_hard
+            agent_name_short                  model_name_short               benchmark_name
+        HAL Generalist Agent                     o3-2025-04-16            scienceagentbench
+        HAL Generalist Agent      claude-3-7-sonnet-2025-02-19            scienceagentbench
+        HAL Generalist Agent                 o3-2025-04-16 low                      scicode
+        HAL Generalist Agent           deepseek-ai/DeepSeek-V3            scienceagentbench
+        HAL Generalist Agent  claude-3-7-sonnet-2025-02-19 low               assistantbench
+        HAL Generalist Agent           o4-mini-2025-04-16 high            scienceagentbench
+              Col-bench Text      claude-3-7-sonnet-2025-02-19     colbench_frontend_design
+        Hal Generalist Agent                 o3-2025-04-16 low     colbench_frontend_design
+        HAL Generalist Agent      claude-3-7-sonnet-2025-02-19               corebench_hard
+        HAL Generalist Agent claude-3-7-sonnet-2025-02-19 high               assistantbench
+        HAL Generalist Agent                gpt-4.1-2025-04-14            scienceagentbench
+                      SeeAct                o4-mini-2025-04-16              online_mind2web
+Assistantbench Browser Agent                 o3-2025-04-16 low               assistantbench
+                      SeeAct                o4-mini-2025-04-16              online_mind2web
+        Hal Generalist Agent            o4-mini-2025-04-16 low     colbench_frontend_design
+        HAL Generalist Agent            o4-mini-2025-04-16 low            scienceagentbench
+        HAL Generalist Agent claude-3-7-sonnet-2025-02-19 high            scienceagentbench
+Assistantbench Browser Agent  claude-3-7-sonnet-2025-02-19 low               assistantbench
+Assistantbench Browser Agent           deepseek-ai/DeepSeek-R1               assistantbench
+        HAL Generalist Agent                 o3-2025-04-16 low colbench_backend_programming
+        HAL Generalist Agent           deepseek-ai/DeepSeek-R1               assistantbench
+Assistantbench Browser Agent claude-3-7-sonnet-2025-02-19 high               assistantbench
+              Col-bench Text                o4-mini-2025-04-16     colbench_frontend_design
 
 
 ==================================================
 SUMMARY
 ==================================================
-Total rows in agent_run_status: 162
+Total rows in agent_run_status: 170
 Total rows in cleaned_dataset: 171
-Rows missing from cleaned_dataset: 21
-Extra rows in cleaned_dataset: 30
+Rows missing from cleaned_dataset: 22
+Extra rows in cleaned_dataset: 23

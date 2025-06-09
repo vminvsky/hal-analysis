@@ -28,7 +28,7 @@ def ensure_list(x):
     # Fallback: wrap anything else in a list
     return [x]
 
-
+# Replace with your data directory
 files = glob('/scratch/gpfs/vv7118/models/hub/datasets--agent-evals--hal_traces/snapshots/e2c52999d3b9624dae0532533876e17e9fdd664f/*.json')
 
 all_data = []
