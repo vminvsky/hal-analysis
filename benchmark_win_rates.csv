@@ -1,171 +1,154 @@
 model_name_short,benchmark_name,agent_name_short,win_rate_mean,win_rate_std,win_rate_count,wins_sum,comparisons_sum,overall_win_rate
-claude-3-7-sonnet-2025-02-19,assistantbench,Assistantbench Browser Agent,0.5,,1,5,10,0.5
-claude-3-7-sonnet-2025-02-19,assistantbench,HAL Generalist Agent,0.3,,1,3,10,0.3
-claude-3-7-sonnet-2025-02-19,colbench_backend_programming,HAL Generalist Agent,1.0,,1,5,5,1.0
-claude-3-7-sonnet-2025-02-19,colbench_frontend_design,Col-bench Text,1.0,,1,6,6,1.0
+claude-3-7-sonnet-2025-02-19,assistantbench,Assistantbench Browser Agent,0.5714285714285714,,1,4,7,0.5714285714285714
+claude-3-7-sonnet-2025-02-19,assistantbench,HAL Generalist Agent,0.375,,1,3,8,0.375
+claude-3-7-sonnet-2025-02-19,colbench_backend_programming,HAL Generalist Agent,1.0,,1,4,4,1.0
+claude-3-7-sonnet-2025-02-19,colbench_frontend_design,Col-bench Text,1.0,,1,5,5,1.0
 claude-3-7-sonnet-2025-02-19,colbench_frontend_design,HAL Generalist Agent,0.25,,1,1,4,0.25
-claude-3-7-sonnet-2025-02-19,corebench_hard,CORE-Agent,1.0,,1,9,9,1.0
+claude-3-7-sonnet-2025-02-19,corebench_hard,CORE-Agent,1.0,,1,8,8,1.0
 claude-3-7-sonnet-2025-02-19,corebench_hard,HAL Generalist Agent,0.0,,1,0,7,0.0
 claude-3-7-sonnet-2025-02-19,gaia,HF Open Deep Research,0.5714285714285714,,1,4,7,0.5714285714285714
 claude-3-7-sonnet-2025-02-19,online_mind2web,Browser-Use,1.0,,1,6,6,1.0
-claude-3-7-sonnet-2025-02-19,online_mind2web,SeeAct,0.0,,1,0,3,0.0
-claude-3-7-sonnet-2025-02-19,scicode,HAL Generalist Agent,0.7142857142857143,,1,5,7,0.7142857142857143
-claude-3-7-sonnet-2025-02-19,scicode,Scicode Tool Calling Agent,0.42857142857142855,,1,3,7,0.42857142857142855
-claude-3-7-sonnet-2025-02-19,scicode,Scicode Zero Shot Agent,0.0,,1,0,7,0.0
+claude-3-7-sonnet-2025-02-19,online_mind2web,SeeAct,0.0,,1,0,2,0.0
+claude-3-7-sonnet-2025-02-19,scicode,HAL Generalist Agent,0.8,,1,4,5,0.8
+claude-3-7-sonnet-2025-02-19,scicode,Scicode Tool Calling Agent,0.5,,1,3,6,0.5
+claude-3-7-sonnet-2025-02-19,scicode,Scicode Zero Shot Agent,0.0,,1,0,6,0.0
 claude-3-7-sonnet-2025-02-19,scienceagentbench,HAL Generalist Agent,0.5,,1,3,6,0.5
-claude-3-7-sonnet-2025-02-19,scienceagentbench,SAB Example Agent,0.2222222222222222,,1,2,9,0.2222222222222222
+claude-3-7-sonnet-2025-02-19,scienceagentbench,SAB Example Agent,0.25,,1,2,8,0.25
 claude-3-7-sonnet-2025-02-19,swebench_verified_mini,HAL Generalist Agent,1.0,,1,4,4,1.0
-claude-3-7-sonnet-2025-02-19,swebench_verified_mini,SWE-Agent,0.5555555555555556,,1,5,9,0.5555555555555556
+claude-3-7-sonnet-2025-02-19,swebench_verified_mini,SWE-Agent,0.625,,1,5,8,0.625
 claude-3-7-sonnet-2025-02-19,taubench_airline,HAL Generalist Agent,1.0,,1,7,7,1.0
 claude-3-7-sonnet-2025-02-19,taubench_airline,TAU-bench FewShot,0.0,,1,0,6,0.0
 claude-3-7-sonnet-2025-02-19,usaco,USACO Episodic + Semantic,0.14285714285714285,,1,1,7,0.14285714285714285
-claude-3-7-sonnet-2025-02-19 high,assistantbench,Assistantbench Browser Agent,0.3,,1,3,10,0.3
-claude-3-7-sonnet-2025-02-19 high,assistantbench,HAL Generalist Agent,0.6,,1,6,10,0.6
-claude-3-7-sonnet-2025-02-19 high,corebench_hard,CORE-Agent,0.4444444444444444,,1,4,9,0.4444444444444444
+claude-3-7-sonnet-2025-02-19 high,assistantbench,Assistantbench Browser Agent,0.42857142857142855,,1,3,7,0.42857142857142855
+claude-3-7-sonnet-2025-02-19 high,assistantbench,HAL Generalist Agent,0.625,,1,5,8,0.625
+claude-3-7-sonnet-2025-02-19 high,corebench_hard,CORE-Agent,0.5,,1,4,8,0.5
 claude-3-7-sonnet-2025-02-19 high,gaia,HAL Generalist Agent,1.0,,1,5,5,1.0
 claude-3-7-sonnet-2025-02-19 high,gaia,HF Open Deep Research,0.42857142857142855,,1,3,7,0.42857142857142855
 claude-3-7-sonnet-2025-02-19 high,scienceagentbench,HAL Generalist Agent,0.6666666666666666,,1,4,6,0.6666666666666666
-claude-3-7-sonnet-2025-02-19 high,scienceagentbench,SAB Example Agent,0.8888888888888888,,1,8,9,0.8888888888888888
-claude-3-7-sonnet-2025-02-19 high,swebench_verified_mini,SWE-Agent,0.8888888888888888,,1,8,9,0.8888888888888888
+claude-3-7-sonnet-2025-02-19 high,scienceagentbench,SAB Example Agent,0.875,,1,7,8,0.875
+claude-3-7-sonnet-2025-02-19 high,swebench_verified_mini,SWE-Agent,0.875,,1,7,8,0.875
 claude-3-7-sonnet-2025-02-19 high,taubench_airline,HAL Generalist Agent,0.8571428571428571,,1,6,7,0.8571428571428571
 claude-3-7-sonnet-2025-02-19 high,taubench_airline,TAU-bench FewShot,0.8333333333333334,,1,5,6,0.8333333333333334
 claude-3-7-sonnet-2025-02-19 high,usaco,USACO Episodic + Semantic,0.0,,1,0,7,0.0
-claude-3-7-sonnet-2025-02-19 low,assistantbench,Assistantbench Browser Agent,0.4,,1,4,10,0.4
-claude-3-7-sonnet-2025-02-19 low,assistantbench,HAL Generalist Agent,0.7,,1,7,10,0.7
-claude-3-7-sonnet-2025-02-19 low,colbench_backend_programming,Col-bench Text,1.0,,1,5,5,1.0
-claude-3-7-sonnet-2025-02-19 low,corebench_hard,CORE-Agent,0.7777777777777778,,1,7,9,0.7777777777777778
-claude-3-7-sonnet-2025-02-19 low,scienceagentbench,SAB Example Agent,0.5555555555555556,,1,5,9,0.5555555555555556
-claude-3-7-sonnet-2025-02-19 low,swebench_verified_mini,SWE-Agent,0.5555555555555556,,1,5,9,0.5555555555555556
-deepseek-ai/DeepSeek-R1,assistantbench,Assistantbench Browser Agent,0.0,,1,0,10,0.0
-deepseek-ai/DeepSeek-R1,assistantbench,HAL Generalist Agent,0.2,,1,2,10,0.2
-deepseek-ai/DeepSeek-R1,colbench_backend_programming,Col-bench Text,0.0,,1,0,5,0.0
-deepseek-ai/DeepSeek-R1,colbench_backend_programming,HAL Generalist Agent,0.2,,1,1,5,0.2
-deepseek-ai/DeepSeek-R1,colbench_frontend_design,Col-bench Text,0.0,,1,0,6,0.0
+deepseek-ai/DeepSeek-R1,assistantbench,Assistantbench Browser Agent,0.0,,1,0,7,0.0
+deepseek-ai/DeepSeek-R1,assistantbench,HAL Generalist Agent,0.25,,1,2,8,0.25
+deepseek-ai/DeepSeek-R1,colbench_backend_programming,Col-bench Text,0.0,,1,0,4,0.0
+deepseek-ai/DeepSeek-R1,colbench_backend_programming,HAL Generalist Agent,0.0,,1,0,4,0.0
+deepseek-ai/DeepSeek-R1,colbench_frontend_design,Col-bench Text,0.0,,1,0,5,0.0
 deepseek-ai/DeepSeek-R1,colbench_frontend_design,HAL Generalist Agent,0.0,,1,0,4,0.0
-deepseek-ai/DeepSeek-R1,corebench_hard,CORE-Agent,0.0,,1,0,9,0.0
+deepseek-ai/DeepSeek-R1,corebench_hard,CORE-Agent,0.0,,1,0,8,0.0
 deepseek-ai/DeepSeek-R1,corebench_hard,HAL Generalist Agent,0.14285714285714285,,1,1,7,0.14285714285714285
 deepseek-ai/DeepSeek-R1,gaia,HAL Generalist Agent,0.0,,1,0,5,0.0
 deepseek-ai/DeepSeek-R1,gaia,HF Open Deep Research,0.14285714285714285,,1,1,7,0.14285714285714285
 deepseek-ai/DeepSeek-R1,online_mind2web,Browser-Use,0.3333333333333333,,1,2,6,0.3333333333333333
-deepseek-ai/DeepSeek-R1,scienceagentbench,SAB Example Agent,0.3333333333333333,,1,3,9,0.3333333333333333
+deepseek-ai/DeepSeek-R1,scienceagentbench,SAB Example Agent,0.375,,1,3,8,0.375
 deepseek-ai/DeepSeek-R1,swebench_verified_mini,HAL Generalist Agent,0.5,,1,2,4,0.5
-deepseek-ai/DeepSeek-R1,swebench_verified_mini,SWE-Agent,0.0,,1,0,9,0.0
+deepseek-ai/DeepSeek-R1,swebench_verified_mini,SWE-Agent,0.0,,1,0,8,0.0
 deepseek-ai/DeepSeek-R1,taubench_airline,HAL Generalist Agent,0.0,,1,0,7,0.0
 deepseek-ai/DeepSeek-R1,taubench_airline,TAU-bench FewShot,0.3333333333333333,,1,2,6,0.3333333333333333
 deepseek-ai/DeepSeek-R1,usaco,USACO Episodic + Semantic,0.42857142857142855,,1,3,7,0.42857142857142855
-deepseek-ai/DeepSeek-V3,assistantbench,Assistantbench Browser Agent,0.1,,1,1,10,0.1
-deepseek-ai/DeepSeek-V3,assistantbench,HAL Generalist Agent,1.0,,1,10,10,1.0
-deepseek-ai/DeepSeek-V3,colbench_backend_programming,Col-bench Text,0.2,,1,1,5,0.2
-deepseek-ai/DeepSeek-V3,colbench_backend_programming,HAL Generalist Agent,0.6,,1,3,5,0.6
-deepseek-ai/DeepSeek-V3,colbench_frontend_design,Col-bench Text,0.16666666666666666,,1,1,6,0.16666666666666666
+deepseek-ai/DeepSeek-V3,assistantbench,Assistantbench Browser Agent,0.14285714285714285,,1,1,7,0.14285714285714285
+deepseek-ai/DeepSeek-V3,assistantbench,HAL Generalist Agent,1.0,,1,8,8,1.0
+deepseek-ai/DeepSeek-V3,colbench_backend_programming,Col-bench Text,0.25,,1,1,4,0.25
+deepseek-ai/DeepSeek-V3,colbench_backend_programming,HAL Generalist Agent,0.5,,1,2,4,0.5
+deepseek-ai/DeepSeek-V3,colbench_frontend_design,Col-bench Text,0.2,,1,1,5,0.2
 deepseek-ai/DeepSeek-V3,colbench_frontend_design,HAL Generalist Agent,0.75,,1,3,4,0.75
-deepseek-ai/DeepSeek-V3,corebench_hard,CORE-Agent,0.2222222222222222,,1,2,9,0.2222222222222222
+deepseek-ai/DeepSeek-V3,corebench_hard,CORE-Agent,0.25,,1,2,8,0.25
 deepseek-ai/DeepSeek-V3,corebench_hard,HAL Generalist Agent,0.42857142857142855,,1,3,7,0.42857142857142855
 deepseek-ai/DeepSeek-V3,gaia,HAL Generalist Agent,0.4,,1,2,5,0.4
 deepseek-ai/DeepSeek-V3,gaia,HF Open Deep Research,0.2857142857142857,,1,2,7,0.2857142857142857
 deepseek-ai/DeepSeek-V3,online_mind2web,Browser-Use,0.6666666666666666,,1,4,6,0.6666666666666666
-deepseek-ai/DeepSeek-V3,scicode,HAL Generalist Agent,0.0,,1,0,7,0.0
-deepseek-ai/DeepSeek-V3,scicode,Scicode Tool Calling Agent,0.0,,1,0,7,0.0
-deepseek-ai/DeepSeek-V3,scicode,Scicode Zero Shot Agent,0.2857142857142857,,1,2,7,0.2857142857142857
+deepseek-ai/DeepSeek-V3,scicode,HAL Generalist Agent,0.0,,1,0,5,0.0
+deepseek-ai/DeepSeek-V3,scicode,Scicode Tool Calling Agent,0.0,,1,0,6,0.0
+deepseek-ai/DeepSeek-V3,scicode,Scicode Zero Shot Agent,0.3333333333333333,,1,2,6,0.3333333333333333
 deepseek-ai/DeepSeek-V3,scienceagentbench,HAL Generalist Agent,0.0,,1,0,6,0.0
-deepseek-ai/DeepSeek-V3,scienceagentbench,SAB Example Agent,0.1111111111111111,,1,1,9,0.1111111111111111
+deepseek-ai/DeepSeek-V3,scienceagentbench,SAB Example Agent,0.125,,1,1,8,0.125
 deepseek-ai/DeepSeek-V3,swebench_verified_mini,HAL Generalist Agent,0.75,,1,3,4,0.75
-deepseek-ai/DeepSeek-V3,swebench_verified_mini,SWE-Agent,0.1111111111111111,,1,1,9,0.1111111111111111
+deepseek-ai/DeepSeek-V3,swebench_verified_mini,SWE-Agent,0.125,,1,1,8,0.125
 deepseek-ai/DeepSeek-V3,taubench_airline,HAL Generalist Agent,0.2857142857142857,,1,2,7,0.2857142857142857
 deepseek-ai/DeepSeek-V3,taubench_airline,TAU-bench FewShot,0.0,,1,0,6,0.0
 deepseek-ai/DeepSeek-V3,usaco,USACO Episodic + Semantic,0.5714285714285714,,1,4,7,0.5714285714285714
-gemini-2.0-flash,assistantbench,Assistantbench Browser Agent,0.2,,1,2,10,0.2
-gemini-2.0-flash,assistantbench,HAL Generalist Agent,0.0,,1,0,10,0.0
-gemini-2.0-flash,colbench_backend_programming,Col-bench Text,0.6,,1,3,5,0.6
-gemini-2.0-flash,colbench_frontend_design,Col-bench Text,0.5,,1,3,6,0.5
-gemini-2.0-flash,corebench_hard,CORE-Agent,0.1111111111111111,,1,1,9,0.1111111111111111
+gemini-2.0-flash,assistantbench,Assistantbench Browser Agent,0.2857142857142857,,1,2,7,0.2857142857142857
+gemini-2.0-flash,assistantbench,HAL Generalist Agent,0.0,,1,0,8,0.0
+gemini-2.0-flash,colbench_backend_programming,Col-bench Text,0.75,,1,3,4,0.75
+gemini-2.0-flash,colbench_frontend_design,Col-bench Text,0.6,,1,3,5,0.6
+gemini-2.0-flash,corebench_hard,CORE-Agent,0.125,,1,1,8,0.125
 gemini-2.0-flash,corebench_hard,HAL Generalist Agent,0.14285714285714285,,1,1,7,0.14285714285714285
 gemini-2.0-flash,gaia,HAL Generalist Agent,0.2,,1,1,5,0.2
 gemini-2.0-flash,gaia,HF Open Deep Research,0.0,,1,0,7,0.0
-gemini-2.0-flash,scicode,HAL Generalist Agent,0.0,,1,0,7,0.0
-gemini-2.0-flash,scicode,Scicode Tool Calling Agent,0.14285714285714285,,1,1,7,0.14285714285714285
-gemini-2.0-flash,scicode,Scicode Zero Shot Agent,0.14285714285714285,,1,1,7,0.14285714285714285
-gemini-2.0-flash,scienceagentbench,SAB Example Agent,0.0,,1,0,9,0.0
+gemini-2.0-flash,scicode,HAL Generalist Agent,0.0,,1,0,5,0.0
+gemini-2.0-flash,scicode,Scicode Tool Calling Agent,0.16666666666666666,,1,1,6,0.16666666666666666
+gemini-2.0-flash,scicode,Scicode Zero Shot Agent,0.16666666666666666,,1,1,6,0.16666666666666666
+gemini-2.0-flash,scienceagentbench,SAB Example Agent,0.0,,1,0,8,0.0
 gemini-2.0-flash,swebench_verified_mini,HAL Generalist Agent,0.0,,1,0,4,0.0
-gemini-2.0-flash,swebench_verified_mini,SWE-Agent,0.1111111111111111,,1,1,9,0.1111111111111111
+gemini-2.0-flash,swebench_verified_mini,SWE-Agent,0.125,,1,1,8,0.125
 gemini-2.0-flash,taubench_airline,HAL Generalist Agent,0.5714285714285714,,1,4,7,0.5714285714285714
-gpt-4.1-2025-04-14,assistantbench,Assistantbench Browser Agent,0.6,,1,6,10,0.6
-gpt-4.1-2025-04-14,assistantbench,HAL Generalist Agent,0.8,,1,8,10,0.8
-gpt-4.1-2025-04-14,colbench_backend_programming,Col-bench Text,0.8,,1,4,5,0.8
-gpt-4.1-2025-04-14,colbench_backend_programming,HAL Generalist Agent,0.8,,1,4,5,0.8
+gpt-4.1-2025-04-14,assistantbench,Assistantbench Browser Agent,0.7142857142857143,,1,5,7,0.7142857142857143
+gpt-4.1-2025-04-14,assistantbench,HAL Generalist Agent,0.75,,1,6,8,0.75
+gpt-4.1-2025-04-14,colbench_backend_programming,Col-bench Text,1.0,,1,4,4,1.0
+gpt-4.1-2025-04-14,colbench_backend_programming,HAL Generalist Agent,0.75,,1,3,4,0.75
 gpt-4.1-2025-04-14,colbench_frontend_design,HAL Generalist Agent,1.0,,1,4,4,1.0
-gpt-4.1-2025-04-14,corebench_hard,CORE-Agent,0.7777777777777778,,1,7,9,0.7777777777777778
+gpt-4.1-2025-04-14,corebench_hard,CORE-Agent,0.875,,1,7,8,0.875
 gpt-4.1-2025-04-14,corebench_hard,HAL Generalist Agent,0.5714285714285714,,1,4,7,0.5714285714285714
 gpt-4.1-2025-04-14,gaia,HAL Generalist Agent,0.6,,1,3,5,0.6
 gpt-4.1-2025-04-14,gaia,HF Open Deep Research,0.8571428571428571,,1,6,7,0.8571428571428571
 gpt-4.1-2025-04-14,online_mind2web,Browser-Use,0.8333333333333334,,1,5,6,0.8333333333333334
-gpt-4.1-2025-04-14,online_mind2web,SeeAct,0.3333333333333333,,1,1,3,0.3333333333333333
-gpt-4.1-2025-04-14,scicode,HAL Generalist Agent,0.2857142857142857,,1,2,7,0.2857142857142857
-gpt-4.1-2025-04-14,scicode,Scicode Tool Calling Agent,0.14285714285714285,,1,1,7,0.14285714285714285
-gpt-4.1-2025-04-14,scicode,Scicode Zero Shot Agent,0.5714285714285714,,1,4,7,0.5714285714285714
+gpt-4.1-2025-04-14,online_mind2web,SeeAct,0.5,,1,1,2,0.5
+gpt-4.1-2025-04-14,scicode,HAL Generalist Agent,0.4,,1,2,5,0.4
+gpt-4.1-2025-04-14,scicode,Scicode Tool Calling Agent,0.16666666666666666,,1,1,6,0.16666666666666666
+gpt-4.1-2025-04-14,scicode,Scicode Zero Shot Agent,0.6666666666666666,,1,4,6,0.6666666666666666
 gpt-4.1-2025-04-14,scienceagentbench,HAL Generalist Agent,0.16666666666666666,,1,1,6,0.16666666666666666
-gpt-4.1-2025-04-14,scienceagentbench,SAB Example Agent,0.4444444444444444,,1,4,9,0.4444444444444444
+gpt-4.1-2025-04-14,scienceagentbench,SAB Example Agent,0.5,,1,4,8,0.5
 gpt-4.1-2025-04-14,swebench_verified_mini,HAL Generalist Agent,0.0,,1,0,4,0.0
-gpt-4.1-2025-04-14,swebench_verified_mini,SWE-Agent,0.3333333333333333,,1,3,9,0.3333333333333333
+gpt-4.1-2025-04-14,swebench_verified_mini,SWE-Agent,0.375,,1,3,8,0.375
 gpt-4.1-2025-04-14,taubench_airline,HAL Generalist Agent,0.14285714285714285,,1,1,7,0.14285714285714285
 gpt-4.1-2025-04-14,taubench_airline,TAU-bench FewShot,0.6666666666666666,,1,4,6,0.6666666666666666
 gpt-4.1-2025-04-14,usaco,USACO Episodic + Semantic,0.7142857142857143,,1,5,7,0.7142857142857143
-o3-2025-04-16,assistantbench,HAL Generalist Agent,0.9,,1,9,10,0.9
-o3-2025-04-16,corebench_hard,CORE-Agent,0.4444444444444444,,1,4,9,0.4444444444444444
+o3-2025-04-16,assistantbench,HAL Generalist Agent,0.875,,1,7,8,0.875
+o3-2025-04-16,corebench_hard,CORE-Agent,0.5,,1,4,8,0.5
 o3-2025-04-16,corebench_hard,HAL Generalist Agent,0.7142857142857143,,1,5,7,0.7142857142857143
 o3-2025-04-16,online_mind2web,Browser-Use,0.5,,1,3,6,0.5
-o3-2025-04-16,online_mind2web,SeeAct,1.0,,1,3,3,1.0
-o3-2025-04-16,scicode,Scicode Tool Calling Agent,1.0,,1,7,7,1.0
-o3-2025-04-16,scicode,Scicode Zero Shot Agent,0.42857142857142855,,1,3,7,0.42857142857142855
+o3-2025-04-16,online_mind2web,SeeAct,1.0,,1,2,2,1.0
+o3-2025-04-16,scicode,Scicode Tool Calling Agent,1.0,,1,6,6,1.0
+o3-2025-04-16,scicode,Scicode Zero Shot Agent,0.5,,1,3,6,0.5
 o3-2025-04-16,scienceagentbench,HAL Generalist Agent,0.3333333333333333,,1,2,6,0.3333333333333333
-o3-2025-04-16,scienceagentbench,SAB Example Agent,1.0,,1,9,9,1.0
-o3-2025-04-16,swebench_verified_mini,SWE-Agent,0.3333333333333333,,1,3,9,0.3333333333333333
+o3-2025-04-16,scienceagentbench,SAB Example Agent,1.0,,1,8,8,1.0
+o3-2025-04-16,swebench_verified_mini,SWE-Agent,0.375,,1,3,8,0.375
 o3-2025-04-16,usaco,USACO Episodic + Semantic,0.8571428571428571,,1,6,7,0.8571428571428571
-o3-2025-04-16 low,assistantbench,Assistantbench Browser Agent,1.0,,1,10,10,1.0
-o3-2025-04-16 low,colbench_backend_programming,HAL Generalist Agent,0.0,,1,0,5,0.0
-o3-2025-04-16 low,colbench_frontend_design,Hal Generalist Agent,0.0,,1,0,1,0.0
-o3-2025-04-16 low,scicode,HAL Generalist Agent,0.8571428571428571,,1,6,7,0.8571428571428571
-o4-mini-2025-04-16,assistantbench,Assistantbench Browser Agent,0.7,,1,7,10,0.7
-o4-mini-2025-04-16,assistantbench,HAL Generalist Agent,0.4,,1,4,10,0.4
-o4-mini-2025-04-16,colbench_frontend_design,Col-bench Text,0.6666666666666666,,1,4,6,0.6666666666666666
-o4-mini-2025-04-16,online_mind2web,SeeAct,0.6666666666666666,,1,2,3,0.6666666666666666
-o4-mini-2025-04-16,scicode,HAL Generalist Agent,0.2857142857142857,,1,2,7,0.2857142857142857
-o4-mini-2025-04-16,scicode,Scicode Tool Calling Agent,0.42857142857142855,,1,3,7,0.42857142857142855
-o4-mini-2025-04-16,scicode,Scicode Zero Shot Agent,0.5714285714285714,,1,4,7,0.5714285714285714
-o4-mini-2025-04-16 high,assistantbench,Assistantbench Browser Agent,0.8,,1,8,10,0.8
-o4-mini-2025-04-16 high,assistantbench,HAL Generalist Agent,0.5,,1,5,10,0.5
-o4-mini-2025-04-16 high,colbench_backend_programming,HAL Generalist Agent,0.4,,1,2,5,0.4
-o4-mini-2025-04-16 high,colbench_frontend_design,Col-bench Text,0.8333333333333334,,1,5,6,0.8333333333333334
+o4-mini-2025-04-16 high,assistantbench,Assistantbench Browser Agent,0.8571428571428571,,1,6,7,0.8571428571428571
+o4-mini-2025-04-16 high,assistantbench,HAL Generalist Agent,0.5,,1,4,8,0.5
+o4-mini-2025-04-16 high,colbench_backend_programming,HAL Generalist Agent,0.25,,1,1,4,0.25
+o4-mini-2025-04-16 high,colbench_frontend_design,Col-bench Text,0.8,,1,4,5,0.8
 o4-mini-2025-04-16 high,colbench_frontend_design,HAL Generalist Agent,0.5,,1,2,4,0.5
-o4-mini-2025-04-16 high,corebench_hard,CORE-Agent,0.6666666666666666,,1,6,9,0.6666666666666666
+o4-mini-2025-04-16 high,corebench_hard,CORE-Agent,0.75,,1,6,8,0.75
 o4-mini-2025-04-16 high,corebench_hard,HAL Generalist Agent,1.0,,1,7,7,1.0
 o4-mini-2025-04-16 high,gaia,HAL Generalist Agent,0.8,,1,4,5,0.8
 o4-mini-2025-04-16 high,gaia,HF Open Deep Research,1.0,,1,7,7,1.0
 o4-mini-2025-04-16 high,online_mind2web,Browser-Use,0.16666666666666666,,1,1,6,0.16666666666666666
-o4-mini-2025-04-16 high,scicode,HAL Generalist Agent,0.2857142857142857,,1,2,7,0.2857142857142857
-o4-mini-2025-04-16 high,scicode,Scicode Tool Calling Agent,0.7142857142857143,,1,5,7,0.7142857142857143
-o4-mini-2025-04-16 high,scicode,Scicode Zero Shot Agent,0.5714285714285714,,1,4,7,0.5714285714285714
+o4-mini-2025-04-16 high,scicode,HAL Generalist Agent,0.4,,1,2,5,0.4
+o4-mini-2025-04-16 high,scicode,Scicode Tool Calling Agent,0.6666666666666666,,1,4,6,0.6666666666666666
+o4-mini-2025-04-16 high,scicode,Scicode Zero Shot Agent,0.6666666666666666,,1,4,6,0.6666666666666666
 o4-mini-2025-04-16 high,scienceagentbench,HAL Generalist Agent,1.0,,1,6,6,1.0
-o4-mini-2025-04-16 high,scienceagentbench,SAB Example Agent,0.6666666666666666,,1,6,9,0.6666666666666666
-o4-mini-2025-04-16 high,swebench_verified_mini,SWE-Agent,0.5555555555555556,,1,5,9,0.5555555555555556
+o4-mini-2025-04-16 high,scienceagentbench,SAB Example Agent,0.625,,1,5,8,0.625
+o4-mini-2025-04-16 high,swebench_verified_mini,SWE-Agent,0.625,,1,5,8,0.625
 o4-mini-2025-04-16 high,taubench_airline,HAL Generalist Agent,0.2857142857142857,,1,2,7,0.2857142857142857
 o4-mini-2025-04-16 high,taubench_airline,TAU-bench FewShot,0.8333333333333334,,1,5,6,0.8333333333333334
 o4-mini-2025-04-16 high,usaco,USACO Episodic + Semantic,1.0,,1,7,7,1.0
-o4-mini-2025-04-16 low,assistantbench,Assistantbench Browser Agent,0.9,,1,9,10,0.9
-o4-mini-2025-04-16 low,assistantbench,HAL Generalist Agent,0.1,,1,1,10,0.1
-o4-mini-2025-04-16 low,colbench_backend_programming,Col-bench Text,0.4,,1,2,5,0.4
-o4-mini-2025-04-16 low,colbench_frontend_design,Col-bench Text,0.3333333333333333,,1,2,6,0.3333333333333333
-o4-mini-2025-04-16 low,colbench_frontend_design,Hal Generalist Agent,1.0,,1,1,1,1.0
-o4-mini-2025-04-16 low,corebench_hard,CORE-Agent,0.2222222222222222,,1,2,9,0.2222222222222222
+o4-mini-2025-04-16 low,assistantbench,Assistantbench Browser Agent,1.0,,1,7,7,1.0
+o4-mini-2025-04-16 low,assistantbench,HAL Generalist Agent,0.125,,1,1,8,0.125
+o4-mini-2025-04-16 low,colbench_backend_programming,Col-bench Text,0.5,,1,2,4,0.5
+o4-mini-2025-04-16 low,colbench_frontend_design,Col-bench Text,0.4,,1,2,5,0.4
+o4-mini-2025-04-16 low,colbench_frontend_design,Hal Generalist Agent,,,0,0,0,
+o4-mini-2025-04-16 low,corebench_hard,CORE-Agent,0.25,,1,2,8,0.25
 o4-mini-2025-04-16 low,corebench_hard,HAL Generalist Agent,0.7142857142857143,,1,5,7,0.7142857142857143
 o4-mini-2025-04-16 low,gaia,HF Open Deep Research,0.7142857142857143,,1,5,7,0.7142857142857143
 o4-mini-2025-04-16 low,online_mind2web,Browser-Use,0.0,,1,0,6,0.0
-o4-mini-2025-04-16 low,scicode,HAL Generalist Agent,0.8571428571428571,,1,6,7,0.8571428571428571
-o4-mini-2025-04-16 low,scicode,Scicode Tool Calling Agent,0.7142857142857143,,1,5,7,0.7142857142857143
-o4-mini-2025-04-16 low,scicode,Scicode Zero Shot Agent,1.0,,1,7,7,1.0
+o4-mini-2025-04-16 low,scicode,HAL Generalist Agent,1.0,,1,5,5,1.0
+o4-mini-2025-04-16 low,scicode,Scicode Tool Calling Agent,0.6666666666666666,,1,4,6,0.6666666666666666
+o4-mini-2025-04-16 low,scicode,Scicode Zero Shot Agent,1.0,,1,6,6,1.0
 o4-mini-2025-04-16 low,scienceagentbench,HAL Generalist Agent,0.8333333333333334,,1,5,6,0.8333333333333334
-o4-mini-2025-04-16 low,scienceagentbench,SAB Example Agent,0.6666666666666666,,1,6,9,0.6666666666666666
-o4-mini-2025-04-16 low,swebench_verified_mini,SWE-Agent,0.8888888888888888,,1,8,9,0.8888888888888888
+o4-mini-2025-04-16 low,scienceagentbench,SAB Example Agent,0.625,,1,5,8,0.625
+o4-mini-2025-04-16 low,swebench_verified_mini,SWE-Agent,0.875,,1,7,8,0.875
 o4-mini-2025-04-16 low,taubench_airline,HAL Generalist Agent,0.5714285714285714,,1,4,7,0.5714285714285714
 o4-mini-2025-04-16 low,taubench_airline,TAU-bench FewShot,0.5,,1,3,6,0.5
 o4-mini-2025-04-16 low,usaco,USACO Episodic + Semantic,0.2857142857142857,,1,2,7,0.2857142857142857

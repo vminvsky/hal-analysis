@@ -37,9 +37,10 @@ for file in files:
     all_data.append(data.return_row())
 
 all_data = pd.DataFrame(all_data)
-models_to_remove = ['2.5-pro', 'o1', 'o3-mini', 'gpt-4o']
+models_to_remove = ['2.5-pro', 'o1', 'o3-mini', 'gpt-4o', 'o3-2025-04-16 low', 'claude-3-7-sonnet-2025-02-19 low']
 pattern = '|'.join(models_to_remove)
 all_data_filtered = all_data[~all_data['model_name_short'].str.contains(pattern, case=False, na=False)]
+all_data_filtered = all_data_filtered[~(all_data_filtered['model_name_short'] == 'o4-mini-2025-04-16')]
 
 all_data_filtered = all_data_filtered.copy()
 all_data_filtered['latencies_per_task'] = all_data_filtered['latencies_per_task'].apply(ensure_list)

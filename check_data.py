@@ -40,10 +40,10 @@ agent_run_status['Model'] = agent_run_status['Model'].str.replace('-low', ' low'
 agent_run_status['Model'] = agent_run_status['Model'].str.replace('-high', ' high', regex=False)
 agent_run_status['Model'] = agent_run_status['Model'].str.replace('-medium', ' medium', regex=False)
 
-models_to_remove = ['2.5-pro', 'o1', 'o3-mini', 'gpt-4o']
+models_to_remove = ['2.5-pro', 'o1', 'o3-mini', 'gpt-4o', 'o3-2025-04-16 low', 'claude-3-7-sonnet-2025-02-19 low']
 pattern = '|'.join(models_to_remove)
 agent_run_status = agent_run_status[~agent_run_status['Model'].str.contains(pattern, case=False, na=False)]
-
+agent_run_status = agent_run_status[~(agent_run_status['Model'] == 'o4-mini-2025-04-16')]
 # Select and rename columns to match
 agent_run_status = agent_run_status[['Benchmark', 'Agent', 'Model']]
 cleaned_dataset = cleaned_dataset[['agent_name_short','model_name_short', 'benchmark_name']]
@@ -86,10 +86,8 @@ if len(only_in_cleaned) > 0:
 else:
     print("No extra rows found.")
 
-# Save results to file
 output_lines = []
 output_lines.append("MISSING ROWS ANALYSIS")
-output_lines.append("=" * 50)
 output_lines.append(f"Rows in agent_run_status but missing from cleaned_dataset ({len(only_in_agent)} rows):\n")
 
 if len(only_in_agent) > 0:
@@ -97,7 +95,7 @@ if len(only_in_agent) > 0:
 else:
     output_lines.append("No missing rows found.")
 
-output_lines.append(f"\n\nEXTRA ROWS: Rows in cleaned_dataset that shouldn't be there ({len(only_in_cleaned)} rows):\n")
+output_lines.append(f"\n\nEXTRA ROWS: Rows in cleaned_dataset not in agent run status ({len(only_in_cleaned)} rows):\n")
 if len(only_in_cleaned) > 0:
     output_lines.append(only_in_cleaned.to_string(index=False))
 else:
@@ -116,9 +114,8 @@ output_lines.append(f"Extra rows in cleaned_dataset: {len(only_in_cleaned)}")
 with open('missing_rows_analysis.txt', 'w') as f:
     f.write('\n'.join(output_lines))
 
-print("\n" + "="*50)
+print("\n")
 print("SUMMARY")
-print("="*50)
 print(f"Total rows in agent_run_status: {len(agent_run_status)}")
 print(f"Total rows in cleaned_dataset: {len(cleaned_dataset)}")
 print(f"Rows missing from cleaned_dataset: {len(only_in_agent)}")
