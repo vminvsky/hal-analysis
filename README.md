@@ -42,7 +42,20 @@ Analysis of agent traces
 
 `pip install -r requirements.txt`
 
-<!-- USAGE EXAMPLES -->
+### Setup
+
+Install the HAL harness following the setup instructions [here](https://github.com/princeton-pli/hal-harness).
+
+```
+huggingface-cli download agent-evals/hal_traces --repo-type datatset
+hal-decrypt -D [folder/]
+```
+
+Where `folder/` is the path to where the data files were downloaded.
+
+
+
+<!-- USAGE -->
 ## Usage
 Run `run_pipeline.py`. This will run the following scripts:
 1. `generate_cleaned_dataset.py`
@@ -51,6 +64,7 @@ Run `run_pipeline.py`. This will run the following scripts:
 4. `win_rates.py`
 5. `convex_hull.py`
 6. `visualizations.py`
+
 You can change the data directory and update the agent/model name mappings in `config.py`. 
 
 ## Visualizations generated
