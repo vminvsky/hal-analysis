@@ -44,10 +44,22 @@ Analysis of agent traces
 
 ### Setup
 
-1. Install the HAL harness following setup instructions 1, 2, and 3 [here](https://github.com/princeton-pli/hal-harness).
-2. Exit the `hal-harness` folder.
-3. Download and decrypt the traces: 
-
+1. Install the HAL harness:
+```
+git clone --recursive https://github.com/benediktstroebl/hal-harness.git
+cd hal-harness
+```
+2. Create conda environment:
+```
+conda create -n hal python=3.12
+conda activate hal
+```
+3. Install the `hal` package:
+```
+pip install -e .
+cd ..
+```
+4. Download and decrypt the traces: 
 ```
 huggingface-cli download agent-evals/hal_traces --repo-type dataset
 hal-decrypt -D path/to/directory
