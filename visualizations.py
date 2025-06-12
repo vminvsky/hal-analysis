@@ -8,12 +8,12 @@ import matplotlib as mpl
 from matplotlib import rcParams
 import ast
 
-model_win_rates_pareto = pd.read_csv('model_win_rates_pareto.csv')
-model_win_rates_max = pd.read_csv('model_win_rates_max.csv')
+model_win_rates_pareto = pd.read_csv('data/model_win_rates_pareto.csv')
+model_win_rates_max = pd.read_csv('data/model_win_rates_max.csv')
 sns.set_theme(style="whitegrid", palette="muted") 
 
 def model_accuracy_full():
-    model_accuracy = pd.read_csv('model_accuracy.csv')
+    model_accuracy = pd.read_csv('data/model_accuracy.csv')
     grouped_df = model_accuracy.groupby('benchmark_name')
     dfs_dict = {category: group for category, group in grouped_df}
     sorted_groups = [group.sort_values(by='accuracy', ascending=False) for _, group in grouped_df]
@@ -131,14 +131,7 @@ def create_heatmaps(df, agent_scaffold, metric, title, x_label, y_label, legend_
         print("Error: scaffold type not found")
         return
     
-    # duplicates = df[df.duplicated(subset=['benchmark_name', 'model_name_short'], keep=False)]
-    # print(duplicates)
-    
     df_pivot = df.pivot_table(columns='model_name_short', index='benchmark_name', values=metric, aggfunc='mean')
-
-    # normalize by row for color gradient
-    # norm = df_pivot.sub(df_pivot.min(axis=1), axis=0)
-    # norm = norm.div(df_pivot.max(axis=1) - df_pivot.min(axis=1), axis=0)
     
     # Create a custom colormap
     base_cmap = plt.colormaps.get_cmap('Purples')
@@ -188,10 +181,10 @@ def create_heatmaps(df, agent_scaffold, metric, title, x_label, y_label, legend_
 model_win_rate_bar(model_win_rates_max, 'max')
 model_win_rate_bar(model_win_rates_pareto, 'pareto')
 
-cleaned_dataset = pd.read_csv('cleaned_all_metrics.csv')
-win_rates_max = pd.read_csv("benchmark_win_rates_max.csv")
-win_rates_pareto = pd.read_csv("benchmark_win_rates_pareto.csv")
-win_rates = pd.read_csv("benchmark_win_rates.csv")
+cleaned_dataset = pd.read_csv('data/cleaned_all_metrics.csv')
+win_rates_max = pd.read_csv("data/benchmark_win_rates_max.csv")
+win_rates_pareto = pd.read_csv("data/benchmark_win_rates_pareto.csv")
+win_rates = pd.read_csv("data/benchmark_win_rates.csv")
 
 create_heatmaps(cleaned_dataset, 'generalist', 'total_cost', 'Total Costs of Generalist Agents', 'Model Name', 'Benchmark Name', 'Total Cost')
 create_heatmaps(cleaned_dataset, 'generalist', 'accuracy', 'Accuracy of Generalist Agents', 'Model Name', 'Benchmark Name', 'Accuracy')

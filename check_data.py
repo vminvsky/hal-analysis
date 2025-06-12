@@ -1,8 +1,8 @@
 import pandas as pd
 
 # Read the CSV files
-agent_run_status = pd.read_csv('agent_run_status.csv')
-cleaned_dataset = pd.read_csv('cleaned_all_metrics.csv')
+agent_run_status = pd.read_csv('data/agent_run_status.csv')
+cleaned_dataset = pd.read_csv('data/cleaned_all_metrics.csv')
 
 agent_run_status = agent_run_status[agent_run_status['Status'] == 'Uploaded']
 
@@ -111,7 +111,7 @@ output_lines.append(f"Rows missing from cleaned_dataset: {len(only_in_agent)}")
 output_lines.append(f"Extra rows in cleaned_dataset: {len(only_in_cleaned)}")
 
 # Write to file
-with open('missing_rows_analysis.txt', 'w') as f:
+with open('data/missing_rows_analysis.txt', 'w') as f:
     f.write('\n'.join(output_lines))
 
 print("\n")

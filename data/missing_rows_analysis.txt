@@ -1,5 +1,5 @@
 MISSING ROWS ANALYSIS
-Rows in agent_run_status but missing from cleaned_dataset (21 rows):
+Rows in agent_run_status but missing from cleaned_dataset (20 rows):
 
               benchmark_name             agent_name_short                  model_name_short
             taubench_airline            TAU-bench FewShot                     o3-2025-04-16
@@ -18,36 +18,21 @@ colbench_backend_programming               Col-bench Text                     o3
               assistantbench Assistantbench Browser Agent                     o3-2025-04-16
 colbench_backend_programming         HAL Generalist Agent            o4-mini-2025-04-16 low
 colbench_backend_programming         HAL Generalist Agent                     o3-2025-04-16
-    colbench_frontend_design         HAL Generalist Agent            o4-mini-2025-04-16 low
     colbench_frontend_design         HAL Generalist Agent                     o3-2025-04-16
              online_mind2web                       SeeAct            o4-mini-2025-04-16 low
              online_mind2web                       SeeAct           o4-mini-2025-04-16 high
              online_mind2web                       SeeAct claude-3-7-sonnet-2025-02-19 high
 
 
-EXTRA ROWS: Rows in cleaned_dataset not in agent run status (14 rows):
+EXTRA ROWS: Rows in cleaned_dataset not in agent run status (0 rows):
 
-            agent_name_short                  model_name_short           benchmark_name
-        HAL Generalist Agent                     o3-2025-04-16        scienceagentbench
-        HAL Generalist Agent      claude-3-7-sonnet-2025-02-19        scienceagentbench
-        HAL Generalist Agent           deepseek-ai/DeepSeek-V3        scienceagentbench
-        HAL Generalist Agent           o4-mini-2025-04-16 high        scienceagentbench
-              Col-bench Text      claude-3-7-sonnet-2025-02-19 colbench_frontend_design
-        HAL Generalist Agent      claude-3-7-sonnet-2025-02-19           corebench_hard
-        HAL Generalist Agent claude-3-7-sonnet-2025-02-19 high           assistantbench
-        HAL Generalist Agent                gpt-4.1-2025-04-14        scienceagentbench
-        Hal Generalist Agent            o4-mini-2025-04-16 low colbench_frontend_design
-        HAL Generalist Agent            o4-mini-2025-04-16 low        scienceagentbench
-        HAL Generalist Agent claude-3-7-sonnet-2025-02-19 high        scienceagentbench
-Assistantbench Browser Agent           deepseek-ai/DeepSeek-R1           assistantbench
-        HAL Generalist Agent           deepseek-ai/DeepSeek-R1           assistantbench
-Assistantbench Browser Agent claude-3-7-sonnet-2025-02-19 high           assistantbench
+No extra rows found.
 
 
 ==================================================
 SUMMARY
 ==================================================
-Total rows in agent_run_status: 160
+Total rows in agent_run_status: 173
 Total rows in cleaned_dataset: 153
-Rows missing from cleaned_dataset: 21
-Extra rows in cleaned_dataset: 14
+Rows missing from cleaned_dataset: 20
+Extra rows in cleaned_dataset: 0

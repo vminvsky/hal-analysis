@@ -222,7 +222,7 @@ def aggregate_win_rates(win_rates_df, group_by='model_name_short'):
 def main():
         
     # Calculate win rates using max accuracy
-    combined_df = pd.read_csv('cleaned_all_metrics.csv')
+    combined_df = pd.read_csv('data/cleaned_all_metrics.csv')
     combined_df = combined_df.reset_index(drop=True)
     win_rates_max = calculate_max_win_rates(combined_df)
     print( win_rates_max.head(), win_rates_max.columns)
@@ -252,9 +252,9 @@ def main():
     # print(benchmark_win_rates_max.sort_values(['benchmark_name', 'overall_win_rate'], ascending=[True, False]))
         
     # Save results to CSV
-    model_win_rates_max.to_csv('model_win_rates_max.csv', index=False)
+    model_win_rates_max.to_csv('data/model_win_rates_max.csv', index=False)
     #print(model_win_rates_max.head())
-    benchmark_win_rates_max.to_csv('benchmark_win_rates_max.csv', index=False)
+    benchmark_win_rates_max.to_csv('data/benchmark_win_rates_max.csv', index=False)
     #print("Saved win rates max")
 
     ####### og win rates ##############
@@ -263,9 +263,9 @@ def main():
     # print(benchmark_win_rates.sort_values(['benchmark_name', 'overall_win_rate'], ascending=[True, False]))
         
     # Save results to CSV
-    model_win_rates.to_csv('model_win_rates.csv', index=False)
+    model_win_rates.to_csv('data/model_win_rates.csv', index=False)
     # print(model_win_rates.head())
-    benchmark_win_rates.to_csv('benchmark_win_rates.csv', index=False)
+    benchmark_win_rates.to_csv('data/benchmark_win_rates.csv', index=False)
     # print("Saved win rates max")
 
 
@@ -276,8 +276,8 @@ def main():
     # print(benchmark_win_rates_pareto.sort_values(['benchmark_name', 'overall_win_rate'], ascending=[True, False]))
         
     # Save results to CSV
-    model_win_rates_pareto.to_csv('model_win_rates_pareto.csv', index=False)
-    benchmark_win_rates_pareto.to_csv('benchmark_win_rates_pareto.csv', index=False)
+    model_win_rates_pareto.to_csv('data/model_win_rates_pareto.csv', index=False)
+    benchmark_win_rates_pareto.to_csv('data/benchmark_win_rates_pareto.csv', index=False)
     # print("Saved win rates pareto")
         
     return combined_df, win_rates_max, win_rates_pareto, model_win_rates_max, model_win_rates_pareto

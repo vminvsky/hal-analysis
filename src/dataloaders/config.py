@@ -87,5 +87,7 @@ AGENT_NAME_MAP = {
     "Hal Generalist Agent (Sonnet3.7)": "HAL Generalist Agent (Sonnet3.7)",
     "Hal Generalist Agent (O4-mini-high)": "HAL Generalist Agent (O4-mini-high)",
     "Hal Generalist Agent (Sonnet 3.7)": "HAL Generalist Agent (Sonnet 3.7)",
-    "Hal Generalist Agent (o4-mini-high)": "HAL Generalist Agent (o4-mini-high)"
+    "Hal Generalist Agent (o4-mini-high)": "HAL Generalist Agent (o4-mini-high)",
+    "Hal Generalist Agent (o3-low)": "HAL Generalist Agent (o3-2025-04-16 low)",
+    "Hal Generalist Agent (o4-mini-low)": "HAL Generalist Agent (o4-mini-low)"
 }

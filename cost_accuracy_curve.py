@@ -207,33 +207,6 @@ def plot_pareto_frontier(df, x_col, y_col, title, x_label, y_label, filename,
         alpha=0.8
     )
     
-    # Plot convex hull if there are enough points
-    # if len(optimal_points) >= 3:
-    #     # Get coordinates for convex hull
-    #     points = np.column_stack([optimal_points[x_col].values, optimal_points[y_col].values])
-    #     hull = ConvexHull(points)
-        
-    #     # Get hull vertices in order
-    #     hull_vertices = []
-    #     for vertex in hull.vertices:
-    #         hull_vertices.append(points[vertex])
-    #     hull_vertices.append(hull_vertices[0])  # Close the loop
-    #     hull_vertices = np.array(hull_vertices)
-        
-        # # Plot the convex hull
-        # ax.plot(
-        #     hull_vertices[:, 0],
-        #     hull_vertices[:, 1],
-        #     color='#2ecc71',  # Green color for convex hull
-        #     linestyle='-',
-        #     linewidth=2,
-        #     alpha=0.7,
-        #     label='Convex Hull'
-        # )
-    
-    # Calculate AUC
-    # auc = calculate_auc(optimal_points[x_col].values, optimal_points[y_col].values)
-    
     # Add model/agent names as labels with better styling
     for _, row in pareto_df.iterrows():
         color = '#e74c3c' if row['pareto_optimal'] else '#3498db'
@@ -281,20 +254,6 @@ def plot_pareto_frontier(df, x_col, y_col, title, x_label, y_label, filename,
     plt.tight_layout()
     plt.savefig(f'visualizations/{filename}', dpi=300, bbox_inches='tight')
     print(f"Saved file: visualizations/{filename}")
-    
-    # Save AUC to CSV
-    # csv_filename = f'visualizations/auc_data/{filename.replace(".png", "")}_auc.csv'
-    
-    # with open(csv_filename, 'w', newline='') as csvfile:
-    #     writer = csv.writer(csvfile)
-    #     writer.writerow(['Benchmark', 'AUC'])
-    #     writer.writerow([title, auc])
-    
-    # print(f"Saved AUC data: {csv_filename}")
-    
-    # Return the Pareto dataframe with AUC
-    # pareto_df['auc'] = auc
-    # return pareto_df
 
 def grid_pareto_frontier_by_benchmark(tasks, merged_df, x_col, y_col, x_label, y_label, 
                                      num_cols, filename, minimize_x=True, maximize_y=True, 
@@ -630,10 +589,9 @@ def save_pareto_distances(merged_df, tasks, x_col, y_col, model_col='model_name_
     print(f"Saved Pareto distances to: {csv_path}")
 
 def get_max_accuracy():
-    full_dataset = pd.read_csv('cleaned_all_metrics.csv')
+    full_dataset = pd.read_csv('data/cleaned_all_metrics.csv')
     model_accuracy = full_dataset.loc[full_dataset.groupby(['model_name_short', 'benchmark_name'])['accuracy'].idxmax()].reset_index(drop=True)
     model_accuracy = model_accuracy[['benchmark_name', 'model_name_short', 'accuracy', 'total_cost', 'mean_latency']]
-    # print(model_accuracy.head(), model_accuracy.columns)
     return model_accuracy
 
 def cost_accuracy():

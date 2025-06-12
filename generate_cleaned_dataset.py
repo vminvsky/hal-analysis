@@ -47,4 +47,4 @@ all_data_filtered['latencies_per_task'] = all_data_filtered['latencies_per_task'
 all_data_filtered = all_data_filtered.copy()
 all_data_filtered['mean_latency'] = all_data_filtered['latencies_per_task'].apply(lambda x: np.mean(x) if x else np.nan)
 
-all_data_filtered.to_csv('cleaned_all_metrics.csv', index=False)
+all_data_filtered.to_csv('data/cleaned_all_metrics.csv', index=False)

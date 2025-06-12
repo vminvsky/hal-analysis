@@ -40,10 +40,7 @@ Analysis of agent traces
 
 ### Prerequisites
 
-* prereq 1
-  ```sh
-  
-  ```
+`pip install -r requirements.txt`
 
 <!-- USAGE EXAMPLES -->
 ## Usage
@@ -54,6 +51,7 @@ Run `run_pipeline.py`. This will run the following scripts:
 4. `win_rates.py`
 5. `convex_hull.py`
 6. `visualizations.py`
+You can change the data directory and update the agent/model name mappings in `config.py`. 
 
 ## Visualizations generated
 1. `visualizations/new_plots/heatmaps/dist_overall_win_rate_heatmap.png` - heatmap of win rates calculated using the distance from pareto frontier of the Cost vs. Max Accuracy over all agent scaffolds
