@@ -46,7 +46,7 @@ Analysis of agent traces
 
 1. Install the HAL harness following setup instructions 1, 2, and 3 [here](https://github.com/princeton-pli/hal-harness).
 2. Exit the `hal-harness` folder.
-3. Run the script below. 
+3. Download and decrypt the traces: 
 
 ```
 huggingface-cli download agent-evals/hal_traces --repo-type dataset
@@ -54,13 +54,11 @@ hal-decrypt -D path/to/directory
 ```
 where `path/to/directory` is the path to where the data files were downloaded.
 
-4. Run:
+4. Clone this repository:
 ```
  git clone https://github.com/vminvsky/hal-analysis.git
  cd hal-analysis
  ```
-
-
 
 <!-- USAGE -->
 ## Usage
