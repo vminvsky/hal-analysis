@@ -37,11 +37,6 @@ Analysis of agent traces
 <!-- GETTING STARTED -->
 ## Getting Started
 
-
-### Prerequisites
-
-`pip install -r requirements.txt`
-
 ### Setup
 
 1. Install the HAL harness:
@@ -70,6 +65,7 @@ where `path/to/directory` is the path to where the data files were downloaded.
 ```
  git clone https://github.com/vminvsky/hal-analysis.git
  cd hal-analysis
+ pip install -r requirements.txt
  ```
 
 <!-- USAGE -->
