@@ -29,7 +29,7 @@ def ensure_list(x):
     return [x]
 
 # Replace with your data directory
-files = glob('/scratch/gpfs/vv7118/models/hub/datasets--agent-evals--hal_traces/snapshots/e2c52999d3b9624dae0532533876e17e9fdd664f/*.json')
+files = glob('/Users/nn7887/.cache/huggingface/hub/datasets--agent-evals--hal_traces/snapshots/77246dba01c07019ea179a6e9f3b8763520b1d22/*.json')
 
 all_data = []
 for file in files:

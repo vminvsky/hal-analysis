@@ -275,7 +275,7 @@ def grid_pareto_frontier_by_benchmark(tasks, merged_df, x_col, y_col, x_label, y
         model_col: Column name for model/agent names
     """
     # Ensure directories exist
-    os.makedirs('visualizations/new_plots', exist_ok=True)
+    os.makedirs('visualizations/plots', exist_ok=True)
     os.makedirs('visualizations/auc_data', exist_ok=True)
     
     # Calculate the number of tasks
@@ -463,8 +463,8 @@ def grid_pareto_frontier_by_benchmark(tasks, merged_df, x_col, y_col, x_label, y
         axes[idx].set_visible(False)
     
     plt.tight_layout(rect=[0, 0.03, 1, 0.95])  # Adjust layout to make room for annotations and title
-    plt.savefig(f'visualizations/new_plots/convex_{filename}', dpi=300, bbox_inches='tight')
-    print(f"Saved file: visualizations/new_plots/convex_{filename}")
+    plt.savefig(f'visualizations/plots/convex_{filename}', dpi=300, bbox_inches='tight')
+    print(f"Saved file: visualizations/plots/convex_{filename}")
     
     # Combine all pareto dataframes
     if all_pareto_dfs:

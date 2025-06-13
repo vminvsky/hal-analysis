@@ -1,4 +1,4 @@
-DATA_DIR = "/scratch/gpfs/vv7118/models/hub/datasets--agent-evals--hal_traces/snapshots/e2c52999d3b9624dae0532533876e17e9fdd664f"
+DATA_DIR = "/Users/nn7887/.cache/huggingface/hub/datasets--agent-evals--hal_traces/snapshots/77246dba01c07019ea179a6e9f3b8763520b1d22"
 
 MODEL_NAME_MAP = {
     "claude-3-7-sonnet-20250219": "claude-3-7-sonnet-2025-02-19",

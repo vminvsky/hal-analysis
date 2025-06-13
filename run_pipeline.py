@@ -29,7 +29,7 @@ import os
 
 pipeline_scripts = ["generate_cleaned_dataset.py", "check_data.py", "cost_accuracy_curve.py", "win_rates.py", "convex_hull.py", "visualizations.py"]
 
-python_executable = "python3"
+python_executable = "python"
 
 def run_script(script_path):
     print(f"Running: {script_path}")

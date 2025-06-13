@@ -316,7 +316,7 @@ def grid_pareto_frontier_by_benchmark(tasks, merged_df, x_col, y_col, x_label, y
         model_col: Column name for model/agent names
     """
     # Ensure directories exist
-    os.makedirs('visualizations/new_plots', exist_ok=True)
+    os.makedirs('visualizations/plots', exist_ok=True)
     os.makedirs('visualizations/auc_data', exist_ok=True)
     
     # Calculate the number of tasks
@@ -504,8 +504,8 @@ def grid_pareto_frontier_by_benchmark(tasks, merged_df, x_col, y_col, x_label, y
         axes[idx].set_visible(False)
     
     plt.tight_layout(rect=[0, 0.03, 1, 0.95])  # Adjust layout to make room for annotations and title
-    plt.savefig(f'visualizations/new_plots/convex_{filename}', dpi=300, bbox_inches='tight')
-    print(f"Saved file: visualizations/new_plots/convex_{filename}")
+    plt.savefig(f'visualizations/plots/convex_{filename}', dpi=300, bbox_inches='tight')
+    print(f"Saved file: visualizations/plots/convex_{filename}")
     
     # Combine all pareto dataframes
     if all_pareto_dfs:
@@ -554,13 +554,13 @@ def cost_win_rate():
     df_m = pd.merge(model_mean_costs, model_win_rates_max, on='model_name_short', how='inner')
     cols = ['model_name_short', 'mean_cost', 'win_rate_mean', 'overall_win_rate']
     df_m = df_m[cols].copy()
-    plot_pareto_frontier(df_m, 'mean_cost', 'overall_win_rate', 'Max Accuracy Win Rate vs. Mean Cost', 'Mean Cost', 'Win Rate', 'new_plots/cost_win_rate_max.png')
+    plot_pareto_frontier(df_m, 'mean_cost', 'overall_win_rate', 'Max Accuracy Win Rate vs. Mean Cost', 'Mean Cost', 'Win Rate', 'plots/cost_win_rate_max.png')
 
     # plot pareto frontier for win rate calculation using distance from convex hull
     df_m = pd.merge(model_mean_costs, model_win_rates_pareto, on='model_name_short', how='inner')
     cols = ['model_name_short', 'mean_cost', 'win_rate_mean', 'overall_win_rate']
     df_m = df_m[cols].copy()
-    plot_pareto_frontier(df_m, 'mean_cost', 'overall_win_rate', 'Distance from Convex Hull Win Rate vs. Mean Cost', 'Mean Cost', 'Win Rate', 'new_plots/cost_win_rate_pareto.png')
+    plot_pareto_frontier(df_m, 'mean_cost', 'overall_win_rate', 'Distance from Convex Hull Win Rate vs. Mean Cost', 'Mean Cost', 'Win Rate', 'plots/cost_win_rate_pareto.png')
 
 def latency_win_rate():
     # with model win rates and data/model_mean_latency, plot using plot_pareto_fronteir function
@@ -573,13 +573,13 @@ def latency_win_rate():
     df_m = pd.merge(model_mean_latencies, model_win_rates_max, on='model_name_short', how='inner')
     cols = ['model_name_short', 'mean_of_mean_latency', 'win_rate_mean', 'overall_win_rate']
     df_m = df_m[cols].copy()
-    plot_pareto_frontier(df_m, 'mean_of_mean_latency', 'overall_win_rate', 'Max Accuracy Win Rate vs. Mean Latency', 'Mean Latency', 'Win Rate', 'new_plots/latency_win_rate_max.png')
+    plot_pareto_frontier(df_m, 'mean_of_mean_latency', 'overall_win_rate', 'Max Accuracy Win Rate vs. Mean Latency', 'Mean Latency', 'Win Rate', 'plots/latency_win_rate_max.png')
 
     # plot pareto frontier for win rate calculation using distance from convex hull
     df_m = pd.merge(model_mean_latencies, model_win_rates_pareto, on='model_name_short', how='inner')
     cols = ['model_name_short', 'mean_of_mean_latency', 'win_rate_mean', 'overall_win_rate']
     df_m = df_m[cols].copy()
-    plot_pareto_frontier(df_m, 'mean_of_mean_latency', 'overall_win_rate', 'Distance from Convex Hull Win Rate vs. Mean Latency', 'Mean Latency', 'Win Rate', 'new_plots/latency_win_rate_pareto.png')
+    plot_pareto_frontier(df_m, 'mean_of_mean_latency', 'overall_win_rate', 'Distance from Convex Hull Win Rate vs. Mean Latency', 'Mean Latency', 'Win Rate', 'plots/latency_win_rate_pareto.png')
 
 latency_accuracy()
 cost_win_rate()

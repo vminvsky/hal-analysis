@@ -1,11 +1,8 @@
 MISSING ROWS ANALYSIS
-Rows in agent_run_status but missing from cleaned_dataset (20 rows):
+Rows in agent_run_status but missing from cleaned_dataset (17 rows):
 
               benchmark_name             agent_name_short                  model_name_short
             taubench_airline            TAU-bench FewShot                     o3-2025-04-16
-                        gaia        HF Open Deep Research                     o3-2025-04-16
-                        gaia         HAL Generalist Agent            o4-mini-2025-04-16 low
-                        gaia         HAL Generalist Agent      claude-3-7-sonnet-2025-02-19
                        usaco    USACO Episodic + Semantic                  gemini-2.0-flash
       swebench_verified_mini         HAL Generalist Agent claude-3-7-sonnet-2025-02-19 high
 colbench_backend_programming               Col-bench Text           o4-mini-2025-04-16 high
@@ -24,15 +21,17 @@ colbench_backend_programming         HAL Generalist Agent                     o3
              online_mind2web                       SeeAct claude-3-7-sonnet-2025-02-19 high
 
 
-EXTRA ROWS: Rows in cleaned_dataset not in agent run status (0 rows):
+EXTRA ROWS: Rows in cleaned_dataset not in agent run status (2 rows):
 
-No extra rows found.
+    agent_name_short                  model_name_short   benchmark_name
+   TAU-bench FewShot                     o3-2025-04-03 taubench_airline
+HAL Generalist Agent claude-3-7-sonnet-2025-02-19 high   corebench_hard
 
 
 ==================================================
 SUMMARY
 ==================================================
 Total rows in agent_run_status: 173
-Total rows in cleaned_dataset: 153
-Rows missing from cleaned_dataset: 20
-Extra rows in cleaned_dataset: 0
+Total rows in cleaned_dataset: 160
+Rows missing from cleaned_dataset: 17
+Extra rows in cleaned_dataset: 2

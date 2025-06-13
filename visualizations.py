@@ -37,7 +37,7 @@ def model_accuracy_full():
     for j in range(i + 1, len(axes)):
         axes[j].axis('off')
     plt.tight_layout()
-    plt.savefig('visualizations/new_plots/model_accuracy.png', dpi=300)
+    plt.savefig('visualizations/plots/model_accuracy.png', dpi=300)
 
 def scaffold_accuracy():
     scaffold_accuracy = pd.read_csv('benchmark_accuracy.csv')
@@ -63,7 +63,7 @@ def scaffold_accuracy():
     for j in range(i + 1, len(axes)):
         axes[j].axis('off')
     plt.tight_layout()
-    plt.savefig('visualizations/new_plots/scaffold_accuracy.png', dpi=300)
+    plt.savefig('visualizations/plots/scaffold_accuracy.png', dpi=300)
 
 def model_win_rate_bar(model_win_rates, calc_type):
     """
@@ -108,7 +108,7 @@ def model_win_rate_bar(model_win_rates, calc_type):
     # Add horizontal gridlines
     plt.grid(True, axis='y', linestyle='--', alpha=0.7)
 
-    plt.savefig(f'visualizations/new_plots/model_win_rates_{calc_type}.png')
+    plt.savefig(f'visualizations/plots/model_win_rates_{calc_type}.png')
 
 def create_heatmaps(df, agent_scaffold, metric, title, x_label, y_label, legend_name):
     # Only keep rows with generalist agents
@@ -175,7 +175,7 @@ def create_heatmaps(df, agent_scaffold, metric, title, x_label, y_label, legend_
     plt.yticks(fontsize=10)
     
     # Adjust layout
-    plt.savefig(f'visualizations/new_plots/heatmaps/{agent_scaffold}_{metric}_heatmap.png', bbox_inches='tight', dpi=300)
+    plt.savefig(f'visualizations/plots/heatmaps/{agent_scaffold}_{metric}_heatmap.png', bbox_inches='tight', dpi=300)
 
 
 model_win_rate_bar(model_win_rates_max, 'max')

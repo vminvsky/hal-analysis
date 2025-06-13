@@ -1,11 +1,7 @@
 pandas
 matplotlib
+seaborn
 transformers
 jupyter
 numpy
 scipy
-json
-glob
-os
-csv
-subprocess
