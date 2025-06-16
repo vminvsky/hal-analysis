@@ -68,6 +68,17 @@ where `path/to/directory` is the path to where the data files were downloaded.
  pip install -r requirements.txt
  ```
 
+ 5. Set `DATA_DIR` in `config.py` to `'path/to/directory'`.
+ ```
+ DATA_DIR = 'path/to/directory'
+ ```
+ where `path/to/directory` is the path to where the data files were downloaded.
+
+ 6. Set `files` in `generate_cleaned_dataset.py` to:
+ ```
+ files = glob('path/to/directory/*.json')
+ ```
+
 <!-- USAGE -->
 ## Usage
 Run `run_pipeline.py`. This will run the following scripts:
@@ -78,7 +89,7 @@ Run `run_pipeline.py`. This will run the following scripts:
 5. `convex_hull.py`
 6. `visualizations.py`
 
-You can change the data directory and update the agent/model name mappings in `config.py`. 
+You can update the agent/model name mappings in `config.py`. 
 
 ## Visualizations generated
 1. `visualizations/new_plots/heatmaps/dist_overall_win_rate_heatmap.png` - heatmap of win rates calculated using the distance from pareto frontier of the Cost vs. Max Accuracy over all agent scaffolds

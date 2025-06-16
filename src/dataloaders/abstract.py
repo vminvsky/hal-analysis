@@ -4,7 +4,7 @@ from glob import glob
 import os 
 import pandas as pd 
 import numpy as np
-from .config import DATA_DIR, MODEL_NAME_MAP, AGENT_NAME_MAP
+from .config import DATA_DIR, MODEL_NAME_MAP, AGENT_NAME_MAP, AGENT_NAME_SHORT_MAP
 
 # final dataset 
 # columns: 
@@ -41,14 +41,20 @@ class DataLoader(ABC):
 
         agent_name = self.config['agent_name']
         # print(agent_name)
+
         self.config['agent_name'] = AGENT_NAME_MAP.get(agent_name, agent_name)
+        # Standardizing CORE-Bench naming
         if (self.config['agent_name'] == 'CORE-Agent') or (self.config['agent_name'] == 'HAL Generalist Agent'):
             self.config['agent_name_short'] = self.config['agent_name']
+        # Standardizing mind2web naming
         elif ("Browser-Use" in self.config['agent_name']) or ("SeeAct" in self.config['agent_name']):
             self.config['agent_name_short'] = self.config['agent_name'].split('(')[0]
         else:
             self.config['agent_name_short'] = self.config['agent_name'].split(' (')[-2]
+            agent_name_short = self.config['agent_name_short'] 
+            self.config['agent_name_short'] = AGENT_NAME_SHORT_MAP.get(agent_name_short, agent_name_short)
 
+        # Standardizing key namings
         if ('agent.model.name' in self.config['agent_args']):
             model_name_short = self.config['agent_args']['agent.model.name']
             if  'agent.model.reasoning_effort' in self.config['agent_args']:
@@ -70,7 +76,15 @@ class DataLoader(ABC):
             self.config['model_name_short'] = MODEL_NAME_MAP.get(model_name_short, model_name_short)
         else:
             print("Error: Missing a format type")
+        
+        # Standardizing Online Mind2Web naming
+        if (self.config['agent_name'] == 'SeeAct(o4-mini-2025-04-16_high_reasoning_effort)'):
+            self.config['model_name_short'] = 'o4-mini-2025-04-16 high'
+        if (self.config['agent_name'] == 'SeeAct(o4-mini-2025-04-16_low_reasoning_effort)'):
+            self.config['model_name_short'] = 'o4-mini-2025-04-16 low'
+
         # print(self.config['agent_name'], " | ", self.config['agent_name_short'], " | ", self.config['model_name_short'])
+
         
 
     def _load_data(self):

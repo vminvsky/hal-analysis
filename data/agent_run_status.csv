@@ -142,7 +142,7 @@ corebench_hard,HAL Generalist Agent,o4-mini-2025-04-16-high,Uploaded,0.244444444
 corebench_hard,HAL Generalist Agent,o3-2025-04-16,Uploaded,0.1555555556,123.50166,,,,,,,
 corebench_hard,HAL Generalist Agent,claude-3-7-sonnet-20250219-thinking-low,Error,,,,,,,,,
 corebench_hard,HAL Generalist Agent,claude-3-7-sonnet-20250219,Uploaded,,,,,,,,,
-corebench_hard,HAL Generalist Agent,claude-3-7-sonnet-20250219-thinking-high,Error,,,,,,,,,
+corebench_hard,HAL Generalist Agent,claude-3-7-sonnet-20250219-thinking-high,Uploaded,,,,,,,,,
 corebench_hard,HAL Generalist Agent,deepseek-ai/DeepSeek-R1,Uploaded,0.06666666667,47.096622,,,,,,,
 scicode,SciCode Tool Calling,gpt-4.1-2025-04-14,Uploaded,0.015,69,,,,,,,
 scicode,SciCode Tool Calling,o4-mini-2025-04-16-medium,Uploaded,0.03,56,,,,,,,
