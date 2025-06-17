@@ -11,7 +11,7 @@ def sizeof_fmt(num, suffix="B"):
         num /= 1024.0
     return f"{num:.2f} P{suffix}"
 
-files = glob("/Users/nn7887/.cache/huggingface/hub/datasets--agent-evals--hal_traces/snapshots/77246dba01c07019ea179a6e9f3b8763520b1d22/usaco*.json")
+files = glob("/Users/nn7887/.cache/huggingface/hub/datasets--agent-evals--hal_traces/snapshots/77246dba01c07019ea179a6e9f3b8763520b1d22/assistantbench_assistantbench_browser_agent_o320250416_1746376643_UPLOAD*.json")
 
 all_data = []
 # total_size = sum(os.path.getsize(f) for f in files if os.path.isfile(f))

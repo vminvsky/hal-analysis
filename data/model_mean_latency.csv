@@ -1,5 +1,5 @@
 ,model_name_short,mean_of_mean_latency
-0,claude-3-7-sonnet-2025-02-19,216.9627271165599
+0,claude-3-7-sonnet-2025-02-19,246.18102624571955
 1,claude-3-7-sonnet-2025-02-19 high,243.6580478970116
 2,deepseek-ai/DeepSeek-R1,280.4935276349467
 3,deepseek-ai/DeepSeek-V3,264.8282661646377

@@ -1,4 +1,4 @@
-DATA_DIR = "/Users/nn7887/.cache/huggingface/hub/datasets--agent-evals--hal_traces/snapshots/77246dba01c07019ea179a6e9f3b8763520b1d22"
+DATA_DIR = "/Users/nn7887/.cache/huggingface/hub/datasets--agent-evals--hal_traces/snapshots/5f2517d3e139241e04022177d000d5d1c094ea0a"
 
 MODEL_NAME_MAP = {
     "claude-3-7-sonnet-20250219": "claude-3-7-sonnet-2025-02-19",

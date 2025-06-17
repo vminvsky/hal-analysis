@@ -83,7 +83,7 @@ class DataLoader(ABC):
         if (self.config['agent_name'] == 'SeeAct(o4-mini-2025-04-16_low_reasoning_effort)'):
             self.config['model_name_short'] = 'o4-mini-2025-04-16 low'
 
-        # print(self.config['agent_name'], " | ", self.config['agent_name_short'], " | ", self.config['model_name_short'])
+        print(self.config['agent_name'], " | ", self.config['agent_name_short'], " | ", self.config['model_name_short'])
 
         
 

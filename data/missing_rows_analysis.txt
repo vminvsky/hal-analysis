@@ -27,6 +27,6 @@ No extra rows found.
 SUMMARY
 ==================================================
 Total rows in agent_run_status: 174
-Total rows in cleaned_dataset: 162
+Total rows in cleaned_dataset: 163
 Rows missing from cleaned_dataset: 14
 Extra rows in cleaned_dataset: 0
