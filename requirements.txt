@@ -5,3 +5,4 @@ transformers
 jupyter
 numpy
 scipy
+tabulate

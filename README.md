@@ -81,7 +81,7 @@ where `path/to/directory` is the path to where the data files were downloaded.
 
 <!-- USAGE -->
 ## Usage
-Run `run_pipeline.py`. This will run the following scripts:
+Run `python scripts/run_pipeline.py`. This will run the following scripts:
 1. `generate_cleaned_dataset.py`
 2. `check_data.py`
 3. `cost_accuracy_curve.py`

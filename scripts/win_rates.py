@@ -3,7 +3,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 from tqdm import tqdm
-from src.dataloaders.abstract import DataCombiner
 
 def calculate_max_win_rates(df, group_by_cols=['benchmark_name'], group_by_cols_2='model_name_short'):
     """

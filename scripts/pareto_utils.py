@@ -7,25 +7,22 @@ from scipy.spatial import ConvexHull
 import os
 import csv
 
+
 def cross(o, a, b):
     """
     Cross product for determining the convex hull.
-    
     Args:
         o, a, b: Points for cross product calculation
-        
     Returns:
-        Cross product value
+        Cross product
     """
     return (a[0] - o[0]) * (b[1] - o[1]) - (a[1] - o[1]) * (b[0] - o[0])
 
 def compute_hull_side(points):
     """
-    Compute one side of the convex hull using the cross product test.
-    
+    Compute convex hull using the cross product.
     Args:
         points: List of points as (x, y, index) tuples
-        
     Returns:
         List of indices of points on the hull
     """
@@ -38,26 +35,23 @@ def compute_hull_side(points):
 
 def is_pareto_efficient(points, candidate_idx, x_col, y_col, minimize_x=True, maximize_y=True):
     """
-    Determine if a point is Pareto efficient.
-    
+    Determine if a point is Pareto efficient. 
     Args:
         points: DataFrame with all points
         candidate_idx: Index of the candidate point
         x_col, y_col: Column names for metrics
-        minimize_x, maximize_y: Optimization directions
-        
+        minimize_x, maximize_y: Optimization directions   
     Returns:
         Boolean indicating if the point is Pareto efficient
     """
     candidate = points.iloc[candidate_idx]
     
     for i in range(len(points)):
-        if i == candidate_idx:  # Skip comparing with itself
+        if i == candidate_idx:  # Dont comparing with itself
             continue
             
         other = points.iloc[i]
         
-        # Check if other dominates candidate
         x_better = (minimize_x and other[x_col] <= candidate[x_col]) or \
                    (not minimize_x and other[x_col] >= candidate[x_col])
                    
@@ -74,16 +68,17 @@ def is_pareto_efficient(points, candidate_idx, x_col, y_col, minimize_x=True, ma
             
     return True
 
+
 def identify_pareto_optimal(df, x_col, y_col, minimize_x=True, maximize_y=True):
     """
-    Identify Pareto optimal points (best y for a given x).
+    Identify Pareto optimal points
     
     Args:
         df: DataFrame with metrics
-        x_col: Column name for x metric (e.g., latency, cost)
-        y_col: Column name for y metric (e.g., win_rate, accuracy)
-        minimize_x: Whether to minimize the x metric (True for cost/latency)
-        maximize_y: Whether to maximize the y metric (True for win_rate/accuracy)
+        x_col: Column name for x metric 
+        y_col: Column name for y metric 
+        minimize_x: Whether to minimize the x metric
+        maximize_y: Whether to maximize the y metric
         
     Returns:
         DataFrame with Pareto optimal flag
@@ -110,7 +105,6 @@ def identify_pareto_optimal(df, x_col, y_col, minimize_x=True, maximize_y=True):
     points.sort()
     
     # Compute the upper convex hull (which becomes the Pareto frontier)
-    # Reverse the points as in test_analysis.py
     hull_indices = compute_hull_side(list(reversed(points)))
     
     # Filter points on the hull to ensure they are truly Pareto efficient
@@ -127,6 +121,15 @@ def identify_pareto_optimal(df, x_col, y_col, minimize_x=True, maximize_y=True):
     
     return df
 
+
+def setup_plot_style():
+    plt.style.use('seaborn-v0_8-whitegrid')
+    mpl.rcParams['axes.labelsize'] = 12
+    mpl.rcParams['axes.titlesize'] = 14
+    mpl.rcParams['xtick.labelsize'] = 10
+    mpl.rcParams['ytick.labelsize'] = 10
+
+
 def plot_pareto_frontier(df, x_col, y_col, title, x_label, y_label, filename, 
                          minimize_x=True, maximize_y=True, model_col='model_name_short'):
     """
@@ -140,38 +143,26 @@ def plot_pareto_frontier(df, x_col, y_col, title, x_label, y_label, filename,
         x_label: x-axis label
         y_label: y-axis label
         filename: Output file name
-        minimize_x: Whether to minimize the x metric (True for cost/latency)
-        maximize_y: Whether to maximize the y metric (True for win_rate/accuracy)
+        minimize_x: Whether to minimize the x metric 
+        maximize_y: Whether to maximize the y metric 
         model_col: Column name for model/agent names
     """
-    # Ensure visualizations directory exists
     os.makedirs('visualizations', exist_ok=True)
     os.makedirs('visualizations/auc_data', exist_ok=True)
+    setup_plot_style()
 
-    # Set a more attractive style
-    plt.style.use('seaborn-v0_8-whitegrid')
-    mpl.rcParams['axes.labelsize'] = 12
-    mpl.rcParams['axes.titlesize'] = 14
-    mpl.rcParams['xtick.labelsize'] = 10
-    mpl.rcParams['ytick.labelsize'] = 10
-
-    # Identify Pareto optimal points
     pareto_df = identify_pareto_optimal(df, x_col, y_col, minimize_x, maximize_y)
     
-    # Create a custom colormap for the points
-    colors = ["#3498db", "#e74c3c"]  # Blue for non-optimal, Red for optimal
+    colors = ["#3498db", "#e74c3c"] 
     cmap = LinearSegmentedColormap.from_list("pareto_cmap", colors, N=2)
     
     fig, ax = plt.subplots(figsize=(12, 8), facecolor='white')
-    
-    # Add a subtle background gradient
     ax.set_facecolor('#f8f9fa')
     
-    # Plot non-optimal points first
+    # Plot non-optimal points
     non_optimal = pareto_df[~pareto_df['pareto_optimal']]
     optimal = pareto_df[pareto_df['pareto_optimal']]
     
-    # Plot non-optimal points
     ax.scatter(
         non_optimal[x_col], 
         non_optimal[y_col], 
@@ -196,7 +187,7 @@ def plot_pareto_frontier(df, x_col, y_col, title, x_label, y_label, filename,
         label='Pareto Optimal'
     )
     
-    # Connect Pareto optimal points with a line
+    # Connect  optimal points 
     optimal_points = optimal.sort_values(x_col)
     ax.plot(
         optimal_points[x_col], 
@@ -207,34 +198,7 @@ def plot_pareto_frontier(df, x_col, y_col, title, x_label, y_label, filename,
         alpha=0.8
     )
     
-    # Plot convex hull if there are enough points
-    # if len(optimal_points) >= 3:
-    #     # Get coordinates for convex hull
-    #     points = np.column_stack([optimal_points[x_col].values, optimal_points[y_col].values])
-    #     hull = ConvexHull(points)
-        
-    #     # Get hull vertices in order
-    #     hull_vertices = []
-    #     for vertex in hull.vertices:
-    #         hull_vertices.append(points[vertex])
-    #     hull_vertices.append(hull_vertices[0])  # Close the loop
-    #     hull_vertices = np.array(hull_vertices)
-        
-        # # Plot the convex hull
-        # ax.plot(
-        #     hull_vertices[:, 0],
-        #     hull_vertices[:, 1],
-        #     color='#2ecc71',  # Green color for convex hull
-        #     linestyle='-',
-        #     linewidth=2,
-        #     alpha=0.7,
-        #     label='Convex Hull'
-        # )
-    
-    # Calculate AUC
-    # auc = calculate_auc(optimal_points[x_col].values, optimal_points[y_col].values)
-    
-    # Add model/agent names as labels with better styling
+    # Add model/agent names 
     for _, row in pareto_df.iterrows():
         color = '#e74c3c' if row['pareto_optimal'] else '#3498db'
         weight = 'bold' if row['pareto_optimal'] else 'normal'
@@ -254,15 +218,13 @@ def plot_pareto_frontier(df, x_col, y_col, title, x_label, y_label, filename,
             )
         )
     
-    # Add title and labels with better styling
+    # Add title and label
     ax.set_title(title, fontsize=16, pad=20, weight='bold')
     ax.set_xlabel(x_label, fontsize=14, labelpad=10)
     ax.set_ylabel(y_label, fontsize=14, labelpad=10)
+        ax.grid(True, linestyle='--', alpha=0.3, color='gray')
     
-    # Improve grid appearance
-    ax.grid(True, linestyle='--', alpha=0.3, color='gray')
-    
-    # Add a legend with better styling
+    # legend and border
     legend = ax.legend(
         loc='best',
         frameon=True,
@@ -272,29 +234,16 @@ def plot_pareto_frontier(df, x_col, y_col, title, x_label, y_label, filename,
         fontsize=12
     )
     
-    # Add a border around the plot
     for spine in ax.spines.values():
         spine.set_visible(True)
         spine.set_color('lightgray')
         spine.set_linewidth(0.5)
     
+    #save
     plt.tight_layout()
     plt.savefig(f'visualizations/{filename}', dpi=300, bbox_inches='tight')
     print(f"Saved file: visualizations/{filename}")
-    
-    # Save AUC to CSV
-    # csv_filename = f'visualizations/auc_data/{filename.replace(".png", "")}_auc.csv'
-    
-    # with open(csv_filename, 'w', newline='') as csvfile:
-    #     writer = csv.writer(csvfile)
-    #     writer.writerow(['Benchmark', 'AUC'])
-    #     writer.writerow([title, auc])
-    
-    # print(f"Saved AUC data: {csv_filename}")
-    
-    # Return the Pareto dataframe with AUC
-    # pareto_df['auc'] = auc
-    # return pareto_df
+
 
 def grid_pareto_frontier_by_benchmark(tasks, merged_df, x_col, y_col, x_label, y_label, 
                                      num_cols, filename, minimize_x=True, maximize_y=True, 
@@ -317,46 +266,36 @@ def grid_pareto_frontier_by_benchmark(tasks, merged_df, x_col, y_col, x_label, y
     """
     # Ensure directories exist
     os.makedirs('visualizations/plots', exist_ok=True)
-    os.makedirs('visualizations/auc_data', exist_ok=True)
-    
-    # Calculate the number of tasks
     n_tasks = len(tasks)
     
-    # If only one task or no tasks, create a single plot
     if n_tasks <= 1:
         if n_tasks == 1:
             task = tasks[0]
             df_t = merged_df[merged_df['benchmark_name'] == task]
             title = f"Pareto Frontier: {task} - {y_label} vs. {x_label}"
         else:
-            # If no tasks, use all data
             df_t = merged_df
             title = f"Pareto Frontier: All Benchmarks - {y_label} vs. {x_label}"
         
-        # Use the existing plot_pareto_frontier function for a single plot
-        pareto_df = plot_pareto_frontier(
+        # Use the function for a single plot
+        plot_pareto_frontier(
             df_t, x_col, y_col, title, x_label, y_label, 
-            filename, minimize_x, maximize_y, model_col
-        )
+            filename, minimize_x, maximize_y, model_col )
         
-        return pareto_df
+        return
     
-    # Multiple tasks - create a grid of subplots
-    n_cols = min(num_cols, n_tasks)  # Maximum number of columns
+    setup_plot_style()
+    
+    # grid of subplots
+    n_cols = min(num_cols, n_tasks)
     n_rows = (n_tasks + n_cols - 1) // n_cols  
-    
-    # Create a single figure with subplots
     fig, axes = plt.subplots(n_rows, n_cols, figsize=(7 * n_cols, 6 * n_rows), facecolor='white')
-    
-    # Add a title to the entire figure
     fig.suptitle(f"Pareto Frontiers: {y_label} vs. {x_label} by Benchmark", 
                  fontsize=18, weight='bold', y=0.98)
     
-    # Flatten the axes array for easy iteration
     axes = axes.flatten()
     
     all_pareto_dfs = []
-    auc_data = []  # Store benchmark names and AUC values
     
     for idx, task in enumerate(tasks):
         ax = axes[idx]
@@ -368,17 +307,15 @@ def grid_pareto_frontier_by_benchmark(tasks, merged_df, x_col, y_col, x_label, y
             ax.set_visible(False)
             continue
         
-        # Set background color
         ax.set_facecolor('#f8f9fa')
         
         # Identify Pareto optimal points for this benchmark
         pareto_df = identify_pareto_optimal(df_t, x_col, y_col, minimize_x, maximize_y)
         
-        # Plot non-optimal points first
+        # Plot non-optimal points 
         non_optimal = pareto_df[~pareto_df['pareto_optimal']]
         optimal = pareto_df[pareto_df['pareto_optimal']]
         
-        # Plot non-optimal points
         ax.scatter(
             non_optimal[x_col], 
             non_optimal[y_col], 
@@ -403,7 +340,7 @@ def grid_pareto_frontier_by_benchmark(tasks, merged_df, x_col, y_col, x_label, y
             label='Pareto Optimal'
         )
         
-        # Connect Pareto optimal points with a line
+        # Connect  optimal points 
         optimal_points = optimal.sort_values(x_col)
         ax.plot(
             optimal_points[x_col], 
@@ -436,14 +373,15 @@ def grid_pareto_frontier_by_benchmark(tasks, merged_df, x_col, y_col, x_label, y
             #     alpha=0.7,
             #     label='Convex Hull'
             # )
-        
-        # Add model/agent names as labels with better styling
+
+
+        # Add model/agent names
         for _, row in pareto_df.iterrows():
             color = '#e74c3c' if row['pareto_optimal'] else '#3498db'
             weight = 'bold' if row['pareto_optimal'] else 'normal'
             fontsize = 9 if row['pareto_optimal'] else 8
             
-            # Only add box around Pareto optimal points to reduce clutter
+            # box
             if row['pareto_optimal']:
                 bbox_props = dict(
                     boxstyle="round,pad=0.3",
@@ -465,25 +403,25 @@ def grid_pareto_frontier_by_benchmark(tasks, merged_df, x_col, y_col, x_label, y
                 bbox=bbox_props
             )
         
-        # Add title and labels with better styling
+        # Add title and labels
         ax.set_title(benchmark_name, fontsize=14, pad=10, weight='bold')
         ax.set_xlabel(x_label, fontsize=12, labelpad=8)
         ax.set_ylabel(y_label, fontsize=12, labelpad=8)
+
+        # pareto_df['auc'] = auc
+        # all_pareto_dfs.append(pareto_df)
         
-        # Improve grid appearance
         ax.grid(True, linestyle='--', alpha=0.3, color='gray')
         
-        # Add a subtle border around the plot
+        # Add a  border
         for spine in ax.spines.values():
             spine.set_visible(True)
             spine.set_color('lightgray')
             spine.set_linewidth(0.5)
         
-        # # Store the pareto dataframe with AUC
-        # pareto_df['auc'] = auc
-        # all_pareto_dfs.append(pareto_df)
+        all_pareto_dfs.append(pareto_df)
     
-    # Add a single legend for the entire figure
+    # legend
     handles, labels = axes[0].get_legend_handles_labels()
     if handles:
         legend = fig.legend(
@@ -491,7 +429,7 @@ def grid_pareto_frontier_by_benchmark(tasks, merged_df, x_col, y_col, x_label, y
             labels,
             loc='lower center',
             bbox_to_anchor=(0.5, 0.01),
-            ncol=3,  # Include Convex Hull in legend
+            ncol=3,
             frameon=True,
             framealpha=0.95,
             facecolor='white',
@@ -499,7 +437,6 @@ def grid_pareto_frontier_by_benchmark(tasks, merged_df, x_col, y_col, x_label, y
             fontsize=12
         )
     
-    # Hide any unused subplots
     for idx in range(n_tasks, len(axes)):
         axes[idx].set_visible(False)
     
@@ -507,18 +444,127 @@ def grid_pareto_frontier_by_benchmark(tasks, merged_df, x_col, y_col, x_label, y
     plt.savefig(f'visualizations/plots/convex_{filename}', dpi=300, bbox_inches='tight')
     print(f"Saved file: visualizations/plots/convex_{filename}")
     
-    # Combine all pareto dataframes
+    # Combine all dfs
     if all_pareto_dfs:
         combined_pareto_df = pd.concat(all_pareto_dfs, ignore_index=True)
         return combined_pareto_df
     else:
         return None
 
+
+def calculate_pareto_distance(df, x_col, y_col, minimize_x=True, maximize_y=True):
+    """
+    Calculate the distance of each point to the Pareto frontier.
+    
+    Args:
+        df: DataFrame with Pareto optimal flags
+        x_col: Column name for x metric (e.g., latency, cost)
+        y_col: Column name for y metric (e.g., win_rate, accuracy)
+        minimize_x: Whether to minimize the x metric (True for cost/latency)
+        maximize_y: Whether to maximize the y metric (True for win_rate/accuracy)
+        
+    Returns:
+        DataFrame with distance to Pareto frontier
+    """
+    df = df.copy()
+    
+    # For points already on the Pareto frontier, distance is 0
+    df['pareto_distance'] = 0.0
+
+    # Min-max normalize the x and y columns
+    min_x = df[x_col].min()
+    max_x = df[x_col].max()
+    min_y = df[y_col].min()
+    max_y = df[y_col].max()
+    df[x_col] = (df[x_col] - min_x) / (max_x - min_x)
+    df[y_col] = (df[y_col] - min_y) / (max_y - min_y)
+    
+    # Get Pareto optimal points
+    pareto_points = df[df['pareto_optimal']].copy()
+    non_pareto_points = df[~df['pareto_optimal']].copy()
+    
+    if len(pareto_points) < 2 or len(non_pareto_points) == 0:
+        return df
+    
+    # Sort Pareto points 
+    pareto_points = pareto_points.sort_values(by=x_col)
+    
+    # Get coordinates of Pareto points
+    pareto_x = pareto_points[x_col].values
+    pareto_y = pareto_points[y_col].values
+
+    # Convert to a list of tuples for distance calculation
+    frontier = list(zip(pareto_x, pareto_y))
+    f = np.asarray(frontier, dtype=float)
+    
+    # For each non-Pareto point, calculate distance to Pareto frontier
+    for idx, row in non_pareto_points.iterrows():
+        point_x = row[x_col]
+        point_y = row[y_col]
+
+        point = (point_x, point_y)
+
+        p = np.asarray(point, dtype=float)
+
+        min_distance = float('inf')
+
+        for i in range(len(f) - 1):
+            a, b = f[i], f[i + 1]
+            ab = b - a
+            ab2 = np.dot(ab, ab)
+            ap = p - a
+            t = np.dot(ap, ab) / ab2
+            t = np.clip(t, 0.0, 1.0)
+            projection = a + t * ab
+            distance = np.linalg.norm(p - projection)
+            min_distance = min(min_distance, distance)
+
+        df.loc[idx, 'pareto_distance'] = min_distance
+    
+    return df
+
+
+def save_pareto_distances(merged_df, tasks, x_col, y_col, model_col='model_name_short', 
+                          minimize_x=True, maximize_y=True, filename='pareto_distances.csv'):
+    """
+    Calculate and save the distance of each model from the Pareto frontier for each task.
+    """
+    os.makedirs('visualizations/pareto_distances', exist_ok=True)
+    
+    all_distances = []
+    
+    for task in tasks:
+        df_task = merged_df[merged_df['benchmark_name'] == task].copy()
+        
+        if len(df_task) < 2:
+            continue
+        
+        pareto_df = identify_pareto_optimal(df_task, x_col, y_col, minimize_x, maximize_y)
+        
+        distance_df = calculate_pareto_distance(pareto_df, x_col, y_col, minimize_x, maximize_y)
+        distance_df['benchmark_name'] = task
+        result_df = distance_df[[model_col, 'benchmark_name', x_col, y_col, 'pareto_optimal', 'pareto_distance']]
+        
+        all_distances.append(result_df)
+    
+    if not all_distances:
+        print("No data available for calculating Pareto distances")
+        return None
+    
+    # Combine results from all tasks
+    combined_df = pd.concat(all_distances, ignore_index=True)
+    
+    csv_path = f'visualizations/pareto_distances/{filename}'
+    combined_df.to_csv(csv_path, index=False)
+    print(f"Saved Pareto distances to: {csv_path}")
+
+
 def get_max_accuracy():
     full_dataset = pd.read_csv('data/cleaned_all_metrics.csv')
     model_accuracy = full_dataset.loc[full_dataset.groupby(['model_name_short', 'benchmark_name'])['accuracy'].idxmax()].reset_index(drop=True)
     model_accuracy = model_accuracy[['benchmark_name', 'model_name_short', 'accuracy', 'total_cost', 'mean_latency']]
     return model_accuracy
+
 
 def get_mean_latency():
     full_dataset = pd.read_csv('data/cleaned_all_metrics.csv')
@@ -529,58 +575,12 @@ def get_mean_latency():
     model_mean_latency = model_mean_latency.rename(columns={'mean_latency':'mean_of_mean_latency'})
     model_mean_latency.to_csv('data/model_mean_latency.csv')
 
+
 def get_mean_cost():
     full_dataset = pd.read_csv('data/cleaned_all_metrics.csv')
     model_cost = full_dataset.groupby(['model_name_short', 'benchmark_name'])[['total_cost']].mean()
 
-    # mean latency of models across benchmarks
+    # mean cost of models across benchmarks
     model_mean_cost = model_cost.groupby('model_name_short')['total_cost'].mean().reset_index()
     model_mean_cost = model_mean_cost.rename(columns={'total_cost':'mean_cost'})
     model_mean_cost.to_csv('data/model_mean_cost.csv')
-
-def latency_accuracy():
-    df_m = get_max_accuracy()
-    tasks = df_m['benchmark_name'].unique()
-    grid_pareto_frontier_by_benchmark(tasks, df_m, 'mean_latency', 'accuracy', 'Latency', 'Accuracy', 5, 'model_latency_accuracy.png', )
-
-def cost_win_rate():
-    # with model win rates and data/model_mean_cost, plot using plot_pareto_fronteir function
-    get_mean_cost()
-    model_mean_costs = pd.read_csv('data/model_mean_cost.csv')
-    model_win_rates_max = pd.read_csv('data/model_win_rates_max.csv')
-    model_win_rates_pareto = pd.read_csv('data/model_win_rates_pareto.csv')
-
-    # plot pareto frontier for win rate calculation using max accuracy
-    df_m = pd.merge(model_mean_costs, model_win_rates_max, on='model_name_short', how='inner')
-    cols = ['model_name_short', 'mean_cost', 'win_rate_mean', 'overall_win_rate']
-    df_m = df_m[cols].copy()
-    plot_pareto_frontier(df_m, 'mean_cost', 'overall_win_rate', 'Max Accuracy Win Rate vs. Mean Cost', 'Mean Cost', 'Win Rate', 'plots/cost_win_rate_max.png')
-
-    # plot pareto frontier for win rate calculation using distance from convex hull
-    df_m = pd.merge(model_mean_costs, model_win_rates_pareto, on='model_name_short', how='inner')
-    cols = ['model_name_short', 'mean_cost', 'win_rate_mean', 'overall_win_rate']
-    df_m = df_m[cols].copy()
-    plot_pareto_frontier(df_m, 'mean_cost', 'overall_win_rate', 'Distance from Convex Hull Win Rate vs. Mean Cost', 'Mean Cost', 'Win Rate', 'plots/cost_win_rate_pareto.png')
-
-def latency_win_rate():
-    # with model win rates and data/model_mean_latency, plot using plot_pareto_fronteir function
-    get_mean_latency()
-    model_mean_latencies = pd.read_csv('data/model_mean_latency.csv')
-    model_win_rates_max = pd.read_csv('data/model_win_rates_max.csv')
-    model_win_rates_pareto = pd.read_csv('data/model_win_rates_pareto.csv')
-
-    # plot pareto frontier for win rate calculation using max accuracy
-    df_m = pd.merge(model_mean_latencies, model_win_rates_max, on='model_name_short', how='inner')
-    cols = ['model_name_short', 'mean_of_mean_latency', 'win_rate_mean', 'overall_win_rate']
-    df_m = df_m[cols].copy()
-    plot_pareto_frontier(df_m, 'mean_of_mean_latency', 'overall_win_rate', 'Max Accuracy Win Rate vs. Mean Latency', 'Mean Latency', 'Win Rate', 'plots/latency_win_rate_max.png')
-
-    # plot pareto frontier for win rate calculation using distance from convex hull
-    df_m = pd.merge(model_mean_latencies, model_win_rates_pareto, on='model_name_short', how='inner')
-    cols = ['model_name_short', 'mean_of_mean_latency', 'win_rate_mean', 'overall_win_rate']
-    df_m = df_m[cols].copy()
-    plot_pareto_frontier(df_m, 'mean_of_mean_latency', 'overall_win_rate', 'Distance from Convex Hull Win Rate vs. Mean Latency', 'Mean Latency', 'Win Rate', 'plots/latency_win_rate_pareto.png')
-
-latency_accuracy()
-cost_win_rate()
-latency_win_rate()

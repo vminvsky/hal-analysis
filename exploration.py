@@ -4,12 +4,12 @@ from glob import glob
 from src.dataloaders.abstract import DataLoader
 import os
 
-def sizeof_fmt(num, suffix="B"):
-    for unit in ["", "K", "M", "G", "T"]:
-        if abs(num) < 1024.0:
-            return f"{num:.2f} {unit}{suffix}"
-        num /= 1024.0
-    return f"{num:.2f} P{suffix}"
+# def sizeof_fmt(num, suffix="B"):
+#     for unit in ["", "K", "M", "G", "T"]:
+#         if abs(num) < 1024.0:
+#             return f"{num:.2f} {unit}{suffix}"
+#         num /= 1024.0
+#     return f"{num:.2f} P{suffix}"
 
 files = glob("/Users/nn7887/.cache/huggingface/hub/datasets--agent-evals--hal_traces/snapshots/77246dba01c07019ea179a6e9f3b8763520b1d22/assistantbench_assistantbench_browser_agent_o320250416_1746376643_UPLOAD*.json")
 
