@@ -27,9 +27,9 @@ import os
     # If you already have the cleaned dataset ready, you can remove/comment out generate_cleaned_dataset.py and check_data.py from 
 
 
-# pipeline_scripts = ["scripts/generate_cleaned_dataset.py", "scripts/check_data.py", "scripts/cost_accuracy_curve.py", "scripts/win_rates.py", "scripts/convex_hull.py", "scripts/visualizations.py"]
+pipeline_scripts = ["scripts/generate_cleaned_dataset.py", "scripts/check_data.py", "scripts/cost_accuracy_curve.py", "scripts/win_rates.py", "scripts/convex_hull.py", "scripts/visualizations.py"]
 
-pipeline_scripts = ["scripts/cost_accuracy_curve.py", "scripts/win_rates.py", "scripts/convex_hull.py", "scripts/visualizations.py"]
+# pipeline_scripts = ["scripts/cost_accuracy_curve.py", "scripts/win_rates.py", "scripts/convex_hull.py", "scripts/visualizations.py"]
 
 python_executable = "python"
 

@@ -222,7 +222,7 @@ def plot_pareto_frontier(df, x_col, y_col, title, x_label, y_label, filename,
     ax.set_title(title, fontsize=16, pad=20, weight='bold')
     ax.set_xlabel(x_label, fontsize=14, labelpad=10)
     ax.set_ylabel(y_label, fontsize=14, labelpad=10)
-        ax.grid(True, linestyle='--', alpha=0.3, color='gray')
+    ax.grid(True, linestyle='--', alpha=0.3, color='gray')
     
     # legend and border
     legend = ax.legend(
