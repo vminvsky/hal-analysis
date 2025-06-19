@@ -10,7 +10,7 @@ def cost_accuracy():
     
     # Generate plots for cost vs accuracy
     grid_pareto_frontier_by_benchmark(tasks, df_m, 'total_cost', 'accuracy', 
-        'Total Cost', 'Accuracy', 5, 'model_cost_accuracy.png')
+        'Total Cost', 'Accuracy', 4, 'model_cost_accuracy.png')
     
     # Save Pareto distances
     save_pareto_distances(df_m, tasks, 'total_cost', 'accuracy')

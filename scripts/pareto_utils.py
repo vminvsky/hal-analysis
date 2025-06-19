@@ -526,10 +526,8 @@ def calculate_pareto_distance(df, x_col, y_col, minimize_x=True, maximize_y=True
 
 def save_pareto_distances(merged_df, tasks, x_col, y_col, model_col='model_name_short', 
                           minimize_x=True, maximize_y=True, filename='pareto_distances.csv'):
-    """
-    Calculate and save the distance of each model from the Pareto frontier for each task.
-    """
-    os.makedirs('visualizations/pareto_distances', exist_ok=True)
+   
+    os.makedirs('data', exist_ok=True)
     
     all_distances = []
     
@@ -554,7 +552,7 @@ def save_pareto_distances(merged_df, tasks, x_col, y_col, model_col='model_name_
     # Combine results from all tasks
     combined_df = pd.concat(all_distances, ignore_index=True)
     
-    csv_path = f'visualizations/pareto_distances/{filename}'
+    csv_path = f'data/{filename}'
     combined_df.to_csv(csv_path, index=False)
     print(f"Saved Pareto distances to: {csv_path}")
 

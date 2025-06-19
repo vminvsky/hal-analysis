@@ -10,7 +10,7 @@ from pareto_utils import (
 def latency_accuracy():
     df_m = get_max_accuracy()
     tasks = df_m['benchmark_name'].unique()
-    grid_pareto_frontier_by_benchmark(tasks, df_m, 'mean_latency', 'accuracy', 'Latency', 'Accuracy', 5, 'model_latency_accuracy.png')
+    grid_pareto_frontier_by_benchmark(tasks, df_m, 'mean_latency', 'accuracy', 'Latency', 'Accuracy', 4, 'model_latency_accuracy.png')
 
 
 def cost_win_rate():

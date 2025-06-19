@@ -89,7 +89,7 @@ def calculate_pareto_win_rates(df, group_by_cols=['benchmark_name'], group_by_co
         DataFrame with win rates for each model
     """
 
-    df = pd.read_csv('visualizations/pareto_distances/pareto_distances.csv')
+    df = pd.read_csv('data/pareto_distances.csv')
 
     all_results = []
 
